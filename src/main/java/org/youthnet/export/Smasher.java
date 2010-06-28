@@ -6,6 +6,9 @@ import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.Table;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.*;
@@ -37,8 +40,9 @@ public class Smasher {
                             + " Number of rows: " + table.getRowCount());
                     insertSQL = createColumnSQLString(table.getColumns(), tableName);
                     fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".csv"));
-//                    fileOutWriter.write(createRowSQLString(table, insertSQL));
                     outputRowSQLString(table, insertSQL, fileOutWriter);
+                    fileOutWriter.flush();
+                    fileOutWriter.close();
                 }
             } catch (IOException e) {
                 System.out.println("Error processing the ms access file.\n Error: " + e.getMessage());
@@ -57,19 +61,6 @@ public class Smasher {
         }
     }
 
-    private static String createColumnCSVString(List<Column> strings) {
-        StringBuffer columnStringBuffer = new StringBuffer();
-
-        for (Column column : strings) {
-            columnStringBuffer.append(column.getName());
-            columnStringBuffer.append(",");
-        }
-
-        columnStringBuffer.replace(columnStringBuffer.length() - 1, columnStringBuffer.length(), "");
-
-        return columnStringBuffer.toString();
-    }
-
     private static String createColumnSQLString(List<Column> strings, String tableName) {
         StringBuffer columnStringBuffer = new StringBuffer("INSERT INTO ");
         columnStringBuffer.append(tableName);
@@ -86,92 +77,6 @@ public class Smasher {
         return columnStringBuffer.toString();
     }
 
-    private static String createRowCSVString(Table table) {
-        List<Column> columns = table.getColumns();
-        StringBuffer rowStringBuffer = new StringBuffer();
-
-        try {
-            for (Map<String, Object> row : table) {
-                for (Column column : columns) {
-                    Object value = row.get(column.getName());
-                    if (value != null) {
-                        if (value instanceof String) {
-                            rowStringBuffer.append(StringEscapeUtils.escapeSql(((String) value).trim())
-                                    .replaceAll("\\\\'", "\\\\\\\\'"));
-                        } else if (value instanceof java.util.Date) {
-                            rowStringBuffer.append(((Date) value).getTime());
-                        } else if (value instanceof Boolean) {
-                            if (((Boolean) value)) {
-                                rowStringBuffer.append(1);
-                            } else {
-                                rowStringBuffer.append(0);
-                            }
-                        } else {
-                            rowStringBuffer.append(value);
-                        }
-                    }
-                    rowStringBuffer.append(",");
-                }
-                rowStringBuffer.replace(rowStringBuffer.length() - 1, rowStringBuffer.length(), "");
-                rowStringBuffer.append("\n");
-            }
-        } catch (IllegalStateException e) {
-            System.out.println("Problem process file: " + e.getMessage());
-        }
-
-        return rowStringBuffer.toString();
-    }
-
-    private static String createRowSQLString(Table table, String insertSQL) {
-        List<Column> columns = table.getColumns();
-        StringBuffer rowStringBuffer = new StringBuffer();
-
-        Map<String, Object> row = null;
-        for (int i = 0; i < table.getRowCount(); i++) {
-            try {
-                row = table.getNextRow();
-
-                if (row != null) {
-
-                    rowStringBuffer.append(insertSQL);
-
-                    for (Column column : columns) {
-                        rowStringBuffer.append("'");
-                        Object value = row.get(column.getName());
-
-                        if (value != null) {
-                            if (value instanceof String) {
-                                rowStringBuffer.append(StringEscapeUtils.escapeSql(((String) value).trim())
-                                        .replaceAll("\\\\'", "\\\\\\\\'"));
-                            } else if (value instanceof java.util.Date) {
-                                rowStringBuffer.append(((Date) value).getTime());
-                            } else if (value instanceof Boolean) {
-                                if (((Boolean) value)) {
-                                    rowStringBuffer.append(1);
-                                } else {
-                                    rowStringBuffer.append(0);
-                                }
-                            } else {
-                                rowStringBuffer.append(value);
-                            }
-//                            rowStringBuffer.append(value.toString());
-                        }
-                        rowStringBuffer.append("', ");
-                    }
-
-                    rowStringBuffer.replace(rowStringBuffer.length() - 2, rowStringBuffer.length(), ");");
-                    rowStringBuffer.append("\n");
-                }
-            } catch (IOException e) {
-                System.out.println("Problem reading from " + table.getName() + " table. Error: " + e.getMessage());
-            }
-
-        }
-
-
-        return rowStringBuffer.toString();
-    }
-
     private static boolean outputRowSQLString(Table table, String insertSQL, BufferedWriter bufferedWriter) {
         List<Column> columns = table.getColumns();
         StringBuffer rowStringBuffer = new StringBuffer();
@@ -179,27 +84,60 @@ public class Smasher {
         Object id = null;
 
         Map<String, Object> row = null;
+        Column column = null;
         for (int i = 0; i < table.getRowCount(); i++) {
             try {
                 row = table.getNextRow();
+                rowStringBuffer.setLength(0);
 
                 if (row != null) {
 
-                    rowStringBuffer.setLength(0);
                     rowStringBuffer.append(insertSQL);
 
-                    for (Column column : columns) {
-                        rowStringBuffer.append("'");
+                    for (int j = 0; j < columns.size(); j++) {
+                        column = columns.get(j);
                         Object value = row.get(column.getName());
 
-                        if (column.getName().equals("LID")) id = value;
+                        if (column.equals("LID")) id = value;
 
                         if (value != null) {
-                            if (value instanceof String) {
+                            if (table.getName().equals("tblActivityLog") && column.getName().equals("Notes")) {
+                                try {
+                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                    ObjectOutputStream oos = new ObjectOutputStream(bos);
+                                    oos.writeObject(value);
+                                    oos.flush();
+                                    oos.close();
+                                    bos.close();
+                                    byte[] data = bos.toByteArray();
+                                    RTFEditorKit rtfEditorKit = new RTFEditorKit();
+                                    Document rtfDocument = rtfEditorKit.createDefaultDocument();
+                                    ByteArrayInputStream noteStream = new ByteArrayInputStream(data);
+                                    rtfEditorKit.read(noteStream, rtfDocument, 0);
+                                    rowStringBuffer.append("'");
+                                    rowStringBuffer.append(rtfDocument.getText(0, rtfDocument.getLength()));
+                                    rowStringBuffer.append("', ");
+                                } catch (BadLocationException e) {
+                                    System.out.println("        -- Error converting ritch text: "
+                                            + e.getMessage() + "\n");
+                                } catch (IOException e) {
+                                    System.out.println("        -- Error converting ritch text: "
+                                            + e.getMessage() + "\n");
+                                    rowStringBuffer.append("'");
+                                    rowStringBuffer.append(StringEscapeUtils.escapeSql(((String) value).trim())
+                                        .replaceAll("\\\\'", "\\\\\\\\'"));
+                                    rowStringBuffer.append("', ");
+                                }
+                            } else if (value instanceof String) {
+                                rowStringBuffer.append("'");
                                 rowStringBuffer.append(StringEscapeUtils.escapeSql(((String) value).trim())
                                         .replaceAll("\\\\'", "\\\\\\\\'"));
+                                rowStringBuffer.append("', ");
                             } else if (value instanceof java.util.Date) {
-                                rowStringBuffer.append(((Date) value).getTime());
+                                rowStringBuffer.append("TIMESTAMP ");
+                                rowStringBuffer.append("'");
+                                rowStringBuffer.append((new Timestamp(((Date) value).getTime())));
+                                rowStringBuffer.append("', ");
                             } else if (value instanceof Boolean) {
                                 if (((Boolean) value)) {
                                     rowStringBuffer.append(1);
@@ -207,33 +145,25 @@ public class Smasher {
                                     rowStringBuffer.append(0);
                                 }
                             } else {
+                                rowStringBuffer.append("'");
                                 rowStringBuffer.append(value);
+                                rowStringBuffer.append("', ");
                             }
-//                            rowStringBuffer.append(value.toString());
                         }
-                        rowStringBuffer.append("', ");
                     }
 
                     rowStringBuffer.replace(rowStringBuffer.length() - 2, rowStringBuffer.length(), ");");
                     rowStringBuffer.append("\n");
                     bufferedWriter.write(rowStringBuffer.toString());
+                } else {
+                    System.out.println("        -- Row " + i + " is null.\n");
                 }
             } catch (IOException e) {
-                System.out.println("Problem reading column number " + id + " from " + table.getName() + " table. Error: " + e.getMessage());
+                System.out.println("        -- Problem reading column number " + id + " from " + table.getName() + " table. Error: " + e.getMessage() + "\n");
             }
 
         }
 
         return true;
-    }
-
-    private static List<String> getColumnNames(Table table) {
-        List<String> columnNames = new ArrayList<String>();
-
-        for (Column column : table.getColumns()) {
-            columnNames.add(column.getName());
-        }
-
-        return columnNames;
     }
 }
