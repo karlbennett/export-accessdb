@@ -1,3 +1,4 @@
+OPTIONS (ROWS=1000)
 load data
  infile "output/tblActivityLog.csv" "str '|\n'"
  into table tblActivityLog
@@ -23,7 +24,7 @@ LinkedLID,
 BackLID,
 ShowInCalendar,
 EstTotalHours,
-Notes CHAR(4000),
+Notes CHAR(40000),
 DateFirstEntered TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1',
 DateLastUpdated TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1',
 LastUpdatedBy )

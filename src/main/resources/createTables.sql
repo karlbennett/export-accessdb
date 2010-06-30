@@ -20,7 +20,7 @@ CREATE TABLE tblactivitylog (
   backlid NUMBER,
   showincalendar NUMBER(1,0),
   esttotalhours NUMBER,
-  notes VARCHAR2(4000),
+  notes CLOB,
   datefirstentered TIMESTAMP,
   datelastupdated TIMESTAMP,
   lastupdatedby VARCHAR2(50),

@@ -69,6 +69,11 @@
             <artifactId>commons-lang</artifactId>
             <version>${commons.version}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -76,6 +81,7 @@
         <junit.version>4.5</junit.version>
         <jackcess.version>1.2.0</jackcess.version>
         <commons.version>2.5</commons.version>
+        <commons-codec.version>1.4</commons-codec.version>
     </properties>
 
 </project>

@@ -3,6 +3,7 @@ package org.youthnet.export;
 import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.Table;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.swing.text.BadLocationException;
@@ -52,9 +53,9 @@ public class Smasher {
                     } else {
                         fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".ctl"));
                         fileOutWriter.write("load data\n" +
-                                " infile 'output/" + tableName + ".csv'\n" +
+                                " infile \"" + tableName + ".csv\" \"str '|\n'\"\n" +
                                 " into table " + tableName + "\n" +
-                                " fields terminated by \",\" optionally enclosed by '\"'\n" +
+                                " fields terminated by '\\|' optionally enclosed by '¬' TRAILING NULLCOLS\n" +
                                 " ( " + createColumnCSVString(table.getColumns()) + " )");
                         fileOutWriter.flush();
                         fileOutWriter.close();
@@ -109,7 +110,27 @@ public class Smasher {
         StringBuffer columnStringBuffer = new StringBuffer();
 
         for (Column column : strings) {
-            columnStringBuffer.append(column.getName());
+
+            try {
+                switch(column.getSQLType()) {
+                    case Types.LONGVARCHAR: {
+                        columnStringBuffer.append(column.getName());
+                        columnStringBuffer.append(" CHAR(40000)");
+                        break;
+                    }
+                    case Types.TIMESTAMP: {
+                        columnStringBuffer.append(column.getName());
+                        columnStringBuffer.append(" TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1'");
+                        break;
+                    }
+                    default: columnStringBuffer.append(column.getName());
+                }
+            } catch (SQLException e) {
+                System.out.println("        -- Error  could not get type for " + column.getName() + " name. Error: "
+                        + e.getMessage());
+            }
+
+
             columnStringBuffer.append(",\n");
         }
 
@@ -209,6 +230,16 @@ public class Smasher {
         List<Column> columns = table.getColumns(); // Get the tables column names.
         StringBuffer rowStringBuffer = null; // String buffer to hold the rows.
 
+        for (Column column : columns) {
+            try {
+                System.out.println("        -- Column name: " + column.getName()
+                        + " length: " + column.getLength() + " type: " + getSQLType(column.getSQLType()));
+            } catch (SQLException e) {
+                System.out.println("        -- Error  could not get type for " + column.getName() + " name. Error: "
+                        + e.getMessage());
+            }
+        }
+
         Object id = null; // Variable to hold the id of the row that is being processed.
 
         Map<String, Object> row = null; // Map to hold the data of the row that has been exctracted from the access table.
@@ -233,33 +264,36 @@ public class Smasher {
 
                         if (value != null) { // If the value is null then don't bother trying to process it.
                             if (value instanceof String) { // The value is a string...
-                                String valueString = (String)value; // Cast the value to a string so it's easier to work with.
+                                String valueString = (String) value; // Cast the value to a string so it's easier to work with.
 
                                 // Check to see if it is an Activity log notes string...
                                 if (table.getName().equals("tblActivityLog") && column.getName().equals("Notes")) {
                                     value = extractTextFromRTFNotes(value); // ...if it is extract the plain text from it.
                                     // If the text has successfully been extracted place it into the valueString.
-                                    if (value != null) valueString = (String)value;
+                                    if (value != null) valueString = (String) value;
                                 }
-
-                                // Replace any pipes that might be in the string with a text equivalent.
-                                valueString = valueString.replaceAll("\\|", "(PIPE)");
 
                                 valueString = valueString.trim(); // Trim the string to remove any surrounding spaces.
 
                                 valueString = StringEscapeUtils.escapeSql(valueString); // Sanitize the string.
 
-                                valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
-
-                                // If the string is too long to fit inside a standard oracle varchar2...
-                                if (valueString.length() >= 3999) {
-                                    // ...truncate it so that it will fit.
-                                    rowStringBuffer.append(valueString.substring(0, 3900));
-                                    // Notify that we have hit a string that is too long and log the column name.
-                                    System.out.println("        -- Value too big. Column: " + column.getName());
-                                } else {
-                                    rowStringBuffer.append(valueString); // Else just add the string.
+                                // If the value string is longer than a normal varchar2 or it is a LONGVARCHAR (SQL TYPE -1)...
+                                try {
+                                    if (column.getSQLType() == -1 || column.getLength() > 255) {
+                                        // ...then base64 encode it.
+                                        valueString = Base64.encodeBase64String(valueString.getBytes());
+                                    } else {
+                                        // Else just make sure that neither the enclosing or delimiting characters are in the string.
+                                        valueString = valueString.replaceAll("¬", "(TICK)");
+                                        valueString = valueString.replaceAll("\\|", "(PIPE)");
+                                        valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
+                                    }
+                                } catch (SQLException e) {
+                                    System.out.println("        -- Error  could not get type for " + column.getName()
+                                            + " name. Error: " + e.getMessage());
                                 }
+
+                                rowStringBuffer.append(valueString); // Add the final string to the row string buffer.
                             } else if (value instanceof java.util.Date) { // If the value is a date...
                                 // ...convert it to a timestamp string.
                                 rowStringBuffer.append((new Timestamp(((Date) value).getTime())));
@@ -319,5 +353,86 @@ public class Smasher {
         }
 
         return extractedText; // Return the extracted text.
+    }
+
+    private static String getSQLType(int type) {
+
+        switch (type) {
+
+            case Types.BIT:
+                return "BIT";
+            case Types.TINYINT:
+                return "TINYINT";
+            case Types.SMALLINT:
+                return "SMALLINT";
+            case Types.INTEGER:
+                return "INTEGER";
+            case Types.BIGINT:
+                return "BIGINT";
+            case Types.FLOAT:
+                return "FLOAT";
+            case Types.REAL:
+                return "REAL";
+            case Types.DOUBLE:
+                return "DOUBLE";
+            case Types.NUMERIC:
+                return "NUMERIC";
+            case Types.DECIMAL:
+                return "DECIMAL";
+            case Types.CHAR:
+                return "CHAR";
+            case Types.VARCHAR:
+                return "VARCHAR";
+            case Types.LONGVARCHAR:
+                return "LONGVARCHAR";
+            case Types.DATE:
+                return "DATE";
+            case Types.TIME:
+                return "TIME";
+            case Types.TIMESTAMP:
+                return "TIMESTAMP";
+            case Types.BINARY:
+                return "BINARY";
+            case Types.VARBINARY:
+                return "VARBINARY";
+            case Types.LONGVARBINARY:
+                return "LONGVARBINARY";
+            case Types.NULL:
+                return "NULL";
+            case Types.OTHER:
+                return "OTHER";
+            case Types.JAVA_OBJECT:
+                return "JAVA_OBJECT";
+            case Types.DISTINCT:
+                return "DISTINCT";
+            case Types.STRUCT:
+                return "STRUCT";
+            case Types.ARRAY:
+                return "ARRAY";
+            case Types.BLOB:
+                return "BLOB";
+            case Types.CLOB:
+                return "CLOB";
+            case Types.REF:
+                return "REF";
+            case Types.DATALINK:
+                return "DATALINK";
+            case Types.BOOLEAN:
+                return "BOOLEAN";
+            case Types.ROWID:
+                return "ROWID";
+            case Types.NCHAR:
+                return "NCHAR";
+            case Types.NVARCHAR:
+                return "NVARCHAR";
+            case Types.LONGNVARCHAR:
+                return "LONGNVARCHAR";
+            case Types.NCLOB:
+                return "NCLOB";
+            case Types.SQLXML:
+                return "SQLXML";
+        }
+
+        return null;
     }
 }
