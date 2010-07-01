@@ -149,17 +149,25 @@ public class Smasher {
 
         columnStringBuffer.append("if [ -n $1 -a -n $2 ]; then\n");
 
+        int count = 1;
         for (String tableName : tableNames) {
             columnStringBuffer.append(" echo \"Processing: ");
             columnStringBuffer.append(tableName);
-            columnStringBuffer.append("\"\n   sqlldr $1/$2@oradb.dev.thesite.org.uk:1521/oradev control=");
+            columnStringBuffer.append("\" && sqlldr $1/$2@oradb.dev.thesite.org.uk:1521/oradev control=");
             columnStringBuffer.append(tableName);
             columnStringBuffer.append(".ctl rows=5000 > logs/");
             columnStringBuffer.append(tableName);
-            columnStringBuffer.append(".process.log\n\n");
+            columnStringBuffer.append(".process.log");
+
+            if((count % 4) == 0) columnStringBuffer.append(" && date&\n\n");
+            else columnStringBuffer.append(" && ");
+
+            count++;
         }
 
-        columnStringBuffer.append("else\n   echo \"Usage: $0 <username> <password>\"\nfi\n");
+        columnStringBuffer.replace(columnStringBuffer.length() - 3, columnStringBuffer.length(), "");
+
+        columnStringBuffer.append("\nelse\n   echo \"Usage: $0 <username> <password>\"\nfi\n");
 
         return columnStringBuffer.toString();
     }
@@ -174,37 +182,42 @@ public class Smasher {
         columnStringBuffer.append(".csv\" \"str '|\\n'\"\n");
         columnStringBuffer.append(" into table ");
         columnStringBuffer.append(tableName);
-        columnStringBuffer.append("\n fields terminated by '\\|' optionally enclosed by '¬' TRAILING NULLCOLS\n (");
+        columnStringBuffer.append("\n fields terminated by '\\|' optionally enclosed by '¬' TRAILING NULLCOLS\n (\n");
 
         for (Column column : table.getColumns()) {
 
             try {
                 switch (column.getSQLType()) {
                     case Types.LONGVARCHAR: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" CHAR(40000)");
                         break;
                     }
                     case Types.VARCHAR: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" CHAR(");
                         columnStringBuffer.append(column.getLength());
                         columnStringBuffer.append(")");
                         break;
                     }
                     case Types.TIMESTAMP: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1'");
                         break;
                     }
-                    default:
-                        columnStringBuffer.append(column.getName().toUpperCase());
+                    default: {
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
+                        break;
+                    }
                 }
             } catch (SQLException e) {
-                System.out.println("        -- Error  could not get type for " + column.getName().toUpperCase() + " name. Error: "
-                        + e.getMessage());
+                System.out.println("        -- Error  could not get type for " + column.getName().toLowerCase()
+                        + " name. Error: " + e.getMessage());
             }
-
 
             columnStringBuffer.append(",\n");
         }
@@ -225,65 +238,63 @@ public class Smasher {
 
         for (Column column : table.getColumns()) {
 
-            columnStringBuffer.append("\"");
-
             try {
                 switch (column.getSQLType()) {
                     case Types.SMALLINT: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" SMALLINT");
                         break;
                     }
                     case Types.INTEGER: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" NUMBER");
                         break;
                     }
                     case Types.NUMERIC: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" NUMERIC");
                         break;
                     }
                     case Types.BOOLEAN: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" NUMBER(1,0)");
                         break;
                     }
                     case Types.LONGVARCHAR: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" CLOB");
                         break;
                     }
                     case Types.VARCHAR: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" VARCHAR2(");
                         columnStringBuffer.append(column.getLength());
                         columnStringBuffer.append(")");
                         break;
                     }
                     case Types.TIMESTAMP: {
-                        columnStringBuffer.append(column.getName().toUpperCase());
-                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(column.getName().toLowerCase());
+                        columnStringBuffer.append("_");
                         columnStringBuffer.append(" TIMESTAMP");
                         break;
                     }
                 }
             } catch (SQLException e) {
-                System.out.println("        -- Error  could not get type for " + column.getName().toUpperCase() + " name. Error: "
-                        + e.getMessage());
+                System.out.println("        -- Error  could not get type for " + column.getName().toLowerCase()
+                        + " name. Error: " + e.getMessage());
             }
 
             columnStringBuffer.append(",\n");
         }
 
         columnStringBuffer.replace(columnStringBuffer.length() - 2, columnStringBuffer.length(), "");
-        columnStringBuffer.append(");\nQUIT;");
+        columnStringBuffer.append("\n);\nQUIT;");
 
         return columnStringBuffer.toString();
     }
@@ -324,10 +335,10 @@ public class Smasher {
 
         for (Column column : columns) {
             try {
-                System.out.println("        -- Column name: " + column.getName().toUpperCase()
+                System.out.println("        -- Column name: " + column.getName().toLowerCase()
                         + " length: " + column.getLength() + " type: " + getSQLType(column.getSQLType()));
             } catch (SQLException e) {
-                System.out.println("        -- Error  could not get type for " + column.getName().toUpperCase() + " name. Error: "
+                System.out.println("        -- Error  could not get type for " + column.getName().toLowerCase() + " name. Error: "
                         + e.getMessage());
             }
         }
