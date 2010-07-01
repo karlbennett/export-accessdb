@@ -3,7 +3,6 @@ package org.youthnet.export;
 import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.Table;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.swing.text.BadLocationException;
@@ -13,7 +12,10 @@ import java.io.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * User: karl
@@ -23,8 +25,6 @@ public class Smasher {
 
     public static final String CSV_ENCLOSURE = "¬";
     public static final String CSV_DELIMITER = "|";
-    public static final String SQL_ENCLOSURE = "'";
-    public static final String SQL_DELIMITER = ", ";
 
     public static void main(String[] args) {
 
@@ -38,34 +38,64 @@ public class Smasher {
                 File outputDir = new File("output");
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
+                outputDir = new File("output/csv");
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
+                outputDir = new File("output/sql");
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
+                outputDir = new File("output/sql/pre");
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
+                outputDir = new File("output/sql/post");
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
+                outputDir = new File("output/logs");
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
                 System.out.println("Tables:");
 
-                String insertSQL = "";
                 for (String tableName : tableNames) {
                     Table table = accessDatabase.getTable(tableName);
                     System.out.println("    Processing table: " + tableName
                             + " Number of rows: " + table.getRowCount());
 
-                    if (args[0].equals("-sql")) {
-                        fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".sql"));
-                        insertSQL = createColumnSQLString(table.getColumns(), tableName);
-                        outputRowSQLString(table, insertSQL, fileOutWriter);
-                    } else {
-                        fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".ctl"));
-                        fileOutWriter.write("load data\n" +
-                                " infile \"" + tableName + ".csv\" \"str '|\n'\"\n" +
-                                " into table " + tableName + "\n" +
-                                " fields terminated by '\\|' optionally enclosed by '¬' TRAILING NULLCOLS\n" +
-                                " ( " + createColumnCSVString(table.getColumns()) + " )");
-                        fileOutWriter.flush();
-                        fileOutWriter.close();
 
-                        fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".csv"));
-                        outputRowCSVString(table, fileOutWriter);
-                    }
+                    fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".ctl"));
+                    fileOutWriter.write(generateCTLString(table));
+                    fileOutWriter.flush();
+                    fileOutWriter.close();
+
+                    fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/create" + tableName + ".sql"));
+                    fileOutWriter.write(generateSQLCreateString(table));
+                    fileOutWriter.flush();
+                    fileOutWriter.close();
+
+                    fileOutWriter = new BufferedWriter(new FileWriter("output/csv/" + tableName + ".csv"));
+                    outputRowCSVString(table, fileOutWriter);
                     fileOutWriter.flush();
                     fileOutWriter.close();
                 }
+
+                fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/dropTables.sql"));
+                fileOutWriter.write(generateSQLDropString(accessDatabase));
+                fileOutWriter.flush();
+                fileOutWriter.close();
+
+                fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/runTableCreates.sh"));
+                fileOutWriter.write(generateSQLCreateRunScript(accessDatabase));
+                fileOutWriter.flush();
+                fileOutWriter.close();
+
+                fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/runTableDops.sh"));
+                fileOutWriter.write(generateSQLDropRunScript());
+                fileOutWriter.flush();
+                fileOutWriter.close();
+
+                fileOutWriter = new BufferedWriter(new FileWriter("output/runSQLLoader.sh"));
+                fileOutWriter.write(generateSQLLoaderRunScript(accessDatabase));
+                fileOutWriter.flush();
+                fileOutWriter.close();
             } catch (IOException e) {
                 System.out.println("Error processing the ms access file.\n Error: " + e.getMessage());
             } finally {
@@ -77,56 +107,101 @@ public class Smasher {
                     }
                 }
             }
-
         } else {
-            System.out.println("Usage: Smasher [-sql] <path to access file>");
+            System.out.println("Usage: Smasher <path to access file>");
         }
     }
 
-    private static String createColumnSQLString(List<Column> strings, String tableName) {
-        StringBuffer columnStringBuffer = new StringBuffer("INSERT INTO ");
-        columnStringBuffer.append(tableName);
-        columnStringBuffer.append("(");
+    private static String generateSQLCreateRunScript(Database database) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+        Set<String> tableNames = database.getTableNames();
 
-        for (Column column : strings) {
-            try {
-                if (Types.DATE == column.getSQLType()) {
-                    columnStringBuffer.append(column.getName());
-                    columnStringBuffer.append(" TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1'");
-                } else columnStringBuffer.append(column.getName());
-            } catch (SQLException e) {
-                System.out.println("        -- Error cvreating the date column name. Error: " + e.getMessage());
-            }
-            columnStringBuffer.append(", ");
+        columnStringBuffer.append("if [ -n $1 -a -n $2 ]; then\n");
+
+        for (String tableName : tableNames) {
+            columnStringBuffer.append(" echo \"Processing: ");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append("\"\n sqlplus -S $1/$2@oradb.dev.thesite.org.uk:1521/oradev @create");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append(".sql\n\n");
         }
 
-        columnStringBuffer.replace(columnStringBuffer.length() - 2, columnStringBuffer.length(), "");
-        columnStringBuffer.append(") VALUES (");
+        columnStringBuffer.append("else\n   echo \"Usage: $0 <username> <password>\"\nfi\n");
 
         return columnStringBuffer.toString();
     }
 
-    private static String createColumnCSVString(List<Column> strings) {
+    private static String generateSQLDropRunScript() {
         StringBuffer columnStringBuffer = new StringBuffer();
 
-        for (Column column : strings) {
+        columnStringBuffer.append("if [ -n $1 -a -n $2 ]; then\n");
+
+        columnStringBuffer.append(" sqlplus -S $1/$2@oradb.dev.thesite.org.uk:1521/oradev @dropTables.sql\n");
+
+        columnStringBuffer.append("else\n   echo \"Usage: $0 <username> <password>\"\nfi\n");
+
+        return columnStringBuffer.toString();
+    }
+
+    private static String generateSQLLoaderRunScript(Database database) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+        Set<String> tableNames = database.getTableNames();
+
+        columnStringBuffer.append("if [ -n $1 -a -n $2 ]; then\n");
+
+        for (String tableName : tableNames) {
+            columnStringBuffer.append(" echo \"Processing: ");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append("\"\n   sqlldr $1/$2@oradb.dev.thesite.org.uk:1521/oradev control=");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append(".ctl rows=5000 > logs/");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append(".process.log\n\n");
+        }
+
+        columnStringBuffer.append("else\n   echo \"Usage: $0 <username> <password>\"\nfi\n");
+
+        return columnStringBuffer.toString();
+    }
+
+    private static String generateCTLString(Table table) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+        String tableName = table.getName();
+
+        columnStringBuffer.append("load data\n");
+        columnStringBuffer.append(" infile \"csv/");
+        columnStringBuffer.append(tableName);
+        columnStringBuffer.append(".csv\" \"str '|\\n'\"\n");
+        columnStringBuffer.append(" into table ");
+        columnStringBuffer.append(tableName);
+        columnStringBuffer.append("\n fields terminated by '\\|' optionally enclosed by '¬' TRAILING NULLCOLS\n (");
+
+        for (Column column : table.getColumns()) {
 
             try {
-                switch(column.getSQLType()) {
+                switch (column.getSQLType()) {
                     case Types.LONGVARCHAR: {
-                        columnStringBuffer.append(column.getName());
+                        columnStringBuffer.append(column.getName().toUpperCase());
                         columnStringBuffer.append(" CHAR(40000)");
                         break;
                     }
+                    case Types.VARCHAR: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append(" CHAR(");
+                        columnStringBuffer.append(column.getLength());
+                        columnStringBuffer.append(")");
+                        break;
+                    }
                     case Types.TIMESTAMP: {
-                        columnStringBuffer.append(column.getName());
+                        columnStringBuffer.append(column.getName().toUpperCase());
                         columnStringBuffer.append(" TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1'");
                         break;
                     }
-                    default: columnStringBuffer.append(column.getName());
+                    default:
+                        columnStringBuffer.append(column.getName().toUpperCase());
                 }
             } catch (SQLException e) {
-                System.out.println("        -- Error  could not get type for " + column.getName() + " name. Error: "
+                System.out.println("        -- Error  could not get type for " + column.getName().toUpperCase() + " name. Error: "
                         + e.getMessage());
             }
 
@@ -135,95 +210,112 @@ public class Smasher {
         }
 
         columnStringBuffer.replace(columnStringBuffer.length() - 2, columnStringBuffer.length(), "");
+        columnStringBuffer.append(")");
 
         return columnStringBuffer.toString();
     }
 
-    private static boolean outputRowSQLString(Table table, String insertSQL, BufferedWriter bufferedWriter) {
-        List<Column> columns = table.getColumns();
-        StringBuffer rowStringBuffer = new StringBuffer();
+    private static String generateSQLCreateString(Table table) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+        String tableName = table.getName();
 
-        Object id = null;
+        columnStringBuffer.append("CREATE TABLE ");
+        columnStringBuffer.append(tableName);
+        columnStringBuffer.append(" (\n");
 
-        Map<String, Object> row = null;
-        Column column = null;
-        for (int i = 0; i < table.getRowCount(); i++) {
+        for (Column column : table.getColumns()) {
+
+            columnStringBuffer.append("\"");
+
             try {
-                row = table.getNextRow();
-                rowStringBuffer.setLength(0);
-
-                if (row != null) {
-
-                    rowStringBuffer.append(insertSQL);
-
-                    for (int j = 0; j < columns.size(); j++) {
-                        column = columns.get(j);
-                        Object value = row.get(column.getName());
-
-                        if (column.equals("LID")) id = value;
-
-                        rowStringBuffer.append(SQL_ENCLOSURE);
-                        if (value != null) {
-                            if (table.getName().equals("tblActivityLog") && column.getName().equals("Notes")) {
-                                try {
-                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                    ObjectOutputStream oos = new ObjectOutputStream(bos);
-                                    oos.writeObject(value);
-                                    oos.flush();
-                                    oos.close();
-                                    bos.close();
-                                    byte[] data = bos.toByteArray();
-                                    RTFEditorKit rtfEditorKit = new RTFEditorKit();
-                                    Document rtfDocument = rtfEditorKit.createDefaultDocument();
-                                    ByteArrayInputStream noteStream = new ByteArrayInputStream(data);
-                                    rtfEditorKit.read(noteStream, rtfDocument, 0);
-                                    rowStringBuffer.append(rtfDocument.getText(0, rtfDocument.getLength()));
-                                } catch (BadLocationException e) {
-                                    System.out.println("        -- Error converting ritch text: "
-                                            + e.getMessage() + "\n");
-                                } catch (IOException e) {
-                                    System.out.println("        -- Error converting ritch text: "
-                                            + e.getMessage() + "\n");
-                                    rowStringBuffer.append(StringEscapeUtils.escapeSql(((String) value).trim())
-                                            .replaceAll("\\\\'", "\\\\\\\\'"));
-                                }
-                            } else if (value instanceof String) {
-                                rowStringBuffer.append("'");
-                                rowStringBuffer.append(StringEscapeUtils.escapeSql(((String) value).trim())
-                                        .replaceAll("\\\\'", "\\\\\\\\'"));
-                                rowStringBuffer.append("', ");
-                            } else if (value instanceof java.util.Date) {
-                                rowStringBuffer.replace(rowStringBuffer.length() - 1, rowStringBuffer.length(), "");
-                                rowStringBuffer.append("TIMESTAMP ");
-                                rowStringBuffer.append(SQL_ENCLOSURE);
-                                rowStringBuffer.append((new Timestamp(((Date) value).getTime())));
-                            } else if (value instanceof Boolean) {
-                                if (((Boolean) value)) {
-                                    rowStringBuffer.append(1);
-                                } else {
-                                    rowStringBuffer.append(0);
-                                }
-                            } else {
-                                rowStringBuffer.append("'");
-                                rowStringBuffer.append(value);
-                            }
-                        }
-                        rowStringBuffer.append(SQL_ENCLOSURE);
-                        rowStringBuffer.append(SQL_DELIMITER);
+                switch (column.getSQLType()) {
+                    case Types.SMALLINT: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" SMALLINT");
+                        break;
                     }
-
-                    rowStringBuffer.replace(rowStringBuffer.length() - 1, rowStringBuffer.length(), ");");
-                    rowStringBuffer.append("\n");
-                    bufferedWriter.write(rowStringBuffer.toString());
-                } else {
-                    System.out.println("        -- Row " + i + " is null.\n");
+                    case Types.INTEGER: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" NUMBER");
+                        break;
+                    }
+                    case Types.NUMERIC: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" NUMERIC");
+                        break;
+                    }
+                    case Types.BOOLEAN: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" NUMBER(1,0)");
+                        break;
+                    }
+                    case Types.LONGVARCHAR: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" CLOB");
+                        break;
+                    }
+                    case Types.VARCHAR: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" VARCHAR2(");
+                        columnStringBuffer.append(column.getLength());
+                        columnStringBuffer.append(")");
+                        break;
+                    }
+                    case Types.TIMESTAMP: {
+                        columnStringBuffer.append(column.getName().toUpperCase());
+                        columnStringBuffer.append("\"");
+                        columnStringBuffer.append(" TIMESTAMP");
+                        break;
+                    }
                 }
-            } catch (IOException e) {
-                System.out.println("        -- Problem reading column number " + id + " from " + table.getName() + " table. Error: " + e.getMessage() + "\n");
+            } catch (SQLException e) {
+                System.out.println("        -- Error  could not get type for " + column.getName().toUpperCase() + " name. Error: "
+                        + e.getMessage());
             }
+
+            columnStringBuffer.append(",\n");
         }
 
-        return true;
+        columnStringBuffer.replace(columnStringBuffer.length() - 2, columnStringBuffer.length(), "");
+        columnStringBuffer.append(");\nQUIT;");
+
+        return columnStringBuffer.toString();
+    }
+
+    private static String generateSQLDropString(Database database) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+        Set<String> tableNames = database.getTableNames();
+
+        for (String tableName : tableNames) {
+            columnStringBuffer.append("DROP TABLE ");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append(";\n");
+        }
+
+        columnStringBuffer.append("\nQUIT;");
+
+        return columnStringBuffer.toString();
+    }
+
+    private static String generateSQLDeleteString(Database database) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+        Set<String> tableNames = database.getTableNames();
+
+        for (String tableName : tableNames) {
+            columnStringBuffer.append("DELETE FROM ");
+            columnStringBuffer.append(tableName);
+            columnStringBuffer.append(";\n");
+        }
+
+        columnStringBuffer.append("\nQUIT;");
+
+        return columnStringBuffer.toString();
     }
 
     private static boolean outputRowCSVString(Table table, BufferedWriter bufferedWriter) {
@@ -232,10 +324,10 @@ public class Smasher {
 
         for (Column column : columns) {
             try {
-                System.out.println("        -- Column name: " + column.getName()
+                System.out.println("        -- Column name: " + column.getName().toUpperCase()
                         + " length: " + column.getLength() + " type: " + getSQLType(column.getSQLType()));
             } catch (SQLException e) {
-                System.out.println("        -- Error  could not get type for " + column.getName() + " name. Error: "
+                System.out.println("        -- Error  could not get type for " + column.getName().toUpperCase() + " name. Error: "
                         + e.getMessage());
             }
         }
@@ -277,21 +369,10 @@ public class Smasher {
 
                                 valueString = StringEscapeUtils.escapeSql(valueString); // Sanitize the string.
 
-                                // If the value string is longer than a normal varchar2 or it is a LONGVARCHAR (SQL TYPE -1)...
-                                try {
-                                    if (column.getSQLType() == -1 || column.getLength() > 255) {
-                                        // ...then base64 encode it.
-                                        valueString = Base64.encodeBase64String(valueString.getBytes());
-                                    } else {
-                                        // Else just make sure that neither the enclosing or delimiting characters are in the string.
-                                        valueString = valueString.replaceAll("¬", "(TICK)");
-                                        valueString = valueString.replaceAll("\\|", "(PIPE)");
-                                        valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
-                                    }
-                                } catch (SQLException e) {
-                                    System.out.println("        -- Error  could not get type for " + column.getName()
-                                            + " name. Error: " + e.getMessage());
-                                }
+                                // Make sure that neither the enclosing or delimiting characters are in the string.
+                                valueString = valueString.replaceAll("¬", "(TICK)");
+                                valueString = valueString.replaceAll("\\|", "(PIPE)");
+                                valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
 
                                 rowStringBuffer.append(valueString); // Add the final string to the row string buffer.
                             } else if (value instanceof java.util.Date) { // If the value is a date...
