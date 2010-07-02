@@ -151,7 +151,7 @@ public class Smasher {
 
         int count = 1;
         for (String tableName : tableNames) {
-            columnStringBuffer.append(" echo \"Processing: ");
+            columnStringBuffer.append("echo \"Processing: ");
             columnStringBuffer.append(tableName);
             columnStringBuffer.append("\" && sqlldr $1/$2@oradb.dev.thesite.org.uk:1521/oradev control=");
             columnStringBuffer.append(tableName);
