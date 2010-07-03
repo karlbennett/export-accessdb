@@ -22,6 +22,13 @@ import java.util.*;
  */
 public class Smasher {
 
+    public static final String OUTPUT_DIR = "smashed";
+    public static final String CSV_DIR = "csv";
+    public static final String SQL_DIR = "sql";
+    public static final String SQL_PRE = "pre";
+    public static final String SQL_POST = "post";
+    public static final String LOGS_DIR = "logs";
+    public static final String JAVA_DIR = "java";
     public static final String CSV_ENCLOSURE = "¬";
     public static final String CSV_DELIMITER = "|";
 
@@ -34,25 +41,25 @@ public class Smasher {
                 Database accessDatabase = Database.open(accessDBFile);
                 Set<String> tableNames = accessDatabase.getTableNames();
 
-                File outputDir = new File("output");
+                File outputDir = new File(OUTPUT_DIR);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
-                outputDir = new File("output/csv");
+                outputDir = new File(OUTPUT_DIR + "/" + CSV_DIR);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
-                outputDir = new File("output/sql");
+                outputDir = new File(OUTPUT_DIR + "/" + SQL_DIR);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
-                outputDir = new File("output/sql/pre");
+                outputDir = new File(OUTPUT_DIR + "/" + SQL_DIR + "/" + SQL_PRE);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
-                outputDir = new File("output/sql/post");
+                outputDir = new File(OUTPUT_DIR + "/" + SQL_DIR + "/" + SQL_POST);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
-                outputDir = new File("output/logs");
+                outputDir = new File(OUTPUT_DIR + "/" + LOGS_DIR);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
-                outputDir = new File("output/java");
+                outputDir = new File(OUTPUT_DIR + "/" + JAVA_DIR);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
                 System.out.println("Tables:");
@@ -63,43 +70,49 @@ public class Smasher {
                             + " Number of rows: " + table.getRowCount());
 
 
-                    fileOutWriter = new BufferedWriter(new FileWriter("output/" + tableName + ".ctl"));
+                    fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + tableName + ".ctl"));
                     fileOutWriter.write(generateCTLString(table));
                     fileOutWriter.flush();
                     fileOutWriter.close();
 
-                    fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/create" + tableName + ".sql"));
+                    fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + SQL_DIR + "/" + SQL_PRE
+                            + "/create" + tableName + ".sql"));
                     fileOutWriter.write(generateSQLCreateString(table));
                     fileOutWriter.flush();
                     fileOutWriter.close();
 
-                    fileOutWriter = new BufferedWriter(new FileWriter("output/java/" + JavaCodeUtil.toUpperFirst(tableName) + ".java"));
+                    fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + JAVA_DIR + "/"
+                            + JavaCodeUtil.toUpperFirst(tableName) + ".java"));
                     fileOutWriter.write(generateJavaClass(table));
                     fileOutWriter.flush();
                     fileOutWriter.close();
 
-                    fileOutWriter = new BufferedWriter(new FileWriter("output/csv/" + tableName + ".csv"));
+                    fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + CSV_DIR + "/"  + tableName
+                            + ".csv"));
                     outputRowCSVString(table, fileOutWriter);
                     fileOutWriter.flush();
                     fileOutWriter.close();
                 }
 
-                fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/dropTables.sql"));
+                fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + SQL_DIR + "/" + SQL_PRE
+                        + "/dropTables.sql"));
                 fileOutWriter.write(generateSQLDropString(accessDatabase));
                 fileOutWriter.flush();
                 fileOutWriter.close();
 
-                fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/runTableCreates.sh"));
+                fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + SQL_DIR + "/" + SQL_PRE
+                        + "/runTableCreates.sh"));
                 fileOutWriter.write(generateSQLCreateRunScript(accessDatabase));
                 fileOutWriter.flush();
                 fileOutWriter.close();
 
-                fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/runTableDops.sh"));
+                fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + SQL_DIR + "/" + SQL_PRE
+                        + "/runTableDops.sh"));
                 fileOutWriter.write(generateSQLDropRunScript());
                 fileOutWriter.flush();
                 fileOutWriter.close();
 
-                fileOutWriter = new BufferedWriter(new FileWriter("output/runSQLLoader.sh"));
+                fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/runSQLLoader.sh"));
                 fileOutWriter.write(generateSQLLoaderRunScript(accessDatabase));
                 fileOutWriter.flush();
                 fileOutWriter.close();
@@ -162,7 +175,9 @@ public class Smasher {
             columnStringBuffer.append(tableName);
             columnStringBuffer.append("\" && sqlldr $1/$2@oradb.dev.thesite.org.uk:1521/oradev control=");
             columnStringBuffer.append(tableName);
-            columnStringBuffer.append(".ctl rows=5000 > logs/");
+            columnStringBuffer.append(".ctl rows=5000 > ");
+            columnStringBuffer.append(LOGS_DIR);
+            columnStringBuffer.append("/");
             columnStringBuffer.append(tableName);
             columnStringBuffer.append(".process.log");
 
@@ -184,7 +199,9 @@ public class Smasher {
         String tableName = table.getName();
 
         columnStringBuffer.append("load data\n");
-        columnStringBuffer.append(" infile \"csv/");
+        columnStringBuffer.append(" infile \"");
+        columnStringBuffer.append(CSV_DIR);
+        columnStringBuffer.append("/");
         columnStringBuffer.append(tableName);
         columnStringBuffer.append(".csv\" \"str '|\\n'\"\n");
         columnStringBuffer.append(" into table ");

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -52,7 +53,9 @@ public class TblOppTest {
 
     @Test
     public void createTblOppTest() {
-        TblOpp tblOpp = new TblOpp("¬" + OID + "¬|"
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        
+        String rowString = "¬" + OID + "¬|"
                 + "¬" + ORGID + "¬|"
                 + "¬" + OPPENTEREDID + "¬|"
                 + "¬" + TITLE + "¬|"
@@ -71,22 +74,26 @@ public class TblOppTest {
                 + "¬" + 1 + "¬|"
                 + "¬" + 1 + "¬|"
                 + "¬" + 1 + "¬|"
-                + "¬" + OPPSTARTDATE.toString() + "¬|"
-                + "¬" + OPPENDDATE.toString() + "¬|"
+                + "¬" + simpleDateFormat.format(OPPSTARTDATE) + "¬|"
+                + "¬" + simpleDateFormat.format(OPPENDDATE) + "¬|"
                 + "¬" + DESCRIPTION + "¬|"
                 + "¬" + SKILLSQUALIFICATIONS + "¬|"
                 + "¬" + DIRECTIONS + "¬|"
-                + "¬" + DATEFIRSTENTERED.toString() + "¬|"
-                + "¬" + DATELASTUPDATED.toString() + "¬|"
+                + "¬" + simpleDateFormat.format(DATEFIRSTENTERED) + "¬|"
+                + "¬" + simpleDateFormat.format(DATELASTUPDATED) + "¬|"
                 + "¬" + LASTUPDATEDBY + "¬|"
                 + "¬" + 1 + "¬|"
                 + "¬" + TELFAXSEARCH + "¬|"
                 + "¬" + 0 + "¬|"
                 + "¬" + 1 + "¬|"
-                + "¬" + SPECIFICSTARTDATE.toString() + "¬|"
-                + "¬" + SPECIFICENDDATE.toString() + "¬|"
+                + "¬" + simpleDateFormat.format(SPECIFICSTARTDATE) + "¬|"
+                + "¬" + simpleDateFormat.format(SPECIFICENDDATE) + "¬|"
                 + "¬" + SHORTDESCRIPTION + "¬|"
-                + "¬" + 0 + "¬|");
+                + "¬" + 0 + "¬|";
+
+        System.out.println(rowString);
+
+        TblOpp tblOpp = new TblOpp(rowString);
 
         assertEquals("oid equals", OID, tblOpp.getOid());
         assertEquals("orgid equals", ORGID, tblOpp.getOrgid());

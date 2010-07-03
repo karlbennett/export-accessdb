@@ -1,11 +1,13 @@
 package org.youthnet.export.domain.vb25;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: karl
@@ -42,7 +44,9 @@ public class TblActivityLogTest {
 
     @Test
     public void createTblActivityLogTest() throws ParseException {
-        TblActivityLog tblActivityLog = new TblActivityLog("¬" + LID + "¬|"
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+        String rowString = "¬" + LID + "¬|"
                 + "¬" + ACTIVITY + "¬|"
                 + "¬" + TYPE + "¬|"
                 + "¬" + VID + "¬|"
@@ -51,22 +55,26 @@ public class TblActivityLogTest {
                 + "¬" + LINKEDOID + "¬|"
                 + "¬" + SUBJECT + "¬|"
                 + "¬" + OWNER + "¬|"
-                + "¬" + STARTTIME.toString() + "¬|"
-                + "¬" + ENDTIME.toString() + "¬|"
+                + "¬" + simpleDateFormat.format(STARTTIME) + "¬|"
+                + "¬" + simpleDateFormat.format(ENDTIME) + "¬|"
                 + "¬" + 0 + "¬|"
-                + "¬" + ALARMSTARTTIME.toString() + "¬|"
+                + "¬" + simpleDateFormat.format(ALARMSTARTTIME) + "¬|"
                 + "¬" + ALARMPERIOD + "¬|"
                 + "¬" + 1 + "¬|"
                 + "¬" + CORRESPONDENCE + "¬|"
-                + "¬" + DATECORRSENT.toString() + "¬|"
+                + "¬" + simpleDateFormat.format(DATECORRSENT) + "¬|"
                 + "¬" + LINKEDLID + "¬|"
                 + "¬" + BACKLID + "¬|"
                 + "¬" + 0 + "¬|"
                 + "¬" + ESTTOTALHOURS + "¬|"
                 + "¬" + NOTES + "¬|"
-                + "¬" + DATEFIRSTENTERED.toString() + "¬|"
-                + "¬" + DATELASTUPDATED.toString() + "¬|"
-                + "¬" + LASTUPDATEDBY + "¬|");
+                + "¬" + simpleDateFormat.format(DATEFIRSTENTERED) + "¬|"
+                + "¬" + simpleDateFormat.format(DATELASTUPDATED) + "¬|"
+                + "¬" + LASTUPDATEDBY + "¬|";
+
+        System.out.println(rowString);
+
+        TblActivityLog tblActivityLog = new TblActivityLog(rowString);
 
         assertEquals("lid equal", LID, tblActivityLog.getLid());
         assertEquals("activity equal", ACTIVITY, tblActivityLog.getActivity());
