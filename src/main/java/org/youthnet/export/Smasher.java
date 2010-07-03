@@ -12,10 +12,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: karl
@@ -53,6 +50,9 @@ public class Smasher {
                 outputDir = new File("output/logs");
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
+                outputDir = new File("output/java");
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
                 System.out.println("Tables:");
 
                 for (String tableName : tableNames) {
@@ -68,6 +68,11 @@ public class Smasher {
 
                     fileOutWriter = new BufferedWriter(new FileWriter("output/sql/pre/create" + tableName + ".sql"));
                     fileOutWriter.write(generateSQLCreateString(table));
+                    fileOutWriter.flush();
+                    fileOutWriter.close();
+
+                    fileOutWriter = new BufferedWriter(new FileWriter("output/java/" + toUpperFirst(tableName) + ".java"));
+                    fileOutWriter.write(generateJavaClass(table));
                     fileOutWriter.flush();
                     fileOutWriter.close();
 
@@ -159,7 +164,7 @@ public class Smasher {
             columnStringBuffer.append(tableName);
             columnStringBuffer.append(".process.log");
 
-            if((count % 4) == 0) columnStringBuffer.append(" && date&\n\n");
+            if ((count % 4) == 0) columnStringBuffer.append(" && date&\n\n");
             else columnStringBuffer.append(" && ");
 
             count++;
@@ -329,6 +334,157 @@ public class Smasher {
         return columnStringBuffer.toString();
     }
 
+    private static String generateJavaClass(Table table) {
+        StringBuffer classStringBuffer = new StringBuffer("org.youthnet.export.domain.vb25;\n\n");
+        String tableName = table.getName();
+        Set<String> imports = new HashSet<String>(); // Set to hold any imports that might be needed.
+        // Get the name for the new java class. This will be the tale name with the first letter capitalised.
+        String className = toUpperFirst(tableName);
+        List<Column> columns = table.getColumns(); // List to contain the tables columns.
+        // Get the number of attributes that the java class, this is equal to the number of columns since that is what they will be made from.
+        int attributeNum = columns.size();
+        // Create a 2D array to hold the attribute names and related types.
+        // This is only every going to be iterated through so it can be a simple 2D array.
+        String[][] attributes = new String[attributeNum][2];
+
+        // Populate the attributes array with the names and types for the new java classes attributes..
+        String type = ""; // Variable to hold the java type of the attribute.
+        String[] typePath = null; // Array to hold the package path and class name of the java type.
+        for (int i = 0; i < attributeNum; i++) {
+            // Record the column name lower cased fo the attribute name.
+            attributes[i][0] = columns.get(i).getName().toLowerCase();
+            try {
+                type = getJavaType(columns.get(i).getSQLType()); // Record the java type of the attribute.
+                if (type.contains("java")) { // If the attribute type is not a default Java type...
+                    imports.add("import " + type + ";");
+                    typePath = type.split("\\.");
+                    attributes[i][1] = typePath[typePath.length - 1];
+                } else attributes[i][1] = type;
+            } catch (SQLException e) {
+                System.out.println("Could not get SQL type for for column " + attributes[i][0] + " in table "
+                        + tableName + ". Error: " + e.getMessage());
+            }
+        }
+
+
+        // Add the imports.
+        for (String imp : imports) {
+            classStringBuffer.append(imp);
+            classStringBuffer.append("\n");
+        }
+        // If there are date classes within the imports then also import the classes required to pars dates.
+        if (imports.contains("import java.sql.Date;")
+                || imports.contains("import java.sql.Time;")
+                || imports.contains("import java.sql.Timestamp;")) {
+            classStringBuffer.append("import java.text.ParseException;\nimport java.text.SimpleDateFormat;\n\n");
+        } else classStringBuffer.append("\n\n");
+
+        // Add the class name and constants.
+        classStringBuffer.append("public class ");
+        classStringBuffer.append(className);
+        classStringBuffer.append(" {\n\n\tprivate static final String DELIMITER = \"");
+        classStringBuffer.append(CSV_DELIMITER);
+        classStringBuffer.append("\";\n\n");
+        classStringBuffer.append("\tprivate static final int COLUMN_NUM = ");
+        classStringBuffer.append(attributeNum);
+        classStringBuffer.append(";\n\n");
+
+        StringBuffer initAttributesStringBuffer = new StringBuffer();
+        // Add the attributes and create the code that will be used to initialise the attributes..
+        for (int i = 0; i < attributes.length; i++) {
+            classStringBuffer.append("\tprivate ");
+            classStringBuffer.append(attributes[i][1]);
+            classStringBuffer.append(" ");
+            classStringBuffer.append(attributes[i][0]);
+            classStringBuffer.append(";\n");
+
+            if (attributes[i][1].equals("Integer")) {
+                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = Integer.getInteger(fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1));\n");
+            }
+
+            if (attributes[i][1].equals("String")) {
+                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1);\n");
+            }
+
+            if (attributes[i][1].equals("Boolean")) {
+                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1).equals(\"1\");\n");
+            }
+
+            if (attributes[i][1].equals("Date")
+                    || attributes[i][1].equals("Time")
+                    || attributes[i][1].equals("Timestamp")) {
+                initAttributesStringBuffer.append("\t\ttry {\n\t\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = new ");
+                initAttributesStringBuffer.append(attributes[i][1]);
+                initAttributesStringBuffer.append("(\n\t\t\t\tsimpleDateFormat.parse(fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1)).getTime());\n\t\t} catch (ParseException e) {\n");
+                initAttributesStringBuffer.append("\t\t\tSystem.out.println(\"Could not pars ");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" date \" + fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
+                initAttributesStringBuffer.append(attributes[0][0]);
+                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
+                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
+            }
+        }
+        classStringBuffer.append("\n\n");
+
+        // Add the constructor.
+        classStringBuffer.append("\tpublic ");
+        classStringBuffer.append(className);
+        classStringBuffer.append("(String record) {\n\t\tString[] fields = record.split(DELIMITER);\n");
+        if (imports.contains("import java.sql.Date;")
+                || imports.contains("import java.sql.Time;")
+                || imports.contains("import java.sql.Timestamp;")) { // If there are date attributes then a date formater will be needed.
+            classStringBuffer.append("\t\tSimpleDateFormat simpleDateFormat = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss.S\");\n\n");
+        } else classStringBuffer.append("\n\n");
+
+        // Add the initialisation code string.
+        classStringBuffer.append(initAttributesStringBuffer);        
+        classStringBuffer.append("  }\n\n");
+
+        // Add getter methods.
+        for(String[] attribute : attributes) {
+            classStringBuffer.append("\tpublic ");
+            classStringBuffer.append(attribute[1]);
+            classStringBuffer.append(" get");
+            classStringBuffer.append(toUpperFirst(attribute[0]));
+            classStringBuffer.append("() {\n\t\treturn this.");
+            classStringBuffer.append(attribute[0]);
+            classStringBuffer.append(";\n\t}\n\n");
+        }
+
+        // Close off class.
+        classStringBuffer.append("}\n");
+
+        return classStringBuffer.toString();
+    }
+
     private static boolean outputRowCSVString(Table table, BufferedWriter bufferedWriter) {
         List<Column> columns = table.getColumns(); // Get the tables column names.
         StringBuffer rowStringBuffer = null; // String buffer to hold the rows.
@@ -381,8 +537,8 @@ public class Smasher {
                                 valueString = StringEscapeUtils.escapeSql(valueString); // Sanitize the string.
 
                                 // Make sure that neither the enclosing or delimiting characters are in the string.
-                                valueString = valueString.replaceAll("¬", "(TICK)");
-                                valueString = valueString.replaceAll("\\|", "(PIPE)");
+                                valueString = valueString.replaceAll(CSV_ENCLOSURE, "[[ENCL]]");
+                                valueString = valueString.replaceAll(CSV_DELIMITER, "[[DELM]]");
                                 valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
 
                                 rowStringBuffer.append(valueString); // Add the final string to the row string buffer.
@@ -526,5 +682,90 @@ public class Smasher {
         }
 
         return null;
+    }
+
+    private static String getJavaType(int type) {
+
+        switch (type) {
+
+            case Types.BIT:
+                return "Boolean";
+            case Types.TINYINT:
+                return "Byte";
+            case Types.SMALLINT:
+                return "Short";
+            case Types.INTEGER:
+                return "Integer";
+            case Types.BIGINT:
+                return "Long";
+            case Types.FLOAT:
+                return "Double";
+            case Types.REAL:
+                return "Float";
+            case Types.DOUBLE:
+                return "Double";
+            case Types.NUMERIC:
+                return "NUMERIC";
+            case Types.DECIMAL:
+                return "java.math.BigDecimal";
+            case Types.CHAR:
+                return "String";
+            case Types.VARCHAR:
+                return "String";
+            case Types.LONGVARCHAR:
+                return "String";
+            case Types.DATE:
+                return "java.sql.Date";
+            case Types.TIME:
+                return "java.sql.Time";
+            case Types.TIMESTAMP:
+                return "java.sql.Timestamp";
+            case Types.BINARY:
+                return "byte[]";
+            case Types.VARBINARY:
+                return "byte[]";
+            case Types.LONGVARBINARY:
+                return "byte[]";
+            case Types.NULL:
+                return "null";
+            case Types.OTHER:
+                return "Object";
+            case Types.JAVA_OBJECT:
+                return "Object";
+            case Types.DISTINCT:
+                return "Object";
+            case Types.STRUCT:
+                return "Object";
+            case Types.ARRAY:
+                return "Object[]";
+            case Types.BLOB:
+                return "byte[]";
+            case Types.CLOB:
+                return "String";
+            case Types.REF:
+                return "Object";
+            case Types.DATALINK:
+                return "Object";
+            case Types.BOOLEAN:
+                return "Boolean";
+            case Types.ROWID:
+                return "Object";
+            case Types.NCHAR:
+                return "String";
+            case Types.NVARCHAR:
+                return "String";
+            case Types.LONGNVARCHAR:
+                return "String";
+            case Types.NCLOB:
+                return "String";
+            case Types.SQLXML:
+                return "String";
+        }
+
+        return null;
+    }
+
+    private static String toUpperFirst(String str) {
+        return str.replaceFirst("^" + str.substring(0, 1), str.substring(0, 1).toUpperCase());
     }
 }
