@@ -3,7 +3,7 @@ package org.youthnet.export.domain.vb25;
 
 public class UsysDefaults {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 3;
 
@@ -16,7 +16,12 @@ public class UsysDefaults {
         String[] fields = record.split(DELIMITER);
 
 
-        this.no = Short.parseShort(fields[0].substring(1, fields[0].length() - 1));
+        try {
+            this.no = Short.parseShort(fields[0].substring(1, fields[0].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars no Short " + fields[0].substring(1, fields[0].length() - 1)
+                    + " in row " + this.no + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
         this.option = fields[1].substring(1, fields[1].length() - 1);
         this.value = fields[2].substring(1, fields[2].length() - 1);
     }

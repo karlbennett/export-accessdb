@@ -3,7 +3,7 @@ package org.youthnet.export.domain.vb25;
 
 public class TbluSpecial {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 3;
 

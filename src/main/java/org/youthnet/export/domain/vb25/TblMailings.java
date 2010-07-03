@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 public class TblMailings {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 10;
 
@@ -27,24 +27,34 @@ public class TblMailings {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
         this.mailing = fields[0].substring(1, fields[0].length() - 1);
-        this.no = Short.parseShort(fields[1].substring(1, fields[1].length() - 1));
+        try {
+            this.no = Short.parseShort(fields[1].substring(1, fields[1].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars no Short " + fields[1].substring(1, fields[1].length() - 1)
+                    + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
         this.description = fields[2].substring(1, fields[2].length() - 1);
         this.fields = fields[3].substring(1, fields[3].length() - 1);
-        this.icon = Short.parseShort(fields[4].substring(1, fields[4].length() - 1));
+        try {
+            this.icon = Short.parseShort(fields[4].substring(1, fields[4].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars icon Short " + fields[4].substring(1, fields[4].length() - 1)
+                    + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
         this.email = fields[5].substring(1, fields[5].length() - 1).equals("1");
         this.owner = fields[6].substring(1, fields[6].length() - 1);
         try {
             this.datefirstentered = new Timestamp(
                     simpleDateFormat.parse(fields[7].substring(1, fields[7].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered date " + fields[7].substring(1, fields[7].length() - 1)
+            System.out.println("Could not pars datefirstentered Timestamp " + fields[7].substring(1, fields[7].length() - 1)
                     + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
                     simpleDateFormat.parse(fields[8].substring(1, fields[8].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated date " + fields[8].substring(1, fields[8].length() - 1)
+            System.out.println("Could not pars datelastupdated Timestamp " + fields[8].substring(1, fields[8].length() - 1)
                     + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.lastupdatedby = fields[9].substring(1, fields[9].length() - 1);

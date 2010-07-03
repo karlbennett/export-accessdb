@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 public class UsysReportCriteria {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 6;
 
@@ -28,14 +28,14 @@ public class UsysReportCriteria {
             this.startdate = new Timestamp(
                     simpleDateFormat.parse(fields[2].substring(1, fields[2].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars startdate date " + fields[2].substring(1, fields[2].length() - 1)
+            System.out.println("Could not pars startdate Timestamp " + fields[2].substring(1, fields[2].length() - 1)
                     + " in row " + this.report + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.enddate = new Timestamp(
                     simpleDateFormat.parse(fields[3].substring(1, fields[3].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars enddate date " + fields[3].substring(1, fields[3].length() - 1)
+            System.out.println("Could not pars enddate Timestamp " + fields[3].substring(1, fields[3].length() - 1)
                     + " in row " + this.report + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.dateoption = fields[4].substring(1, fields[4].length() - 1);

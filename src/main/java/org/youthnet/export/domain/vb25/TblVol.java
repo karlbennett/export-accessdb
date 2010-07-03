@@ -6,11 +6,11 @@ import java.text.SimpleDateFormat;
 
 public class TblVol {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 36;
 
-    private Integer vid;
+    private Long vid;
     private String firstname;
     private String lastname;
     private String title;
@@ -52,7 +52,12 @@ public class TblVol {
         String[] fields = record.split(DELIMITER);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.vid = Integer.parseInt(fields[0].substring(1, fields[0].length() - 1));
+        try {
+            this.vid = Long.parseLong(fields[0].substring(1, fields[0].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars vid Long " + fields[0].substring(1, fields[0].length() - 1)
+                    + " in row " + this.vid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
         this.firstname = fields[1].substring(1, fields[1].length() - 1);
         this.lastname = fields[2].substring(1, fields[2].length() - 1);
         this.title = fields[3].substring(1, fields[3].length() - 1);
@@ -74,7 +79,7 @@ public class TblVol {
             this.dob = new Timestamp(
                     simpleDateFormat.parse(fields[18].substring(1, fields[18].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars dob date " + fields[18].substring(1, fields[18].length() - 1)
+            System.out.println("Could not pars dob Timestamp " + fields[18].substring(1, fields[18].length() - 1)
                     + " in row " + this.vid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.gender = fields[19].substring(1, fields[19].length() - 1);
@@ -90,14 +95,14 @@ public class TblVol {
             this.datefirstentered = new Timestamp(
                     simpleDateFormat.parse(fields[28].substring(1, fields[28].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered date " + fields[28].substring(1, fields[28].length() - 1)
+            System.out.println("Could not pars datefirstentered Timestamp " + fields[28].substring(1, fields[28].length() - 1)
                     + " in row " + this.vid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
                     simpleDateFormat.parse(fields[29].substring(1, fields[29].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated date " + fields[29].substring(1, fields[29].length() - 1)
+            System.out.println("Could not pars datelastupdated Timestamp " + fields[29].substring(1, fields[29].length() - 1)
                     + " in row " + this.vid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.lastupdatedby = fields[30].substring(1, fields[30].length() - 1);
@@ -108,7 +113,7 @@ public class TblVol {
         this.demodata = fields[35].substring(1, fields[35].length() - 1).equals("1");
     }
 
-    public Integer getVid() {
+    public Long getVid() {
         return this.vid;
     }
 

@@ -3,7 +3,7 @@ package org.youthnet.export.domain.vb25;
 
 public class UsysCharts {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 6;
 
@@ -24,7 +24,12 @@ public class UsysCharts {
         this.selectwhere = fields[2].substring(1, fields[2].length() - 1);
         this.groupby = fields[3].substring(1, fields[3].length() - 1);
         this.table = fields[4].substring(1, fields[4].length() - 1);
-        this.order = Short.parseShort(fields[5].substring(1, fields[5].length() - 1));
+        try {
+            this.order = Short.parseShort(fields[5].substring(1, fields[5].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars order Short " + fields[5].substring(1, fields[5].length() - 1)
+                    + " in row " + this.chart + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
     }
 
     public String getChart() {

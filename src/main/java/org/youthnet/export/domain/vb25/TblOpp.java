@@ -7,12 +7,12 @@ import java.text.SimpleDateFormat;
 
 public class TblOpp {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 35;
 
-    private Integer oid;
-    private Integer orgid;
+    private Long oid;
+    private Long orgid;
     private String oppenteredid;
     private String title;
     private String contact;
@@ -52,8 +52,18 @@ public class TblOpp {
         String[] fields = record.split(DELIMITER);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.oid = Integer.parseInt(fields[0].substring(1, fields[0].length() - 1));
-        this.orgid = Integer.parseInt(fields[1].substring(1, fields[1].length() - 1));
+        try {
+            this.oid = Long.parseLong(fields[0].substring(1, fields[0].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars oid Long " + fields[0].substring(1, fields[0].length() - 1)
+                    + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
+        try {
+            this.orgid = Long.parseLong(fields[1].substring(1, fields[1].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars orgid Long " + fields[1].substring(1, fields[1].length() - 1)
+                    + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
         this.oppenteredid = fields[2].substring(1, fields[2].length() - 1);
         this.title = fields[3].substring(1, fields[3].length() - 1);
         this.contact = fields[4].substring(1, fields[4].length() - 1);
@@ -66,7 +76,12 @@ public class TblOpp {
         this.fax = fields[11].substring(1, fields[11].length() - 1);
         this.email = fields[12].substring(1, fields[12].length() - 1);
         this.geographicalarea = fields[13].substring(1, fields[13].length() - 1);
-        this.monetaryvalue = new BigDecimal(fields[14].substring(1, fields[14].length() - 1));
+        try {
+            this.monetaryvalue = new BigDecimal(fields[14].substring(1, fields[14].length() - 1));
+        } catch (NumberFormatException e) {
+            System.out.println("Could not pars monetaryvalue BigDecimal " + fields[14].substring(1, fields[14].length() - 1)
+                    + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
         this.active = fields[15].substring(1, fields[15].length() - 1).equals("1");
         this.includeonweb = fields[16].substring(1, fields[16].length() - 1).equals("1");
         this.oneoff = fields[17].substring(1, fields[17].length() - 1).equals("1");
@@ -75,14 +90,14 @@ public class TblOpp {
             this.oppstartdate = new Timestamp(
                     simpleDateFormat.parse(fields[19].substring(1, fields[19].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars oppstartdate date " + fields[19].substring(1, fields[19].length() - 1)
+            System.out.println("Could not pars oppstartdate Timestamp " + fields[19].substring(1, fields[19].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.oppenddate = new Timestamp(
                     simpleDateFormat.parse(fields[20].substring(1, fields[20].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars oppenddate date " + fields[20].substring(1, fields[20].length() - 1)
+            System.out.println("Could not pars oppenddate Timestamp " + fields[20].substring(1, fields[20].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.description = fields[21].substring(1, fields[21].length() - 1);
@@ -92,14 +107,14 @@ public class TblOpp {
             this.datefirstentered = new Timestamp(
                     simpleDateFormat.parse(fields[24].substring(1, fields[24].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered date " + fields[24].substring(1, fields[24].length() - 1)
+            System.out.println("Could not pars datefirstentered Timestamp " + fields[24].substring(1, fields[24].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
                     simpleDateFormat.parse(fields[25].substring(1, fields[25].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated date " + fields[25].substring(1, fields[25].length() - 1)
+            System.out.println("Could not pars datelastupdated Timestamp " + fields[25].substring(1, fields[25].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.lastupdatedby = fields[26].substring(1, fields[26].length() - 1);
@@ -111,25 +126,25 @@ public class TblOpp {
             this.specificstartdate = new Timestamp(
                     simpleDateFormat.parse(fields[31].substring(1, fields[31].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars specificstartdate date " + fields[31].substring(1, fields[31].length() - 1)
+            System.out.println("Could not pars specificstartdate Timestamp " + fields[31].substring(1, fields[31].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.specificenddate = new Timestamp(
                     simpleDateFormat.parse(fields[32].substring(1, fields[32].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars specificenddate date " + fields[32].substring(1, fields[32].length() - 1)
+            System.out.println("Could not pars specificenddate Timestamp " + fields[32].substring(1, fields[32].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.shortdescription = fields[33].substring(1, fields[33].length() - 1);
         this.demodata = fields[34].substring(1, fields[34].length() - 1).equals("1");
     }
 
-    public Integer getOid() {
+    public Long getOid() {
         return this.oid;
     }
 
-    public Integer getOrgid() {
+    public Long getOrgid() {
         return this.orgid;
     }
 

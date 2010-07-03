@@ -388,7 +388,7 @@ public class Smasher {
         // Add the class name and constants.
         classStringBuffer.append("public class ");
         classStringBuffer.append(className);
-        classStringBuffer.append(" {\n\n\tprivate static final String DELIMITER = \"");
+        classStringBuffer.append(" {\n\n\tprivate static final String DELIMITER = \"\\\\");
         classStringBuffer.append(CSV_DELIMITER);
         classStringBuffer.append("\";\n\n");
         classStringBuffer.append("\tpublic static final int COLUMN_NUM = ");
@@ -405,33 +405,83 @@ public class Smasher {
             classStringBuffer.append(";\n");
 
             if (attributes[i][1].equals("Short")) {
-                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = Short.parseShort(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].substring(1, fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n");
+                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
+                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" Short \" + fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
+                initAttributesStringBuffer.append(attributes[0][0]);
+                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
+                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
             }
 
             if (attributes[i][1].equals("Integer")) {
-                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = Integer.parseInt(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].substring(1, fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n");
+                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
+                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" Integer \" + fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
+                initAttributesStringBuffer.append(attributes[0][0]);
+                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
+                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
+            }
+
+            if (attributes[i][1].equals("Long")) {
+                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = Long.parseLong(fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
+                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" Long \" + fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
+                initAttributesStringBuffer.append(attributes[0][0]);
+                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
+                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
             }
 
             if (attributes[i][1].equals("BigDecimal")) {
-                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = new BigDecimal(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].substring(1, fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n");
+                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
+                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" BigDecimal \" + fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
+                initAttributesStringBuffer.append(attributes[0][0]);
+                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
+                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
             }
 
             if (attributes[i][1].equals("String")) {
@@ -468,7 +518,9 @@ public class Smasher {
                 initAttributesStringBuffer.append("].length() - 1)).getTime());\n\t\t} catch (ParseException e) {\n");
                 initAttributesStringBuffer.append("\t\t\tSystem.out.println(\"Could not pars ");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" date \" + fields[");
+                initAttributesStringBuffer.append(" ");
+                initAttributesStringBuffer.append(attributes[i][1]);
+                initAttributesStringBuffer.append(" \" + fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].substring(1, fields[");
                 initAttributesStringBuffer.append(i);

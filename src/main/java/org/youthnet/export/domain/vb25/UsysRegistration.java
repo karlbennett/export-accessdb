@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 public class UsysRegistration {
 
-    private static final String DELIMITER = "|";
+    private static final String DELIMITER = "\\|";
 
     public static final int COLUMN_NUM = 14;
 
@@ -45,14 +45,14 @@ public class UsysRegistration {
             this.datefirstentered = new Timestamp(
                     simpleDateFormat.parse(fields[11].substring(1, fields[11].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered date " + fields[11].substring(1, fields[11].length() - 1)
+            System.out.println("Could not pars datefirstentered Timestamp " + fields[11].substring(1, fields[11].length() - 1)
                     + " in row " + this.shortname + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
                     simpleDateFormat.parse(fields[12].substring(1, fields[12].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated date " + fields[12].substring(1, fields[12].length() - 1)
+            System.out.println("Could not pars datelastupdated Timestamp " + fields[12].substring(1, fields[12].length() - 1)
                     + " in row " + this.shortname + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.lastupdatedby = fields[13].substring(1, fields[13].length() - 1);

@@ -82,7 +82,7 @@ public class JavaCodeUtil {
             case Types.SMALLINT:
                 return Short.class;
             case Types.INTEGER:
-                return Integer.class;
+                return Long.class; // Should be Integer.class but Access longs show as integers.
             case Types.BIGINT:
                 return Long.class;
             case Types.FLOAT:
