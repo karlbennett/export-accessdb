@@ -4,6 +4,8 @@ import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.Table;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.youthnet.export.util.JavaCodeUtil;
+import org.youthnet.export.util.SQLCodeUtil;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -71,7 +73,7 @@ public class Smasher {
                     fileOutWriter.flush();
                     fileOutWriter.close();
 
-                    fileOutWriter = new BufferedWriter(new FileWriter("output/java/" + toUpperFirst(tableName) + ".java"));
+                    fileOutWriter = new BufferedWriter(new FileWriter("output/java/" + JavaCodeUtil.toUpperFirst(tableName) + ".java"));
                     fileOutWriter.write(generateJavaClass(table));
                     fileOutWriter.flush();
                     fileOutWriter.close();
@@ -335,11 +337,12 @@ public class Smasher {
     }
 
     private static String generateJavaClass(Table table) {
-        StringBuffer classStringBuffer = new StringBuffer("org.youthnet.export.domain.vb25;\n\n");
+        StringBuffer classStringBuffer = new StringBuffer("package org.youthnet.export.domain.vb25;\n\n");
         String tableName = table.getName();
         Set<String> imports = new HashSet<String>(); // Set to hold any imports that might be needed.
+        boolean hasDates = false; // Flag to be set if the class contains date types.
         // Get the name for the new java class. This will be the tale name with the first letter capitalised.
-        String className = toUpperFirst(tableName);
+        String className = JavaCodeUtil.toUpperFirst(tableName);
         List<Column> columns = table.getColumns(); // List to contain the tables columns.
         // Get the number of attributes that the java class, this is equal to the number of columns since that is what they will be made from.
         int attributeNum = columns.size();
@@ -348,18 +351,23 @@ public class Smasher {
         String[][] attributes = new String[attributeNum][2];
 
         // Populate the attributes array with the names and types for the new java classes attributes..
-        String type = ""; // Variable to hold the java type of the attribute.
+        String name = ""; // Variable to hold the name of the java attribute.
+        Class type = null; // Variable to hold the java type of the attribute.
         String[] typePath = null; // Array to hold the package path and class name of the java type.
         for (int i = 0; i < attributeNum; i++) {
             // Record the column name lower cased fo the attribute name.
-            attributes[i][0] = columns.get(i).getName().toLowerCase();
+            name = columns.get(i).getName().toLowerCase();
+            if (JavaCodeUtil.isKeyword(name)) {
+                name = "_" + name;
+            }
+            attributes[i][0] = name;
             try {
-                type = getJavaType(columns.get(i).getSQLType()); // Record the java type of the attribute.
-                if (type.contains("java")) { // If the attribute type is not a default Java type...
-                    imports.add("import " + type + ";");
-                    typePath = type.split("\\.");
-                    attributes[i][1] = typePath[typePath.length - 1];
-                } else attributes[i][1] = type;
+                type = JavaCodeUtil.javaTypeForSQLType(columns.get(i).getSQLType()); // Record the java type of the attribute.
+                if (!type.getName().contains("lang")) { // If the attribute type is not a default Java type...
+                    imports.add("import " + type.getName() + ";");
+                    if (type.getSuperclass().getSimpleName().equals("Date")) hasDates = true;
+                }
+                attributes[i][1] = type.getSimpleName();
             } catch (SQLException e) {
                 System.out.println("Could not get SQL type for for column " + attributes[i][0] + " in table "
                         + tableName + ". Error: " + e.getMessage());
@@ -373,9 +381,7 @@ public class Smasher {
             classStringBuffer.append("\n");
         }
         // If there are date classes within the imports then also import the classes required to pars dates.
-        if (imports.contains("import java.sql.Date;")
-                || imports.contains("import java.sql.Time;")
-                || imports.contains("import java.sql.Timestamp;")) {
+        if (hasDates) {
             classStringBuffer.append("import java.text.ParseException;\nimport java.text.SimpleDateFormat;\n\n");
         } else classStringBuffer.append("\n\n");
 
@@ -385,7 +391,7 @@ public class Smasher {
         classStringBuffer.append(" {\n\n\tprivate static final String DELIMITER = \"");
         classStringBuffer.append(CSV_DELIMITER);
         classStringBuffer.append("\";\n\n");
-        classStringBuffer.append("\tprivate static final int COLUMN_NUM = ");
+        classStringBuffer.append("\tpublic static final int COLUMN_NUM = ");
         classStringBuffer.append(attributeNum);
         classStringBuffer.append(";\n\n");
 
@@ -398,10 +404,30 @@ public class Smasher {
             classStringBuffer.append(attributes[i][0]);
             classStringBuffer.append(";\n");
 
+            if (attributes[i][1].equals("Short")) {
+                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = Short.parseShort(fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1));\n");
+            }
+
             if (attributes[i][1].equals("Integer")) {
                 initAttributesStringBuffer.append("\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Integer.getInteger(fields[");
+                initAttributesStringBuffer.append(" = Integer.parseInt(fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].substring(1, fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].length() - 1));\n");
+            }
+
+            if (attributes[i][1].equals("BigDecimal")) {
+                initAttributesStringBuffer.append("\t\tthis.");
+                initAttributesStringBuffer.append(attributes[i][0]);
+                initAttributesStringBuffer.append(" = new BigDecimal(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].substring(1, fields[");
                 initAttributesStringBuffer.append(i);
@@ -458,22 +484,20 @@ public class Smasher {
         classStringBuffer.append("\tpublic ");
         classStringBuffer.append(className);
         classStringBuffer.append("(String record) {\n\t\tString[] fields = record.split(DELIMITER);\n");
-        if (imports.contains("import java.sql.Date;")
-                || imports.contains("import java.sql.Time;")
-                || imports.contains("import java.sql.Timestamp;")) { // If there are date attributes then a date formater will be needed.
+        if (hasDates) { // If there are date attributes then a date formatter will be needed.
             classStringBuffer.append("\t\tSimpleDateFormat simpleDateFormat = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss.S\");\n\n");
         } else classStringBuffer.append("\n\n");
 
         // Add the initialisation code string.
         classStringBuffer.append(initAttributesStringBuffer);        
-        classStringBuffer.append("  }\n\n");
+        classStringBuffer.append("\t}\n\n");
 
         // Add getter methods.
         for(String[] attribute : attributes) {
             classStringBuffer.append("\tpublic ");
             classStringBuffer.append(attribute[1]);
             classStringBuffer.append(" get");
-            classStringBuffer.append(toUpperFirst(attribute[0]));
+            classStringBuffer.append(JavaCodeUtil.toUpperFirst(attribute[0].replace("_", "")));
             classStringBuffer.append("() {\n\t\treturn this.");
             classStringBuffer.append(attribute[0]);
             classStringBuffer.append(";\n\t}\n\n");
@@ -492,10 +516,10 @@ public class Smasher {
         for (Column column : columns) {
             try {
                 System.out.println("        -- Column name: " + column.getName().toLowerCase()
-                        + " length: " + column.getLength() + " type: " + getSQLType(column.getSQLType()));
+                        + " length: " + column.getLength() + " type: " + SQLCodeUtil.getSQLTypeName(column.getSQLType()));
             } catch (SQLException e) {
-                System.out.println("        -- Error  could not get type for " + column.getName().toLowerCase() + " name. Error: "
-                        + e.getMessage());
+                System.out.println("        -- Error  could not get type for " + column.getName().toLowerCase()
+                        + " name. Error: " + e.getMessage());
             }
         }
 
@@ -538,7 +562,7 @@ public class Smasher {
 
                                 // Make sure that neither the enclosing or delimiting characters are in the string.
                                 valueString = valueString.replaceAll(CSV_ENCLOSURE, "[[ENCL]]");
-                                valueString = valueString.replaceAll(CSV_DELIMITER, "[[DELM]]");
+                                valueString = valueString.replaceAll("\\" + CSV_DELIMITER, "[[DELM]]");
                                 valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
 
                                 rowStringBuffer.append(valueString); // Add the final string to the row string buffer.
@@ -601,171 +625,5 @@ public class Smasher {
         }
 
         return extractedText; // Return the extracted text.
-    }
-
-    private static String getSQLType(int type) {
-
-        switch (type) {
-
-            case Types.BIT:
-                return "BIT";
-            case Types.TINYINT:
-                return "TINYINT";
-            case Types.SMALLINT:
-                return "SMALLINT";
-            case Types.INTEGER:
-                return "INTEGER";
-            case Types.BIGINT:
-                return "BIGINT";
-            case Types.FLOAT:
-                return "FLOAT";
-            case Types.REAL:
-                return "REAL";
-            case Types.DOUBLE:
-                return "DOUBLE";
-            case Types.NUMERIC:
-                return "NUMERIC";
-            case Types.DECIMAL:
-                return "DECIMAL";
-            case Types.CHAR:
-                return "CHAR";
-            case Types.VARCHAR:
-                return "VARCHAR";
-            case Types.LONGVARCHAR:
-                return "LONGVARCHAR";
-            case Types.DATE:
-                return "DATE";
-            case Types.TIME:
-                return "TIME";
-            case Types.TIMESTAMP:
-                return "TIMESTAMP";
-            case Types.BINARY:
-                return "BINARY";
-            case Types.VARBINARY:
-                return "VARBINARY";
-            case Types.LONGVARBINARY:
-                return "LONGVARBINARY";
-            case Types.NULL:
-                return "NULL";
-            case Types.OTHER:
-                return "OTHER";
-            case Types.JAVA_OBJECT:
-                return "JAVA_OBJECT";
-            case Types.DISTINCT:
-                return "DISTINCT";
-            case Types.STRUCT:
-                return "STRUCT";
-            case Types.ARRAY:
-                return "ARRAY";
-            case Types.BLOB:
-                return "BLOB";
-            case Types.CLOB:
-                return "CLOB";
-            case Types.REF:
-                return "REF";
-            case Types.DATALINK:
-                return "DATALINK";
-            case Types.BOOLEAN:
-                return "BOOLEAN";
-            case Types.ROWID:
-                return "ROWID";
-            case Types.NCHAR:
-                return "NCHAR";
-            case Types.NVARCHAR:
-                return "NVARCHAR";
-            case Types.LONGNVARCHAR:
-                return "LONGNVARCHAR";
-            case Types.NCLOB:
-                return "NCLOB";
-            case Types.SQLXML:
-                return "SQLXML";
-        }
-
-        return null;
-    }
-
-    private static String getJavaType(int type) {
-
-        switch (type) {
-
-            case Types.BIT:
-                return "Boolean";
-            case Types.TINYINT:
-                return "Byte";
-            case Types.SMALLINT:
-                return "Short";
-            case Types.INTEGER:
-                return "Integer";
-            case Types.BIGINT:
-                return "Long";
-            case Types.FLOAT:
-                return "Double";
-            case Types.REAL:
-                return "Float";
-            case Types.DOUBLE:
-                return "Double";
-            case Types.NUMERIC:
-                return "NUMERIC";
-            case Types.DECIMAL:
-                return "java.math.BigDecimal";
-            case Types.CHAR:
-                return "String";
-            case Types.VARCHAR:
-                return "String";
-            case Types.LONGVARCHAR:
-                return "String";
-            case Types.DATE:
-                return "java.sql.Date";
-            case Types.TIME:
-                return "java.sql.Time";
-            case Types.TIMESTAMP:
-                return "java.sql.Timestamp";
-            case Types.BINARY:
-                return "byte[]";
-            case Types.VARBINARY:
-                return "byte[]";
-            case Types.LONGVARBINARY:
-                return "byte[]";
-            case Types.NULL:
-                return "null";
-            case Types.OTHER:
-                return "Object";
-            case Types.JAVA_OBJECT:
-                return "Object";
-            case Types.DISTINCT:
-                return "Object";
-            case Types.STRUCT:
-                return "Object";
-            case Types.ARRAY:
-                return "Object[]";
-            case Types.BLOB:
-                return "byte[]";
-            case Types.CLOB:
-                return "String";
-            case Types.REF:
-                return "Object";
-            case Types.DATALINK:
-                return "Object";
-            case Types.BOOLEAN:
-                return "Boolean";
-            case Types.ROWID:
-                return "Object";
-            case Types.NCHAR:
-                return "String";
-            case Types.NVARCHAR:
-                return "String";
-            case Types.LONGNVARCHAR:
-                return "String";
-            case Types.NCLOB:
-                return "String";
-            case Types.SQLXML:
-                return "String";
-        }
-
-        return null;
-    }
-
-    private static String toUpperFirst(String str) {
-        return str.replaceFirst("^" + str.substring(0, 1), str.substring(0, 1).toUpperCase());
     }
 }

@@ -4,13 +4,11 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-/**
- * User: karl
- * Date: 03-Jul-2010
- */
 public class TblActivityLog {
 
     private static final String DELIMITER = "|";
+
+    public static final int COLUMN_NUM = 25;
 
     private Integer lid;
     private String activity;
@@ -32,23 +30,24 @@ public class TblActivityLog {
     private Integer linkedlid;
     private Integer backlid;
     private Boolean showincalendar;
-    private Integer esttotalhours;
+    private Short esttotalhours;
     private String notes;
     private Timestamp datefirstentered;
     private Timestamp datelastupdated;
     private String lastupdatedby;
 
+
     public TblActivityLog(String record) {
         String[] fields = record.split(DELIMITER);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.lid = Integer.getInteger(fields[0].substring(1, fields[0].length() - 1));
+        this.lid = Integer.parseInt(fields[0].substring(1, fields[0].length() - 1));
         this.activity = fields[1].substring(1, fields[1].length() - 1);
         this.type = fields[2].substring(1, fields[2].length() - 1);
-        this.vid = Integer.getInteger(fields[3].substring(1, fields[3].length() - 1));
-        this.oid = Integer.getInteger(fields[4].substring(1, fields[4].length() - 1));
-        this.orgid = Integer.getInteger(fields[5].substring(1, fields[5].length() - 1));
-        this.linkedoid = Integer.getInteger(fields[6].substring(1, fields[6].length() - 1));
+        this.vid = Integer.parseInt(fields[3].substring(1, fields[3].length() - 1));
+        this.oid = Integer.parseInt(fields[4].substring(1, fields[4].length() - 1));
+        this.orgid = Integer.parseInt(fields[5].substring(1, fields[5].length() - 1));
+        this.linkedoid = Integer.parseInt(fields[6].substring(1, fields[6].length() - 1));
         this.subject = fields[7].substring(1, fields[7].length() - 1);
         this.owner = fields[8].substring(1, fields[8].length() - 1);
         try {
@@ -62,7 +61,7 @@ public class TblActivityLog {
             this.endtime = new Timestamp(
                     simpleDateFormat.parse(fields[10].substring(1, fields[10].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars endtime date " + fields[9].substring(1, fields[9].length() - 1)
+            System.out.println("Could not pars endtime date " + fields[10].substring(1, fields[10].length() - 1)
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.alarm = fields[11].substring(1, fields[11].length() - 1).equals("1");
@@ -70,7 +69,7 @@ public class TblActivityLog {
             this.alarmstarttime = new Timestamp(
                     simpleDateFormat.parse(fields[12].substring(1, fields[12].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars alarmstarttime date " + fields[9].substring(1, fields[9].length() - 1)
+            System.out.println("Could not pars alarmstarttime date " + fields[12].substring(1, fields[12].length() - 1)
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.alarmperiod = fields[13].substring(1, fields[13].length() - 1);
@@ -80,128 +79,129 @@ public class TblActivityLog {
             this.datecorrsent = new Timestamp(
                     simpleDateFormat.parse(fields[16].substring(1, fields[16].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datecorrsent date " + fields[9].substring(1, fields[9].length() - 1)
+            System.out.println("Could not pars datecorrsent date " + fields[16].substring(1, fields[16].length() - 1)
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
-        this.linkedlid = Integer.getInteger(fields[17].substring(1, fields[17].length() - 1));
-        this.backlid = Integer.getInteger(fields[18].substring(1, fields[18].length() - 1));
+        this.linkedlid = Integer.parseInt(fields[17].substring(1, fields[17].length() - 1));
+        this.backlid = Integer.parseInt(fields[18].substring(1, fields[18].length() - 1));
         this.showincalendar = fields[19].substring(1, fields[19].length() - 1).equals("1");
-        this.esttotalhours = Integer.getInteger(fields[20].substring(1, fields[20].length() - 1));
+        this.esttotalhours = Short.parseShort(fields[20].substring(1, fields[20].length() - 1));
         this.notes = fields[21].substring(1, fields[21].length() - 1);
         try {
             this.datefirstentered = new Timestamp(
                     simpleDateFormat.parse(fields[22].substring(1, fields[22].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered date " + fields[9].substring(1, fields[9].length() - 1)
+            System.out.println("Could not pars datefirstentered date " + fields[22].substring(1, fields[22].length() - 1)
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
                     simpleDateFormat.parse(fields[23].substring(1, fields[23].length() - 1)).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated date " + fields[9].substring(1, fields[9].length() - 1)
+            System.out.println("Could not pars datelastupdated date " + fields[23].substring(1, fields[23].length() - 1)
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         this.lastupdatedby = fields[24].substring(1, fields[24].length() - 1);
     }
 
     public Integer getLid() {
-        return lid;
+        return this.lid;
     }
 
     public String getActivity() {
-        return activity;
+        return this.activity;
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public Integer getVid() {
-        return vid;
+        return this.vid;
     }
 
     public Integer getOid() {
-        return oid;
+        return this.oid;
     }
 
     public Integer getOrgid() {
-        return orgid;
+        return this.orgid;
     }
 
     public Integer getLinkedoid() {
-        return linkedoid;
+        return this.linkedoid;
     }
 
     public String getSubject() {
-        return subject;
+        return this.subject;
     }
 
     public String getOwner() {
-        return owner;
+        return this.owner;
     }
 
     public Timestamp getStarttime() {
-        return starttime;
+        return this.starttime;
     }
 
     public Timestamp getEndtime() {
-        return endtime;
+        return this.endtime;
     }
 
     public Boolean getAlarm() {
-        return alarm;
+        return this.alarm;
     }
 
     public Timestamp getAlarmstarttime() {
-        return alarmstarttime;
+        return this.alarmstarttime;
     }
 
     public String getAlarmperiod() {
-        return alarmperiod;
+        return this.alarmperiod;
     }
 
     public Boolean getAlldayevent() {
-        return alldayevent;
+        return this.alldayevent;
     }
 
     public String getCorrespondence() {
-        return correspondence;
+        return this.correspondence;
     }
 
     public Timestamp getDatecorrsent() {
-        return datecorrsent;
+        return this.datecorrsent;
     }
 
     public Integer getLinkedlid() {
-        return linkedlid;
+        return this.linkedlid;
     }
 
     public Integer getBacklid() {
-        return backlid;
+        return this.backlid;
     }
 
     public Boolean getShowincalendar() {
-        return showincalendar;
+        return this.showincalendar;
     }
 
-    public Integer getEsttotalhours() {
-        return esttotalhours;
+    public Short getEsttotalhours() {
+        return this.esttotalhours;
     }
 
     public String getNotes() {
-        return notes;
+        return this.notes;
     }
 
     public Timestamp getDatefirstentered() {
-        return datefirstentered;
+        return this.datefirstentered;
     }
 
     public Timestamp getDatelastupdated() {
-        return datelastupdated;
+        return this.datelastupdated;
     }
 
     public String getLastupdatedby() {
-        return lastupdatedby;
+        return this.lastupdatedby;
     }
+
 }
