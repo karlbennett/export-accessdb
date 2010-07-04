@@ -1,219 +1,229 @@
 package org.youthnet.export.domain.vb3;
 
 
-public class ContactDetails extends GenericDTO {
+import java.sql.Timestamp;
+import java.util.UUID;
 
 
-    private boolean UseCustomAddress;
-    private boolean UseCustomPerson;
-    private Address orgAddress;
-    private Address customAddress;
-    private Contact customContact;
-    private Contact orgContact;
-    private String CustomTelephone;
-    private String CustomFax;
-    private String CustomWebAddress;
-    private String CustomEmail;
-    private boolean UseVuoDetails;
-    private boolean UseCustomOrgName;
-    private String CustomOrgName;
-    private ContactDetailsSource telephoneSource;
-    private ContactDetailsSource faxSource;
-    private ContactDetailsSource emailSource;
-    private ContactDetailsSource webAddressSource;
+public class ContactDetails {
 
+    private Long version;
+    private UUID organisationaddressid;
+    private String customemail;
+    private Timestamp created;
+    private String telephonesource;
+    private String emailsource;
+    private String customwebaddress;
+    private String customorgname;
+    private UUID addressid;
+    private UUID contactid;
+    private Timestamp modified;
+    private UUID orgcontactid;
+    private Boolean usevuodetails;
+    private Boolean usecustomperson;
+    private UUID modifiedby;
+    private Boolean usecustomorgname;
+    private String customtelephone;
+    private Boolean usecustomaddress;
+    private UUID id;
+    private Boolean deleted;
+    private UUID createdby;
+    private String customfax;
+    private String webaddresssource;
+    private String faxsource;
 
     public ContactDetails() {
     }
 
-
-    public ContactDetails(boolean UseCustomAddress, boolean UseCustomPerson, Address orgAddress, Address customAddress, Contact customContact, Contact orgContact, String CustomTelephone, String CustomFax, String CustomWebAddress, String CustomEmail, boolean UseVuoDetails, boolean UseCustomOrgName, String CustomOrgName, ContactDetailsSource telephoneSource, ContactDetailsSource faxSource, ContactDetailsSource emailSource, ContactDetailsSource webAddressSource) {
-        this.UseCustomAddress = UseCustomAddress;
-        this.UseCustomPerson = UseCustomPerson;
-        this.orgAddress = orgAddress;
-        this.customAddress = customAddress;
-        this.customContact = customContact;
-        this.orgContact = orgContact;
-        this.CustomTelephone = CustomTelephone;
-        this.CustomFax = CustomFax;
-        this.CustomWebAddress = CustomWebAddress;
-        this.CustomEmail = CustomEmail;
-        this.UseVuoDetails = UseVuoDetails;
-        this.UseCustomOrgName = UseCustomOrgName;
-        this.CustomOrgName = CustomOrgName;
-        this.telephoneSource = telephoneSource;
-        this.faxSource = faxSource;
-        this.emailSource = emailSource;
-        this.webAddressSource = webAddressSource;
+    public Boolean getUseCustomOrgName() {
+        return this.usecustomorgname;
     }
 
-
-    public boolean isUseCustomAddress() {
-        return this.UseCustomAddress;
+    public void setUseCustomOrgName(Boolean usecustomorgname) {
+        this.usecustomorgname = usecustomorgname;
     }
-
-
-    public void setUseCustomAddress(boolean UseCustomAddress) {
-        this.UseCustomAddress = UseCustomAddress;
-    }
-
-
-    public boolean isUseCustomPerson() {
-        return this.UseCustomPerson;
-    }
-
-
-    public void setUseCustomPerson(boolean UseCustomPerson) {
-        this.UseCustomPerson = UseCustomPerson;
-    }
-
-
-    public Address getOrgAddress() {
-        return this.orgAddress;
-    }
-
-
-    public void setOrgAddress(Address orgAddress) {
-        this.orgAddress = orgAddress;
-    }
-
-
-    public Address getCustomAddress() {
-        return this.customAddress;
-    }
-
-
-    public void setCustomAddress(Address customAddress) {
-        this.customAddress = customAddress;
-    }
-
-
-    public Contact getCustomContact() {
-        return this.customContact;
-    }
-
-
-    public void setCustomContact(Contact customContact) {
-        this.customContact = customContact;
-    }
-
-
-    public Contact getOrgContact() {
-        return this.orgContact;
-    }
-
-
-    public void setOrgContact(Contact orgContact) {
-        this.orgContact = orgContact;
-    }
-
 
     public String getCustomTelephone() {
-        return this.CustomTelephone;
+        return this.customtelephone;
     }
 
-
-    public void setCustomTelephone(String CustomTelephone) {
-        this.CustomTelephone = CustomTelephone;
+    public void setCustomTelephone(String customtelephone) {
+        this.customtelephone = customtelephone;
     }
 
-
-    public String getCustomFax() {
-        return this.CustomFax;
+    public UUID getOrganisationAddressId() {
+        return this.organisationaddressid;
     }
 
-
-    public void setCustomFax(String CustomFax) {
-        this.CustomFax = CustomFax;
+    public void setOrganisationAddressId(UUID organisationaddressid) {
+        this.organisationaddressid = organisationaddressid;
     }
-
-
-    public String getCustomWebAddress() {
-        return this.CustomWebAddress;
-    }
-
-
-    public void setCustomWebAddress(String CustomWebAddress) {
-        this.CustomWebAddress = CustomWebAddress;
-    }
-
 
     public String getCustomEmail() {
-        return this.CustomEmail;
+        return this.customemail;
     }
 
-
-    public void setCustomEmail(String CustomEmail) {
-        this.CustomEmail = CustomEmail;
+    public void setCustomEmail(String customemail) {
+        this.customemail = customemail;
     }
 
-
-    public boolean isUseVuoDetails() {
-        return this.UseVuoDetails;
+    public UUID getId() {
+        return this.id;
     }
 
-
-    public void setUseVuoDetails(boolean UseVuoDetails) {
-        this.UseVuoDetails = UseVuoDetails;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-
-    public boolean isUseCustomOrgName() {
-        return this.UseCustomOrgName;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-
-    public void setUseCustomOrgName(boolean UseCustomOrgName) {
-        this.UseCustomOrgName = UseCustomOrgName;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
-
 
     public String getCustomOrgName() {
-        return this.CustomOrgName;
+        return this.customorgname;
     }
 
-
-    public void setCustomOrgName(String CustomOrgName) {
-        this.CustomOrgName = CustomOrgName;
+    public void setCustomOrgName(String customorgname) {
+        this.customorgname = customorgname;
     }
 
-
-    public ContactDetailsSource getTelephoneSource() {
-        return this.telephoneSource;
+    public UUID getAddressId() {
+        return this.addressid;
     }
 
-
-    public void setTelephoneSource(ContactDetailsSource telephoneSource) {
-        this.telephoneSource = telephoneSource;
+    public void setAddressId(UUID addressid) {
+        this.addressid = addressid;
     }
 
-
-    public ContactDetailsSource getFaxSource() {
-        return this.faxSource;
+    public UUID getContactId() {
+        return this.contactid;
     }
 
-
-    public void setFaxSource(ContactDetailsSource faxSource) {
-        this.faxSource = faxSource;
+    public void setContactId(UUID contactid) {
+        this.contactid = contactid;
     }
 
-
-    public ContactDetailsSource getEmailSource() {
-        return this.emailSource;
+    public Boolean getUseVuoDetails() {
+        return this.usevuodetails;
     }
 
-
-    public void setEmailSource(ContactDetailsSource emailSource) {
-        this.emailSource = emailSource;
+    public void setUseVuoDetails(Boolean usevuodetails) {
+        this.usevuodetails = usevuodetails;
     }
 
-
-    public ContactDetailsSource getWebAddressSource() {
-        return this.webAddressSource;
+    public Long getVersion() {
+        return this.version;
     }
 
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
-    public void setWebAddressSource(ContactDetailsSource webAddressSource) {
-        this.webAddressSource = webAddressSource;
+    public Boolean getUseCustomPerson() {
+        return this.usecustomperson;
+    }
+
+    public void setUseCustomPerson(Boolean usecustomperson) {
+        this.usecustomperson = usecustomperson;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Boolean getUseCustomAddress() {
+        return this.usecustomaddress;
+    }
+
+    public void setUseCustomAddress(Boolean usecustomaddress) {
+        this.usecustomaddress = usecustomaddress;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public UUID getCreatedBy() {
+        return this.createdby;
+    }
+
+    public void setCreatedBy(UUID createdby) {
+        this.createdby = createdby;
+    }
+
+    public String getTelephoneSource() {
+        return this.telephonesource;
+    }
+
+    public void setTelephoneSource(String telephonesource) {
+        this.telephonesource = telephonesource;
+    }
+
+    public String getCustomFax() {
+        return this.customfax;
+    }
+
+    public void setCustomFax(String customfax) {
+        this.customfax = customfax;
+    }
+
+    public String getEmailSource() {
+        return this.emailsource;
+    }
+
+    public void setEmailSource(String emailsource) {
+        this.emailsource = emailsource;
+    }
+
+    public String getWebAddressSource() {
+        return this.webaddresssource;
+    }
+
+    public void setWebAddressSource(String webaddresssource) {
+        this.webaddresssource = webaddresssource;
+    }
+
+    public String getCustomWebAddress() {
+        return this.customwebaddress;
+    }
+
+    public void setCustomWebAddress(String customwebaddress) {
+        this.customwebaddress = customwebaddress;
+    }
+
+    public Timestamp getModified() {
+        return this.modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
+    }
+
+    public UUID getOrgContactId() {
+        return this.orgcontactid;
+    }
+
+    public void setOrgContactId(UUID orgcontactid) {
+        this.orgcontactid = orgcontactid;
+    }
+
+    public String getFaxSource() {
+        return this.faxsource;
+    }
+
+    public void setFaxSource(String faxsource) {
+        this.faxsource = faxsource;
     }
 }

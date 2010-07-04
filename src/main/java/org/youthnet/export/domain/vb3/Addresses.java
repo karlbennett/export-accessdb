@@ -5,29 +5,42 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 
-public class QueriesForViews {
+public class Addresses {
 
     private Long version;
-    private String sqlquery;
     private Timestamp created;
-    private String hqlquery;
     private Long vbase2id;
+    private String postcode;
     private Timestamp modified;
     private UUID modifiedby;
-    private String queryname;
+    private String town;
+    private String directions;
+    private UUID countryid;
     private UUID id;
     private Boolean deleted;
     private UUID createdby;
+    private String address1;
+    private String address2;
+    private String address3;
+    private UUID countyid;
 
-    public QueriesForViews() {
+    public Addresses() {
     }
 
-    public String getSqlQuery() {
-        return this.sqlquery;
+    public String getTown() {
+        return this.town;
     }
 
-    public void setSqlQuery(String sqlquery) {
-        this.sqlquery = sqlquery;
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public String getDirections() {
+        return this.directions;
+    }
+
+    public void setDirections(String directions) {
+        this.directions = directions;
     }
 
     public UUID getId() {
@@ -46,20 +59,44 @@ public class QueriesForViews {
         this.deleted = deleted;
     }
 
-    public String getHqlQuery() {
-        return this.hqlquery;
-    }
-
-    public void setHqlQuery(String hqlquery) {
-        this.hqlquery = hqlquery;
-    }
-
     public Long getVbase2Id() {
         return this.vbase2id;
     }
 
     public void setVbase2Id(Long vbase2id) {
         this.vbase2id = vbase2id;
+    }
+
+    public String getAddress1() {
+        return this.address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return this.address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getPostCode() {
+        return this.postcode;
+    }
+
+    public void setPostCode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getAddress3() {
+        return this.address3;
+    }
+
+    public void setAddress3(String address3) {
+        this.address3 = address3;
     }
 
     public Long getVersion() {
@@ -78,12 +115,12 @@ public class QueriesForViews {
         this.modifiedby = modifiedby;
     }
 
-    public String getQueryName() {
-        return this.queryname;
+    public UUID getCountryId() {
+        return this.countryid;
     }
 
-    public void setQueryName(String queryname) {
-        this.queryname = queryname;
+    public void setCountryId(UUID countryid) {
+        this.countryid = countryid;
     }
 
     public Timestamp getCreated() {
@@ -108,5 +145,13 @@ public class QueriesForViews {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+    public UUID getCountyId() {
+        return this.countyid;
+    }
+
+    public void setCountyId(UUID countyid) {
+        this.countyid = countyid;
     }
 }

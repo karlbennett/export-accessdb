@@ -1,49 +1,101 @@
 package org.youthnet.export.domain.vb3;
 
 
-public class VolunteerContactInfo extends GenericDTO {
+import java.sql.Timestamp;
+import java.util.UUID;
 
 
-    private boolean isActive;
-    private boolean isDefault;
+public class VolunteerContactInfo {
+
+    private Long version;
+    private Boolean isdefault;
+    private Timestamp created;
+    private Timestamp modified;
     private String notes;
-
+    private UUID modifiedby;
+    private Boolean isactive;
+    private UUID id;
+    private Boolean deleted;
+    private UUID createdby;
 
     public VolunteerContactInfo() {
     }
 
-
-    public VolunteerContactInfo(boolean isActive, boolean isDefault, String notes) {
-        this.isActive = isActive;
-        this.isDefault = isDefault;
-        this.notes = notes;
+    public Boolean getIsDefault() {
+        return this.isdefault;
     }
 
-
-    public boolean isIsActive() {
-        return this.isActive;
+    public void setIsDefault(Boolean isdefault) {
+        this.isdefault = isdefault;
     }
 
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
+    public UUID getId() {
+        return this.id;
     }
 
-
-    public boolean isIsDefault() {
-        return this.isDefault;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-
-    public void setIsDefault(boolean isDefault) {
-        this.isDefault = isDefault;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Boolean getIsActive() {
+        return this.isactive;
+    }
+
+    public void setIsActive(Boolean isactive) {
+        this.isactive = isactive;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public UUID getCreatedBy() {
+        return this.createdby;
+    }
+
+    public void setCreatedBy(UUID createdby) {
+        this.createdby = createdby;
+    }
+
+    public Timestamp getModified() {
+        return this.modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
+    }
 
     public String getNotes() {
         return this.notes;
     }
-
 
     public void setNotes(String notes) {
         this.notes = notes;

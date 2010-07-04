@@ -5,37 +5,28 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 
-public class MetaData {
+public class OpportunityActLogs {
 
     private Long version;
-    private UUID dtoid;
-    private String type;
     private Timestamp created;
     private Timestamp modified;
-    private byte[] serializedobject;
     private UUID modifiedby;
-    private byte[] digest;
+    private UUID activitylogid;
+    private UUID opportunityid;
+    private UUID opportunitylocationid;
     private UUID id;
     private Boolean deleted;
     private UUID createdby;
 
-    public MetaData() {
+    public OpportunityActLogs() {
     }
 
-    public byte[] getDigest() {
-        return this.digest;
+    public UUID getActivityLogId() {
+        return this.activitylogid;
     }
 
-    public void setDigest(byte[] digest) {
-        this.digest = digest;
-    }
-
-    public UUID getDtoId() {
-        return this.dtoid;
-    }
-
-    public void setDtoId(UUID dtoid) {
-        this.dtoid = dtoid;
+    public void setActivityLogId(UUID activitylogid) {
+        this.activitylogid = activitylogid;
     }
 
     public UUID getId() {
@@ -70,12 +61,20 @@ public class MetaData {
         this.modifiedby = modifiedby;
     }
 
-    public String getType() {
-        return this.type;
+    public UUID getOpportunityId() {
+        return this.opportunityid;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setOpportunityId(UUID opportunityid) {
+        this.opportunityid = opportunityid;
+    }
+
+    public UUID getOpportunityLocationId() {
+        return this.opportunitylocationid;
+    }
+
+    public void setOpportunityLocationId(UUID opportunitylocationid) {
+        this.opportunitylocationid = opportunitylocationid;
     }
 
     public Timestamp getCreated() {
@@ -100,13 +99,5 @@ public class MetaData {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
-    }
-
-    public byte[] getSerializedObject() {
-        return this.serializedobject;
-    }
-
-    public void setSerializedObject(byte[] serializedobject) {
-        this.serializedobject = serializedobject;
     }
 }

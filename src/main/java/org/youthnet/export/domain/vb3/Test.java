@@ -1,27 +1,85 @@
 package org.youthnet.export.domain.vb3;
 
 
-public class Test extends GenericDTO {
+import java.sql.Timestamp;
+import java.util.UUID;
 
 
+public class Test {
+
+    private Long version;
+    private Timestamp created;
     private String test;
-
+    private Timestamp modified;
+    private UUID modifiedby;
+    private UUID id;
+    private Boolean deleted;
+    private UUID createdby;
 
     public Test() {
     }
 
-
-    public Test(String test) {
-        this.test = test;
+    public UUID getId() {
+        return this.id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public UUID getCreatedBy() {
+        return this.createdby;
+    }
+
+    public void setCreatedBy(UUID createdby) {
+        this.createdby = createdby;
+    }
 
     public String getTest() {
         return this.test;
     }
 
-
     public void setTest(String test) {
         this.test = test;
+    }
+
+    public Timestamp getModified() {
+        return this.modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
     }
 }

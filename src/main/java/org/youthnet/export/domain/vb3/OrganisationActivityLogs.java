@@ -5,37 +5,28 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 
-public class MetaData {
+public class OrganisationActivityLogs {
 
     private Long version;
-    private UUID dtoid;
-    private String type;
     private Timestamp created;
+    private UUID contactid;
+    private UUID organisationid;
     private Timestamp modified;
-    private byte[] serializedobject;
     private UUID modifiedby;
-    private byte[] digest;
+    private UUID activitylogid;
     private UUID id;
     private Boolean deleted;
     private UUID createdby;
 
-    public MetaData() {
+    public OrganisationActivityLogs() {
     }
 
-    public byte[] getDigest() {
-        return this.digest;
+    public UUID getActivityLogId() {
+        return this.activitylogid;
     }
 
-    public void setDigest(byte[] digest) {
-        this.digest = digest;
-    }
-
-    public UUID getDtoId() {
-        return this.dtoid;
-    }
-
-    public void setDtoId(UUID dtoid) {
-        this.dtoid = dtoid;
+    public void setActivityLogId(UUID activitylogid) {
+        this.activitylogid = activitylogid;
     }
 
     public UUID getId() {
@@ -54,6 +45,22 @@ public class MetaData {
         this.deleted = deleted;
     }
 
+    public UUID getContactId() {
+        return this.contactid;
+    }
+
+    public void setContactId(UUID contactid) {
+        this.contactid = contactid;
+    }
+
+    public UUID getOrganisationId() {
+        return this.organisationid;
+    }
+
+    public void setOrganisationId(UUID organisationid) {
+        this.organisationid = organisationid;
+    }
+
     public Long getVersion() {
         return this.version;
     }
@@ -68,14 +75,6 @@ public class MetaData {
 
     public void setModifiedBy(UUID modifiedby) {
         this.modifiedby = modifiedby;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Timestamp getCreated() {
@@ -100,13 +99,5 @@ public class MetaData {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
-    }
-
-    public byte[] getSerializedObject() {
-        return this.serializedobject;
-    }
-
-    public void setSerializedObject(byte[] serializedobject) {
-        this.serializedobject = serializedobject;
     }
 }

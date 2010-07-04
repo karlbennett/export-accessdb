@@ -1,159 +1,184 @@
 package org.youthnet.export.domain.vb3;
 
 
-public class VBase3Preference extends GenericDTO {
+import java.sql.Timestamp;
+import java.util.UUID;
 
 
-    private UuidUserType languageId;
-    private boolean usingVisualNotification;
-    private boolean usingAudioNotification;
-    private boolean usingLogNotification;
-    private Integer dataSchemaVersion;
-    private String applicationName;
+public class VBase3Preference {
+
+    private Long version;
+    private UUID defaultcountyid;
+    private Boolean usedefaultcountry;
+    private UUID languageid;
+    private Long colourtheme;
+    private Timestamp created;
+    private Timestamp modified;
+    private String applicationname;
+    private UUID modifiedby;
+    private Boolean usingvisualnotification;
+    private Boolean usingaudionotification;
+    private Boolean usinglognotification;
+    private UUID id;
+    private Boolean deleted;
+    private UUID createdby;
     private String copyright;
-    private Integer colourTheme;
-    private UuidUserType defaultCountyId;
-    private UuidUserType defaultCountryId;
-    private boolean useDefaultCounty;
-    private boolean useDefaultCountry;
-
+    private Long dataschemaversion;
+    private Boolean usedefaultcounty;
+    private UUID defaultcountryid;
 
     public VBase3Preference() {
     }
 
-
-    public VBase3Preference(UuidUserType languageId, boolean usingVisualNotification, boolean usingAudioNotification, boolean usingLogNotification, Integer dataSchemaVersion, String applicationName, String copyright, Integer colourTheme, UuidUserType defaultCountyId, UuidUserType defaultCountryId, boolean useDefaultCounty, boolean useDefaultCountry) {
-        this.languageId = languageId;
-        this.usingVisualNotification = usingVisualNotification;
-        this.usingAudioNotification = usingAudioNotification;
-        this.usingLogNotification = usingLogNotification;
-        this.dataSchemaVersion = dataSchemaVersion;
-        this.applicationName = applicationName;
-        this.copyright = copyright;
-        this.colourTheme = colourTheme;
-        this.defaultCountyId = defaultCountyId;
-        this.defaultCountryId = defaultCountryId;
-        this.useDefaultCounty = useDefaultCounty;
-        this.useDefaultCountry = useDefaultCountry;
+    public UUID getDefaultCountyId() {
+        return this.defaultcountyid;
     }
 
-
-    public UuidUserType getLanguageId() {
-        return this.languageId;
+    public void setDefaultCountyId(UUID defaultcountyid) {
+        this.defaultcountyid = defaultcountyid;
     }
 
-
-    public void setLanguageId(UuidUserType languageId) {
-        this.languageId = languageId;
+    public Boolean getUseDefaultCountry() {
+        return this.usedefaultcountry;
     }
 
-
-    public boolean isUsingVisualNotification() {
-        return this.usingVisualNotification;
+    public void setUseDefaultCountry(Boolean usedefaultcountry) {
+        this.usedefaultcountry = usedefaultcountry;
     }
 
-
-    public void setUsingVisualNotification(boolean usingVisualNotification) {
-        this.usingVisualNotification = usingVisualNotification;
+    public Boolean getUsingVisualNotification() {
+        return this.usingvisualnotification;
     }
 
-
-    public boolean isUsingAudioNotification() {
-        return this.usingAudioNotification;
+    public void setUsingVisualNotification(Boolean usingvisualnotification) {
+        this.usingvisualnotification = usingvisualnotification;
     }
 
-
-    public void setUsingAudioNotification(boolean usingAudioNotification) {
-        this.usingAudioNotification = usingAudioNotification;
+    public Boolean getUsingAudioNotification() {
+        return this.usingaudionotification;
     }
 
-
-    public boolean isUsingLogNotification() {
-        return this.usingLogNotification;
+    public void setUsingAudioNotification(Boolean usingaudionotification) {
+        this.usingaudionotification = usingaudionotification;
     }
 
-
-    public void setUsingLogNotification(boolean usingLogNotification) {
-        this.usingLogNotification = usingLogNotification;
+    public Boolean getUsingLogNotification() {
+        return this.usinglognotification;
     }
 
-
-    public Integer getDataSchemaVersion() {
-        return this.dataSchemaVersion;
+    public void setUsingLogNotification(Boolean usinglognotification) {
+        this.usinglognotification = usinglognotification;
     }
 
-
-    public void setDataSchemaVersion(Integer dataSchemaVersion) {
-        this.dataSchemaVersion = dataSchemaVersion;
+    public UUID getLanguageId() {
+        return this.languageid;
     }
 
-
-    public String getApplicationName() {
-        return this.applicationName;
+    public void setLanguageId(UUID languageid) {
+        this.languageid = languageid;
     }
 
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+    public Long getColourTheme() {
+        return this.colourtheme;
     }
 
+    public void setColourTheme(Long colourtheme) {
+        this.colourtheme = colourtheme;
+    }
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getCopyright() {
         return this.copyright;
     }
 
-
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
 
-
-    public Integer getColourTheme() {
-        return this.colourTheme;
+    public String getApplicationName() {
+        return this.applicationname;
     }
 
-
-    public void setColourTheme(Integer colourTheme) {
-        this.colourTheme = colourTheme;
+    public void setApplicationName(String applicationname) {
+        this.applicationname = applicationname;
     }
 
-
-    public UuidUserType getDefaultCountyId() {
-        return this.defaultCountyId;
+    public Long getVersion() {
+        return this.version;
     }
 
-
-    public void setDefaultCountyId(UuidUserType defaultCountyId) {
-        this.defaultCountyId = defaultCountyId;
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
-
-    public UuidUserType getDefaultCountryId() {
-        return this.defaultCountryId;
+    public UUID getModifiedBy() {
+        return this.modifiedby;
     }
 
-
-    public void setDefaultCountryId(UuidUserType defaultCountryId) {
-        this.defaultCountryId = defaultCountryId;
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
     }
 
-
-    public boolean isUseDefaultCounty() {
-        return this.useDefaultCounty;
+    public Timestamp getCreated() {
+        return this.created;
     }
 
-
-    public void setUseDefaultCounty(boolean useDefaultCounty) {
-        this.useDefaultCounty = useDefaultCounty;
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
-
-    public boolean isUseDefaultCountry() {
-        return this.useDefaultCountry;
+    public UUID getCreatedBy() {
+        return this.createdby;
     }
 
+    public void setCreatedBy(UUID createdby) {
+        this.createdby = createdby;
+    }
 
-    public void setUseDefaultCountry(boolean useDefaultCountry) {
-        this.useDefaultCountry = useDefaultCountry;
+    public Long getDataSchemaVersion() {
+        return this.dataschemaversion;
+    }
+
+    public void setDataSchemaVersion(Long dataschemaversion) {
+        this.dataschemaversion = dataschemaversion;
+    }
+
+    public Boolean getUseDefaultCounty() {
+        return this.usedefaultcounty;
+    }
+
+    public void setUseDefaultCounty(Boolean usedefaultcounty) {
+        this.usedefaultcounty = usedefaultcounty;
+    }
+
+    public Timestamp getModified() {
+        return this.modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
+    }
+
+    public UUID getDefaultCountryId() {
+        return this.defaultcountryid;
+    }
+
+    public void setDefaultCountryId(UUID defaultcountryid) {
+        this.defaultcountryid = defaultcountryid;
     }
 }

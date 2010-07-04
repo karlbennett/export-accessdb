@@ -5,37 +5,30 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 
-public class MetaData {
+public class PolicyEntries {
 
     private Long version;
-    private UUID dtoid;
-    private String type;
     private Timestamp created;
+    private Long vbase2id;
+    private String discriminator;
     private Timestamp modified;
-    private byte[] serializedobject;
+    private UUID policyid;
     private UUID modifiedby;
-    private byte[] digest;
+    private String comments;
     private UUID id;
     private Boolean deleted;
     private UUID createdby;
+    private UUID policystatusid;
 
-    public MetaData() {
+    public PolicyEntries() {
     }
 
-    public byte[] getDigest() {
-        return this.digest;
+    public String getComments() {
+        return this.comments;
     }
 
-    public void setDigest(byte[] digest) {
-        this.digest = digest;
-    }
-
-    public UUID getDtoId() {
-        return this.dtoid;
-    }
-
-    public void setDtoId(UUID dtoid) {
-        this.dtoid = dtoid;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public UUID getId() {
@@ -54,6 +47,22 @@ public class MetaData {
         this.deleted = deleted;
     }
 
+    public Long getVbase2Id() {
+        return this.vbase2id;
+    }
+
+    public void setVbase2Id(Long vbase2id) {
+        this.vbase2id = vbase2id;
+    }
+
+    public UUID getPolicyId() {
+        return this.policyid;
+    }
+
+    public void setPolicyId(UUID policyid) {
+        this.policyid = policyid;
+    }
+
     public Long getVersion() {
         return this.version;
     }
@@ -68,14 +77,6 @@ public class MetaData {
 
     public void setModifiedBy(UUID modifiedby) {
         this.modifiedby = modifiedby;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Timestamp getCreated() {
@@ -94,6 +95,14 @@ public class MetaData {
         this.createdby = createdby;
     }
 
+    public String getDiscriminator() {
+        return this.discriminator;
+    }
+
+    public void setDiscriminator(String discriminator) {
+        this.discriminator = discriminator;
+    }
+
     public Timestamp getModified() {
         return this.modified;
     }
@@ -102,11 +111,11 @@ public class MetaData {
         this.modified = modified;
     }
 
-    public byte[] getSerializedObject() {
-        return this.serializedobject;
+    public UUID getPolicyStatusId() {
+        return this.policystatusid;
     }
 
-    public void setSerializedObject(byte[] serializedobject) {
-        this.serializedobject = serializedobject;
+    public void setPolicyStatusId(UUID policystatusid) {
+        this.policystatusid = policystatusid;
     }
 }

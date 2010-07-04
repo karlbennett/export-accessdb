@@ -5,37 +5,27 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 
-public class MetaData {
+public class VolunteerActivityLogs {
 
     private Long version;
-    private UUID dtoid;
-    private String type;
     private Timestamp created;
     private Timestamp modified;
-    private byte[] serializedobject;
     private UUID modifiedby;
-    private byte[] digest;
+    private UUID activitylogid;
     private UUID id;
     private Boolean deleted;
     private UUID createdby;
+    private UUID volunteerid;
 
-    public MetaData() {
+    public VolunteerActivityLogs() {
     }
 
-    public byte[] getDigest() {
-        return this.digest;
+    public UUID getActivityLogId() {
+        return this.activitylogid;
     }
 
-    public void setDigest(byte[] digest) {
-        this.digest = digest;
-    }
-
-    public UUID getDtoId() {
-        return this.dtoid;
-    }
-
-    public void setDtoId(UUID dtoid) {
-        this.dtoid = dtoid;
+    public void setActivityLogId(UUID activitylogid) {
+        this.activitylogid = activitylogid;
     }
 
     public UUID getId() {
@@ -70,14 +60,6 @@ public class MetaData {
         this.modifiedby = modifiedby;
     }
 
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Timestamp getCreated() {
         return this.created;
     }
@@ -94,19 +76,19 @@ public class MetaData {
         this.createdby = createdby;
     }
 
+    public UUID getVolunteerId() {
+        return this.volunteerid;
+    }
+
+    public void setVolunteerId(UUID volunteerid) {
+        this.volunteerid = volunteerid;
+    }
+
     public Timestamp getModified() {
         return this.modified;
     }
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
-    }
-
-    public byte[] getSerializedObject() {
-        return this.serializedobject;
-    }
-
-    public void setSerializedObject(byte[] serializedobject) {
-        this.serializedobject = serializedobject;
     }
 }

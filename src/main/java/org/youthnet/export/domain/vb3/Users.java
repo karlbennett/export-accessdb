@@ -1,230 +1,220 @@
 package org.youthnet.export.domain.vb3;
 
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.UUID;
 
 
-public class Users extends GenericDTO {
+public class Users {
 
-
-    private Integer vbase2Id;
-    private boolean isAccountExpired;
-    private boolean isAccountLocked;
-    private boolean isCredentialsExpired;
-    private boolean isEnabled;
-    private String userName;
+    private Long version;
+    private Timestamp lastloginattempt;
+    private String phonenumber;
+    private String lastname;
+    private String fullname;
+    private Boolean isenabled;
+    private Timestamp created;
+    private Long vbase2id;
+    private String firstname;
+    private Timestamp modified;
     private String password;
-    private String passwordHint;
-    private String firstName;
-    private String lastName;
-    private String fullName;
-    private String phoneNumber;
-    private Date accountLastValidated;
-    private Date lstLoggedIn;
-    private Date lastLogInAttempt;
-    private Integer badLogInAttempts;
-    private Set<Role> roles = new HashSet<Role>(0);
-
+    private Boolean iscredentialsexpired;
+    private String passwordhint;
+    private UUID modifiedby;
+    private UUID id;
+    private Boolean deleted;
+    private UUID createdby;
+    private Timestamp lstloggedin;
+    private Long badloginattempts;
+    private Timestamp accountlastvalidated;
+    private Boolean isaccountlocked;
+    private Boolean isaccountexpired;
+    private String username;
 
     public Users() {
     }
 
-
-    public Users(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
+    public Timestamp getLastLogInAttempt() {
+        return this.lastloginattempt;
     }
 
-
-    public Users(Integer vbase2Id, boolean isAccountExpired, boolean isAccountLocked, boolean isCredentialsExpired, boolean isEnabled, String userName, String password, String passwordHint, String firstName, String lastName, String fullName, String phoneNumber, Date accountLastValidated, Date lstLoggedIn, Date lastLogInAttempt, Integer badLogInAttempts, Set<Role> roles) {
-        this.vbase2Id = vbase2Id;
-        this.isAccountExpired = isAccountExpired;
-        this.isAccountLocked = isAccountLocked;
-        this.isCredentialsExpired = isCredentialsExpired;
-        this.isEnabled = isEnabled;
-        this.userName = userName;
-        this.password = password;
-        this.passwordHint = passwordHint;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.accountLastValidated = accountLastValidated;
-        this.lstLoggedIn = lstLoggedIn;
-        this.lastLogInAttempt = lastLogInAttempt;
-        this.badLogInAttempts = badLogInAttempts;
-        this.roles = roles;
+    public void setLastLogInAttempt(Timestamp lastloginattempt) {
+        this.lastloginattempt = lastloginattempt;
     }
 
-
-    public Integer getVbase2Id() {
-        return this.vbase2Id;
+    public String getLastName() {
+        return this.lastname;
     }
 
-
-    public void setVbase2Id(Integer vbase2Id) {
-        this.vbase2Id = vbase2Id;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
 
-
-    public boolean isIsAccountExpired() {
-        return this.isAccountExpired;
+    public String getFullName() {
+        return this.fullname;
     }
 
-
-    public void setIsAccountExpired(boolean isAccountExpired) {
-        this.isAccountExpired = isAccountExpired;
+    public void setFullName(String fullname) {
+        this.fullname = fullname;
     }
 
-
-    public boolean isIsAccountLocked() {
-        return this.isAccountLocked;
+    public Boolean getIsEnabled() {
+        return this.isenabled;
     }
 
-
-    public void setIsAccountLocked(boolean isAccountLocked) {
-        this.isAccountLocked = isAccountLocked;
+    public void setIsEnabled(Boolean isenabled) {
+        this.isenabled = isenabled;
     }
 
-
-    public boolean isIsCredentialsExpired() {
-        return this.isCredentialsExpired;
+    public UUID getId() {
+        return this.id;
     }
 
-
-    public void setIsCredentialsExpired(boolean isCredentialsExpired) {
-        this.isCredentialsExpired = isCredentialsExpired;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-
-    public boolean isIsEnabled() {
-        return this.isEnabled;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-
-    public void setIsEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
-
-    public String getUserName() {
-        return this.userName;
+    public Timestamp getLstLoggedIn() {
+        return this.lstloggedin;
     }
 
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLstLoggedIn(Timestamp lstloggedin) {
+        this.lstloggedin = lstloggedin;
     }
 
+    public Timestamp getAccountLastValidated() {
+        return this.accountlastvalidated;
+    }
+
+    public void setAccountLastValidated(Timestamp accountlastvalidated) {
+        this.accountlastvalidated = accountlastvalidated;
+    }
+
+    public Long getVbase2Id() {
+        return this.vbase2id;
+    }
+
+    public void setVbase2Id(Long vbase2id) {
+        this.vbase2id = vbase2id;
+    }
+
+    public String getFirstName() {
+        return this.firstname;
+    }
+
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public Boolean getIsCredentialsExpired() {
+        return this.iscredentialsexpired;
+    }
+
+    public void setIsCredentialsExpired(Boolean iscredentialsexpired) {
+        this.iscredentialsexpired = iscredentialsexpired;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getPasswordHint() {
+        return this.passwordhint;
+    }
+
+    public void setPasswordHint(String passwordhint) {
+        this.passwordhint = passwordhint;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public String getPhoneNumber() {
+        return this.phonenumber;
+    }
+
+    public void setPhoneNumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public UUID getCreatedBy() {
+        return this.createdby;
+    }
+
+    public void setCreatedBy(UUID createdby) {
+        this.createdby = createdby;
+    }
+
+    public Long getBadLogInAttempts() {
+        return this.badloginattempts;
+    }
+
+    public void setBadLogInAttempts(Long badloginattempts) {
+        this.badloginattempts = badloginattempts;
+    }
+
+    public Boolean getIsAccountLocked() {
+        return this.isaccountlocked;
+    }
+
+    public void setIsAccountLocked(Boolean isaccountlocked) {
+        this.isaccountlocked = isaccountlocked;
+    }
+
+    public Timestamp getModified() {
+        return this.modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
+    }
 
     public String getPassword() {
         return this.password;
     }
 
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-
-    public String getPasswordHint() {
-        return this.passwordHint;
+    public Boolean getIsAccountExpired() {
+        return this.isaccountexpired;
     }
 
-
-    public void setPasswordHint(String passwordHint) {
-        this.passwordHint = passwordHint;
+    public void setIsAccountExpired(Boolean isaccountexpired) {
+        this.isaccountexpired = isaccountexpired;
     }
 
-
-    public String getFirstName() {
-        return this.firstName;
+    public String getUserName() {
+        return this.username;
     }
 
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-
-    public String getFullName() {
-        return this.fullName;
-    }
-
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-
-    public Date getAccountLastValidated() {
-        return this.accountLastValidated;
-    }
-
-
-    public void setAccountLastValidated(Date accountLastValidated) {
-        this.accountLastValidated = accountLastValidated;
-    }
-
-
-    public Date getLstLoggedIn() {
-        return this.lstLoggedIn;
-    }
-
-
-    public void setLstLoggedIn(Date lstLoggedIn) {
-        this.lstLoggedIn = lstLoggedIn;
-    }
-
-
-    public Date getLastLogInAttempt() {
-        return this.lastLogInAttempt;
-    }
-
-
-    public void setLastLogInAttempt(Date lastLogInAttempt) {
-        this.lastLogInAttempt = lastLogInAttempt;
-    }
-
-
-    public Integer getBadLogInAttempts() {
-        return this.badLogInAttempts;
-    }
-
-
-    public void setBadLogInAttempts(Integer badLogInAttempts) {
-        this.badLogInAttempts = badLogInAttempts;
-    }
-
-
-    public Set<Role> getRoles() {
-        return this.roles;
-    }
-
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setUserName(String username) {
+        this.username = username;
     }
 }
