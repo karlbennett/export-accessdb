@@ -1,23 +1,33 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-public class MetaData {
+public class MetaData implements CSVable {
 
-    private Long version;
-    private UUID dtoid;
-    private String type;
-    private Timestamp created;
-    private Timestamp modified;
-    private byte[] serializedobject;
-    private UUID modifiedby;
+    private String delimiter = "|";
+    private String enclosure = "¬";
+    private Integer columnNum = 11;
+    private List<String> columnNames = null;
+    private StringBuffer record = new StringBuffer();
+
     private byte[] digest;
+    private UUID dtoid;
     private UUID id;
     private Boolean deleted;
+    private Long version;
+    private UUID modifiedby;
+    private String type;
+    private Timestamp created;
     private UUID createdby;
+    private Timestamp modified;
+    private byte[] serializedobject;
 
     public MetaData() {
     }
@@ -108,5 +118,106 @@ public class MetaData {
 
     public void setSerializedObject(byte[] serializedobject) {
         this.serializedobject = serializedobject;
+    }
+
+
+    public String getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(String enclosure) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getClumnNumber() {
+        return this.columnNum;
+    }
+
+    public List<String> getClumnNames() {
+        if (this.columnNames == null) {
+            this.columnNames = new ArrayList<String>();
+            this.columnNames.add("Digest");
+            this.columnNames.add("DtoId");
+            this.columnNames.add("Id");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("Version");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Type");
+            this.columnNames.add("Created");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("Modified");
+            this.columnNames.add("SerializedObject");
+        }
+
+        return this.columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.digest);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.dtoid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.id.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.deleted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.version);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modifiedby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.type);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.created);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.createdby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modified);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.serializedobject);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
     }
 }

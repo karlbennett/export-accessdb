@@ -72,8 +72,6 @@ public class TblActivityLogTest {
                 + "¬" + simpleDateFormat.format(DATELASTUPDATED) + "¬|"
                 + "¬" + LASTUPDATEDBY + "¬|";
 
-        System.out.println(rowString);
-
         TblActivityLog tblActivityLog = new TblActivityLog(rowString);
 
         assertEquals("lid equal", LID, tblActivityLog.getLid());

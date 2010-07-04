@@ -1,27 +1,37 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-public class Addresses {
+public class Addresses implements CSVable {
 
-    private Long version;
-    private Timestamp created;
-    private Long vbase2id;
-    private String postcode;
-    private Timestamp modified;
-    private UUID modifiedby;
+    private String delimiter = "|";
+    private String enclosure = "¬";
+    private Integer columnNum = 16;
+    private List<String> columnNames = null;
+    private StringBuffer record = new StringBuffer();
+
     private String town;
     private String directions;
-    private UUID countryid;
     private UUID id;
     private Boolean deleted;
-    private UUID createdby;
+    private Long vbase2id;
     private String address1;
     private String address2;
+    private String postcode;
     private String address3;
+    private Long version;
+    private UUID modifiedby;
+    private UUID countryid;
+    private Timestamp created;
+    private UUID createdby;
+    private Timestamp modified;
     private UUID countyid;
 
     public Addresses() {
@@ -83,20 +93,20 @@ public class Addresses {
         this.address2 = address2;
     }
 
-    public String getPostCode() {
-        return this.postcode;
-    }
-
-    public void setPostCode(String postcode) {
-        this.postcode = postcode;
-    }
-
     public String getAddress3() {
         return this.address3;
     }
 
     public void setAddress3(String address3) {
         this.address3 = address3;
+    }
+
+    public String getPostCode() {
+        return this.postcode;
+    }
+
+    public void setPostCode(String postcode) {
+        this.postcode = postcode;
     }
 
     public Long getVersion() {
@@ -153,5 +163,136 @@ public class Addresses {
 
     public void setCountyId(UUID countyid) {
         this.countyid = countyid;
+    }
+
+
+    public String getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(String enclosure) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getClumnNumber() {
+        return this.columnNum;
+    }
+
+    public List<String> getClumnNames() {
+        if (this.columnNames == null) {
+            this.columnNames = new ArrayList<String>();
+            this.columnNames.add("Town");
+            this.columnNames.add("Directions");
+            this.columnNames.add("Id");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("Vbase2Id");
+            this.columnNames.add("Address1");
+            this.columnNames.add("Address2");
+            this.columnNames.add("PostCode");
+            this.columnNames.add("Address3");
+            this.columnNames.add("Version");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("CountryId");
+            this.columnNames.add("Created");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("Modified");
+            this.columnNames.add("CountyId");
+        }
+
+        return this.columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.town);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.directions);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.id.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.deleted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.vbase2id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.address1);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.address2);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.postcode);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.address3);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.version);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modifiedby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.countryid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.created);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.createdby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modified);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.countyid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
     }
 }

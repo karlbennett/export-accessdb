@@ -1,47 +1,57 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-public class Opportunities {
+public class Opportunities implements CSVable {
+
+    private String delimiter = "|";
+    private String enclosure = "¬";
+    private Integer columnNum = 35;
+    private List<String> columnNames = null;
+    private StringBuffer record = new StringBuffer();
 
     private UUID sharedinternalcontactdetailsid;
     private UUID sharedpubliccontactdetailsid;
-    private Long version;
-    private String title;
     private Timestamp specificstartdate;
+    private String shortdescription;
     private String ownid;
+    private String benefits;
     private Timestamp advertisingstartdate;
-    private Boolean isoneoff;
     private Long commitmenteve;
-    private Timestamp created;
+    private UUID id;
     private Boolean isdatespecific;
-    private String description;
-    private Boolean usesharedintcondets;
+    private Boolean deleted;
     private Long vbase2id;
     private Boolean isvirtualremote;
     private UUID organisationid;
-    private Timestamp modified;
-    private String requirements;
-    private Boolean locationspubliclyviewable;
+    private Boolean publishtodoit;
+    private Long version;
+    private String title;
     private UUID modifiedby;
-    private String shortdescription;
-    private String benefits;
     private Long commitmentpm;
     private Boolean isactive;
-    private UUID id;
+    private Boolean isoneoff;
+    private Timestamp created;
     private Boolean isresidential;
-    private Boolean deleted;
     private UUID createdby;
+    private String description;
+    private Boolean usesharedintcondets;
     private Timestamp specificenddate;
     private Long commitmentam;
     private Timestamp advertisingenddate;
     private Boolean issharedinternalcontactpublic;
-    private Boolean publishtodoit;
+    private Timestamp modified;
+    private String requirements;
     private Float monetaryvalueperhour;
     private Boolean usesharedpubliccontactdetails;
+    private Boolean locationspubliclyviewable;
 
     public Opportunities() {
     }
@@ -70,12 +80,12 @@ public class Opportunities {
         this.specificstartdate = specificstartdate;
     }
 
-    public String getShortDescription() {
-        return this.shortdescription;
+    public String getBenefits() {
+        return this.benefits;
     }
 
-    public void setShortDescription(String shortdescription) {
-        this.shortdescription = shortdescription;
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
     }
 
     public String getOwnId() {
@@ -86,12 +96,12 @@ public class Opportunities {
         this.ownid = ownid;
     }
 
-    public String getBenefits() {
-        return this.benefits;
+    public String getShortDescription() {
+        return this.shortdescription;
     }
 
-    public void setBenefits(String benefits) {
-        this.benefits = benefits;
+    public void setShortDescription(String shortdescription) {
+        this.shortdescription = shortdescription;
     }
 
     public Timestamp getAdvertisingStartDate() {
@@ -110,20 +120,20 @@ public class Opportunities {
         this.commitmenteve = commitmenteve;
     }
 
-    public UUID getId() {
-        return this.id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public Boolean getIsDateSpecific() {
         return this.isdatespecific;
     }
 
     public void setIsDateSpecific(Boolean isdatespecific) {
         this.isdatespecific = isdatespecific;
+    }
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Boolean getDeleted() {
@@ -134,14 +144,6 @@ public class Opportunities {
         this.deleted = deleted;
     }
 
-    public Long getVbase2Id() {
-        return this.vbase2id;
-    }
-
-    public void setVbase2Id(Long vbase2id) {
-        this.vbase2id = vbase2id;
-    }
-
     public Boolean getIsVirtualRemote() {
         return this.isvirtualremote;
     }
@@ -150,12 +152,12 @@ public class Opportunities {
         this.isvirtualremote = isvirtualremote;
     }
 
-    public UUID getOrganisationId() {
-        return this.organisationid;
+    public Long getVbase2Id() {
+        return this.vbase2id;
     }
 
-    public void setOrganisationId(UUID organisationid) {
-        this.organisationid = organisationid;
+    public void setVbase2Id(Long vbase2id) {
+        this.vbase2id = vbase2id;
     }
 
     public Boolean getPublishToDoIt() {
@@ -166,12 +168,12 @@ public class Opportunities {
         this.publishtodoit = publishtodoit;
     }
 
-    public Long getVersion() {
-        return this.version;
+    public UUID getOrganisationId() {
+        return this.organisationid;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setOrganisationId(UUID organisationid) {
+        this.organisationid = organisationid;
     }
 
     public String getTitle() {
@@ -180,6 +182,14 @@ public class Opportunities {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public UUID getModifiedBy() {
@@ -214,20 +224,20 @@ public class Opportunities {
         this.isoneoff = isoneoff;
     }
 
-    public Timestamp getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
     public Boolean getIsResidential() {
         return this.isresidential;
     }
 
     public void setIsResidential(Boolean isresidential) {
         this.isresidential = isresidential;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     public UUID getCreatedBy() {
@@ -270,20 +280,20 @@ public class Opportunities {
         this.commitmentam = commitmentam;
     }
 
-    public Timestamp getAdvertisingEndDate() {
-        return this.advertisingenddate;
-    }
-
-    public void setAdvertisingEndDate(Timestamp advertisingenddate) {
-        this.advertisingenddate = advertisingenddate;
-    }
-
     public Boolean getIsSharedInternalContactPublic() {
         return this.issharedinternalcontactpublic;
     }
 
     public void setIsSharedInternalContactPublic(Boolean issharedinternalcontactpublic) {
         this.issharedinternalcontactpublic = issharedinternalcontactpublic;
+    }
+
+    public Timestamp getAdvertisingEndDate() {
+        return this.advertisingenddate;
+    }
+
+    public void setAdvertisingEndDate(Timestamp advertisingenddate) {
+        this.advertisingenddate = advertisingenddate;
     }
 
     public Timestamp getModified() {
@@ -294,20 +304,20 @@ public class Opportunities {
         this.modified = modified;
     }
 
-    public String getRequirements() {
-        return this.requirements;
-    }
-
-    public void setRequirements(String requirements) {
-        this.requirements = requirements;
-    }
-
     public Float getMonetaryValuePerHour() {
         return this.monetaryvalueperhour;
     }
 
     public void setMonetaryValuePerHour(Float monetaryvalueperhour) {
         this.monetaryvalueperhour = monetaryvalueperhour;
+    }
+
+    public String getRequirements() {
+        return this.requirements;
+    }
+
+    public void setRequirements(String requirements) {
+        this.requirements = requirements;
     }
 
     public Boolean getUseSharedPublicContactDetails() {
@@ -324,5 +334,250 @@ public class Opportunities {
 
     public void setLocationsPubliclyViewable(Boolean locationspubliclyviewable) {
         this.locationspubliclyviewable = locationspubliclyviewable;
+    }
+
+
+    public String getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(String enclosure) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getClumnNumber() {
+        return this.columnNum;
+    }
+
+    public List<String> getClumnNames() {
+        if (this.columnNames == null) {
+            this.columnNames = new ArrayList<String>();
+            this.columnNames.add("SharedInternalContactDetailsId");
+            this.columnNames.add("SharedPublicContactDetailsId");
+            this.columnNames.add("SpecificStartDate");
+            this.columnNames.add("ShortDescription");
+            this.columnNames.add("OwnId");
+            this.columnNames.add("Benefits");
+            this.columnNames.add("AdvertisingStartDate");
+            this.columnNames.add("CommitmentEve");
+            this.columnNames.add("Id");
+            this.columnNames.add("IsDateSpecific");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("Vbase2Id");
+            this.columnNames.add("IsVirtualRemote");
+            this.columnNames.add("OrganisationId");
+            this.columnNames.add("PublishToDoIt");
+            this.columnNames.add("Version");
+            this.columnNames.add("Title");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("CommitmentPm");
+            this.columnNames.add("IsActive");
+            this.columnNames.add("IsOneOff");
+            this.columnNames.add("Created");
+            this.columnNames.add("IsResidential");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("Description");
+            this.columnNames.add("UseSharedIntConDets");
+            this.columnNames.add("SpecificEndDate");
+            this.columnNames.add("CommitmentAm");
+            this.columnNames.add("AdvertisingEndDate");
+            this.columnNames.add("IsSharedInternalContactPublic");
+            this.columnNames.add("Modified");
+            this.columnNames.add("Requirements");
+            this.columnNames.add("MonetaryValuePerHour");
+            this.columnNames.add("UseSharedPublicContactDetails");
+            this.columnNames.add("LocationsPubliclyViewable");
+        }
+
+        return this.columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.sharedinternalcontactdetailsid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.sharedpubliccontactdetailsid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.specificstartdate);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.shortdescription);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.ownid);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.benefits);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.advertisingstartdate);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.commitmenteve);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.id.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isdatespecific);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.deleted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.vbase2id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isvirtualremote);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.organisationid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.publishtodoit);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.version);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.title);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modifiedby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.commitmentpm);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isactive);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isoneoff);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.created);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isresidential);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.createdby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.description);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.usesharedintcondets);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.specificenddate);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.commitmentam);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.advertisingenddate);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.issharedinternalcontactpublic);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modified);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.requirements);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.monetaryvalueperhour);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.usesharedpubliccontactdetails);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.locationspubliclyviewable);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
     }
 }

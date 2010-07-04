@@ -1,47 +1,57 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-public class Volunteers {
+public class Volunteers implements CSVable {
+
+    private String delimiter = "|";
+    private String enclosure = "¬";
+    private Integer columnNum = 36;
+    private List<String> columnNames = null;
+    private StringBuffer record = new StringBuffer();
 
     private UUID genderid;
-    private Long version;
+    private UUID howheardid;
+    private String qualificationsandexperience;
     private Long pmcommitment;
     private UUID transportid;
+    private Boolean agreestobecontacted;
     private String ownid;
-    private String othermotivations;
+    private Timestamp dateofbirth;
     private String lastname;
     private UUID disabilitystatusid;
-    private Timestamp created;
+    private UUID id;
+    private Boolean deleted;
     private UUID ethnicityid;
     private UUID sexualorientationid;
     private Long amcommitment;
     private UUID nationalityid;
+    private UUID agerangeid;
     private UUID employmentstatusid;
     private Long vbase2id;
     private String firstname;
     private Long evecommitment;
-    private Timestamp modified;
+    private String disabilitydetails;
     private String howhearddetails;
     private UUID titleid;
-    private UUID howheardid;
-    private String qualificationsandexperience;
+    private Long version;
     private UUID modifiedby;
-    private Boolean agreestobecontacted;
     private UUID availabilitystatusid;
     private UUID drivinglicenceid;
-    private Timestamp dateofbirth;
     private String preferredname;
+    private String othermotivations;
     private Boolean isactive;
-    private UUID id;
-    private Boolean deleted;
+    private Timestamp created;
     private UUID createdby;
-    private UUID agerangeid;
     private UUID placementstatusid;
-    private String disabilitydetails;
+    private Timestamp modified;
     private UUID religionid;
 
     public Volunteers() {
@@ -55,20 +65,20 @@ public class Volunteers {
         this.genderid = genderid;
     }
 
-    public UUID getHowHeardId() {
-        return this.howheardid;
-    }
-
-    public void setHowHeardId(UUID howheardid) {
-        this.howheardid = howheardid;
-    }
-
     public String getQualificationsAndExperience() {
         return this.qualificationsandexperience;
     }
 
     public void setQualificationsAndExperience(String qualificationsandexperience) {
         this.qualificationsandexperience = qualificationsandexperience;
+    }
+
+    public UUID getHowHeardId() {
+        return this.howheardid;
+    }
+
+    public void setHowHeardId(UUID howheardid) {
+        this.howheardid = howheardid;
     }
 
     public Long getPmCommitment() {
@@ -87,20 +97,20 @@ public class Volunteers {
         this.transportid = transportid;
     }
 
-    public Boolean getAgreesToBeContacted() {
-        return this.agreestobecontacted;
-    }
-
-    public void setAgreesToBeContacted(Boolean agreestobecontacted) {
-        this.agreestobecontacted = agreestobecontacted;
-    }
-
     public String getOwnId() {
         return this.ownid;
     }
 
     public void setOwnId(String ownid) {
         this.ownid = ownid;
+    }
+
+    public Boolean getAgreesToBeContacted() {
+        return this.agreestobecontacted;
+    }
+
+    public void setAgreesToBeContacted(Boolean agreestobecontacted) {
+        this.agreestobecontacted = agreestobecontacted;
     }
 
     public Timestamp getDateOfBirth() {
@@ -159,12 +169,12 @@ public class Volunteers {
         this.sexualorientationid = sexualorientationid;
     }
 
-    public Long getAmCommitment() {
-        return this.amcommitment;
+    public UUID getAgeRangeId() {
+        return this.agerangeid;
     }
 
-    public void setAmCommitment(Long amcommitment) {
-        this.amcommitment = amcommitment;
+    public void setAgeRangeId(UUID agerangeid) {
+        this.agerangeid = agerangeid;
     }
 
     public UUID getNationalityId() {
@@ -175,20 +185,20 @@ public class Volunteers {
         this.nationalityid = nationalityid;
     }
 
-    public UUID getAgeRangeId() {
-        return this.agerangeid;
+    public Long getAmCommitment() {
+        return this.amcommitment;
     }
 
-    public void setAgeRangeId(UUID agerangeid) {
-        this.agerangeid = agerangeid;
+    public void setAmCommitment(Long amcommitment) {
+        this.amcommitment = amcommitment;
     }
 
-    public UUID getEmploymentStatusId() {
-        return this.employmentstatusid;
+    public String getFirstName() {
+        return this.firstname;
     }
 
-    public void setEmploymentStatusId(UUID employmentstatusid) {
-        this.employmentstatusid = employmentstatusid;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
     }
 
     public Long getVbase2Id() {
@@ -199,12 +209,12 @@ public class Volunteers {
         this.vbase2id = vbase2id;
     }
 
-    public String getFirstName() {
-        return this.firstname;
+    public UUID getEmploymentStatusId() {
+        return this.employmentstatusid;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstname = firstname;
+    public void setEmploymentStatusId(UUID employmentstatusid) {
+        this.employmentstatusid = employmentstatusid;
     }
 
     public Long getEveCommitment() {
@@ -333,5 +343,256 @@ public class Volunteers {
 
     public void setReligionId(UUID religionid) {
         this.religionid = religionid;
+    }
+
+
+    public String getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(String enclosure) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getClumnNumber() {
+        return this.columnNum;
+    }
+
+    public List<String> getClumnNames() {
+        if (this.columnNames == null) {
+            this.columnNames = new ArrayList<String>();
+            this.columnNames.add("GenderId");
+            this.columnNames.add("HowHeardId");
+            this.columnNames.add("QualificationsAndExperience");
+            this.columnNames.add("PmCommitment");
+            this.columnNames.add("TransportId");
+            this.columnNames.add("AgreesToBeContacted");
+            this.columnNames.add("OwnId");
+            this.columnNames.add("DateOfBirth");
+            this.columnNames.add("LastName");
+            this.columnNames.add("DisabilityStatusId");
+            this.columnNames.add("Id");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("EthnicityId");
+            this.columnNames.add("SexualOrientationId");
+            this.columnNames.add("AmCommitment");
+            this.columnNames.add("NationalityId");
+            this.columnNames.add("AgeRangeId");
+            this.columnNames.add("EmploymentStatusId");
+            this.columnNames.add("Vbase2Id");
+            this.columnNames.add("FirstName");
+            this.columnNames.add("EveCommitment");
+            this.columnNames.add("DisabilityDetails");
+            this.columnNames.add("HowHeardDetails");
+            this.columnNames.add("TitleId");
+            this.columnNames.add("Version");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("AvailabilityStatusId");
+            this.columnNames.add("DrivingLicenceId");
+            this.columnNames.add("PreferredName");
+            this.columnNames.add("OtherMotivations");
+            this.columnNames.add("IsActive");
+            this.columnNames.add("Created");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("PlacementStatusId");
+            this.columnNames.add("Modified");
+            this.columnNames.add("ReligionId");
+        }
+
+        return this.columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.genderid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.howheardid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.qualificationsandexperience);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.pmcommitment);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.transportid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.agreestobecontacted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.ownid);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.dateofbirth);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.lastname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.disabilitystatusid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.id.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.deleted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.ethnicityid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.sexualorientationid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.amcommitment);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.nationalityid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.agerangeid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.employmentstatusid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.vbase2id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.firstname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.evecommitment);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.disabilitydetails);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.howhearddetails);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.titleid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.version);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modifiedby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.availabilitystatusid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.drivinglicenceid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.preferredname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.othermotivations);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isactive);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.created);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.createdby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.placementstatusid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modified);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.religionid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
     }
 }

@@ -91,8 +91,6 @@ public class TblOppTest {
                 + "¬" + SHORTDESCRIPTION + "¬|"
                 + "¬" + 0 + "¬|";
 
-        System.out.println(rowString);
-
         TblOpp tblOpp = new TblOpp(rowString);
 
         assertEquals("oid equals", OID, tblOpp.getOid());

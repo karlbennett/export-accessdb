@@ -1,36 +1,46 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-public class Contacts {
+public class Contacts implements CSVable {
 
-    private Long version;
-    private String mobile;
+    private String delimiter = "|";
+    private String enclosure = "¬";
+    private Integer columnNum = 24;
+    private List<String> columnNames = null;
+    private StringBuffer record = new StringBuffer();
+
+    private String surname;
     private String jobtitle;
-    private Timestamp created;
+    private String email;
+    private UUID id;
+    private Boolean deleted;
     private Boolean usingaddressemail;
-    private String fax;
+    private String tel;
     private Long vbase2id;
     private String firstname;
-    private String department;
     private Boolean usingaddresstel;
-    private Timestamp modified;
-    private String notes;
     private UUID titleid;
     private Boolean usingaddressfax;
+    private Long version;
     private UUID modifiedby;
-    private String surname;
-    private String email;
+    private String mobile;
     private String preferredname;
     private Boolean isactive;
-    private UUID id;
+    private Timestamp created;
     private Boolean useasmaincontact;
-    private Boolean deleted;
     private UUID createdby;
-    private String tel;
+    private String fax;
+    private String department;
+    private Timestamp modified;
+    private String notes;
 
     public Contacts() {
     }
@@ -83,12 +93,12 @@ public class Contacts {
         this.usingaddressemail = usingaddressemail;
     }
 
-    public String getTel() {
-        return this.tel;
+    public String getFirstName() {
+        return this.firstname;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
     }
 
     public Long getVbase2Id() {
@@ -99,12 +109,12 @@ public class Contacts {
         this.vbase2id = vbase2id;
     }
 
-    public String getFirstName() {
-        return this.firstname;
+    public String getTel() {
+        return this.tel;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstname = firstname;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public Boolean getUsingAddressTel() {
@@ -139,20 +149,20 @@ public class Contacts {
         this.version = version;
     }
 
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
-    }
-
     public String getMobile() {
         return this.mobile;
     }
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
     }
 
     public String getPreferredName() {
@@ -171,20 +181,20 @@ public class Contacts {
         this.isactive = isactive;
     }
 
-    public Timestamp getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
     public Boolean getUseAsMainContact() {
         return this.useasmaincontact;
     }
 
     public void setUseAsMainContact(Boolean useasmaincontact) {
         this.useasmaincontact = useasmaincontact;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     public UUID getCreatedBy() {
@@ -225,5 +235,184 @@ public class Contacts {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+
+    public String getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(String enclosure) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getClumnNumber() {
+        return this.columnNum;
+    }
+
+    public List<String> getClumnNames() {
+        if (this.columnNames == null) {
+            this.columnNames = new ArrayList<String>();
+            this.columnNames.add("Surname");
+            this.columnNames.add("JobTitle");
+            this.columnNames.add("Email");
+            this.columnNames.add("Id");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("UsingAddressEmail");
+            this.columnNames.add("Tel");
+            this.columnNames.add("Vbase2Id");
+            this.columnNames.add("FirstName");
+            this.columnNames.add("UsingAddressTel");
+            this.columnNames.add("TitleId");
+            this.columnNames.add("UsingAddressFax");
+            this.columnNames.add("Version");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Mobile");
+            this.columnNames.add("PreferredName");
+            this.columnNames.add("IsActive");
+            this.columnNames.add("Created");
+            this.columnNames.add("UseAsMainContact");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("Fax");
+            this.columnNames.add("Department");
+            this.columnNames.add("Modified");
+            this.columnNames.add("Notes");
+        }
+
+        return this.columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.surname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.jobtitle);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.email);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.id.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.deleted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.usingaddressemail);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.tel);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.vbase2id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.firstname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.usingaddresstel);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.titleid.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.usingaddressfax);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.version);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modifiedby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.mobile);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.preferredname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isactive);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.created);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.useasmaincontact);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.createdby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.fax);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.department);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modified);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.notes);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
     }
 }

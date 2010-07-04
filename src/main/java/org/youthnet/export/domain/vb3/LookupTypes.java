@@ -1,22 +1,32 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-public class LookupTypes {
+public class LookupTypes implements CSVable {
 
-    private Long version;
-    private Timestamp created;
-    private Timestamp modified;
-    private Boolean canedit;
-    private UUID modifiedby;
-    private Boolean isvisible;
+    private String delimiter = "|";
+    private String enclosure = "¬";
+    private Integer columnNum = 10;
+    private List<String> columnNames = null;
+    private StringBuffer record = new StringBuffer();
+
     private String value;
     private UUID id;
     private Boolean deleted;
+    private Boolean canedit;
+    private Long version;
+    private UUID modifiedby;
+    private Boolean isvisible;
+    private Timestamp created;
     private UUID createdby;
+    private Timestamp modified;
 
     public LookupTypes() {
     }
@@ -99,5 +109,100 @@ public class LookupTypes {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+
+    public String getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(String enclosure) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getClumnNumber() {
+        return this.columnNum;
+    }
+
+    public List<String> getClumnNames() {
+        if (this.columnNames == null) {
+            this.columnNames = new ArrayList<String>();
+            this.columnNames.add("Value");
+            this.columnNames.add("Id");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("CanEdit");
+            this.columnNames.add("Version");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("IsVisible");
+            this.columnNames.add("Created");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("Modified");
+        }
+
+        return this.columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.value);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.id.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.deleted);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.canedit);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.version);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modifiedby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.isvisible);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.created);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.createdby.toString().replace("-", ""));
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        record.append(this.enclosure);
+        record.append(this.modified);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
     }
 }
