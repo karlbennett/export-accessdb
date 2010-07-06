@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TblActivityLog implements CSVable {
@@ -233,7 +233,7 @@ public class TblActivityLog implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -278,47 +278,47 @@ public class TblActivityLog implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.lid);
+        record.append(this.lid == null ? "" : this.lid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.activity);
+        record.append(this.activity == null ? "" : this.activity);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.type);
+        record.append(this.type == null ? "" : this.type);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.vid);
+        record.append(this.vid == null ? "" : this.vid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.oid);
+        record.append(this.oid == null ? "" : this.oid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.orgid);
+        record.append(this.orgid == null ? "" : this.orgid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.linkedoid);
+        record.append(this.linkedoid == null ? "" : this.linkedoid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.subject);
+        record.append(this.subject == null ? "" : this.subject);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.owner);
+        record.append(this.owner == null ? "" : this.owner);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.starttime);
+        record.append(this.starttime == null ? "" : this.starttime);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.endtime);
+        record.append(this.endtime == null ? "" : this.endtime);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -326,11 +326,11 @@ public class TblActivityLog implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.alarmstarttime);
+        record.append(this.alarmstarttime == null ? "" : this.alarmstarttime);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.alarmperiod);
+        record.append(this.alarmperiod == null ? "" : this.alarmperiod);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -338,19 +338,19 @@ public class TblActivityLog implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.correspondence);
+        record.append(this.correspondence == null ? "" : this.correspondence);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datecorrsent);
+        record.append(this.datecorrsent == null ? "" : this.datecorrsent);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.linkedlid);
+        record.append(this.linkedlid == null ? "" : this.linkedlid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.backlid);
+        record.append(this.backlid == null ? "" : this.backlid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -358,23 +358,23 @@ public class TblActivityLog implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.esttotalhours);
+        record.append(this.esttotalhours == null ? "" : this.esttotalhours);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.notes);
+        record.append(this.notes == null ? "" : this.notes);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datefirstentered);
+        record.append(this.datefirstentered == null ? "" : this.datefirstentered);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datelastupdated);
+        record.append(this.datelastupdated == null ? "" : this.datelastupdated);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.lastupdatedby);
+        record.append(this.lastupdatedby == null ? "" : this.lastupdatedby);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

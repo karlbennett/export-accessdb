@@ -2,12 +2,12 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.sql.Timestamp;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TblOpp implements CSVable {
@@ -299,7 +299,7 @@ public class TblOpp implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -354,63 +354,63 @@ public class TblOpp implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.oid);
+        record.append(this.oid == null ? "" : this.oid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.orgid);
+        record.append(this.orgid == null ? "" : this.orgid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.oppenteredid);
+        record.append(this.oppenteredid == null ? "" : this.oppenteredid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.title);
+        record.append(this.title == null ? "" : this.title);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.contact);
+        record.append(this.contact == null ? "" : this.contact);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.address1);
+        record.append(this.address1 == null ? "" : this.address1);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.address2);
+        record.append(this.address2 == null ? "" : this.address2);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.town);
+        record.append(this.town == null ? "" : this.town);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.county);
+        record.append(this.county == null ? "" : this.county);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.postcode);
+        record.append(this.postcode == null ? "" : this.postcode);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.tel1);
+        record.append(this.tel1 == null ? "" : this.tel1);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.fax);
+        record.append(this.fax == null ? "" : this.fax);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.email);
+        record.append(this.email == null ? "" : this.email);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.geographicalarea);
+        record.append(this.geographicalarea == null ? "" : this.geographicalarea);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.monetaryvalue);
+        record.append(this.monetaryvalue == null ? "" : this.monetaryvalue);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -430,35 +430,35 @@ public class TblOpp implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.oppstartdate);
+        record.append(this.oppstartdate == null ? "" : this.oppstartdate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.oppenddate);
+        record.append(this.oppenddate == null ? "" : this.oppenddate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.description);
+        record.append(this.description == null ? "" : this.description);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.skillsqualifications);
+        record.append(this.skillsqualifications == null ? "" : this.skillsqualifications);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.directions);
+        record.append(this.directions == null ? "" : this.directions);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datefirstentered);
+        record.append(this.datefirstentered == null ? "" : this.datefirstentered);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datelastupdated);
+        record.append(this.datelastupdated == null ? "" : this.datelastupdated);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.lastupdatedby);
+        record.append(this.lastupdatedby == null ? "" : this.lastupdatedby);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -466,7 +466,7 @@ public class TblOpp implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.telfaxsearch);
+        record.append(this.telfaxsearch == null ? "" : this.telfaxsearch);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -478,15 +478,15 @@ public class TblOpp implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.specificstartdate);
+        record.append(this.specificstartdate == null ? "" : this.specificstartdate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.specificenddate);
+        record.append(this.specificenddate == null ? "" : this.specificenddate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.shortdescription);
+        record.append(this.shortdescription == null ? "" : this.shortdescription);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);

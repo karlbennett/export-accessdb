@@ -102,26 +102,31 @@ for (i = 0; i < methoddNum; i++) {
     if (methods[i, 1] == "String") print "\t\tthis." tolower(methods[i, 0]) " = fields[" i "].replace(String.valueOf(this.enclosure), \"\");" >> tableName ".java";
 
     if (methods[i, 1] == "UUID") {
-        print "\t\tuuidStringBuffer.setLength(0);" >> tableName ".java";
-        print "\t\tuuidStringBuffer.append(fields[" i "].replace(String.valueOf(this.enclosure), \"\"));" >> tableName ".java";
-        print "\t\tuuidStringBuffer.insert(8, '-');" >> tableName ".java";
-        print "\t\tuuidStringBuffer.insert(13, '-');" >> tableName ".java";
-        print "\t\tuuidStringBuffer.insert(18, '-');" >> tableName ".java";
-        print "\t\tuuidStringBuffer.insert(23, '-');" >> tableName ".java";
-        print "\t\tthis." tolower(methods[i, 0]) " = UUID.fromString(uuidStringBuffer.toString());" >> tableName ".java";
+        print "\t\tif (fields[" i "].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) {" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.setLength(0);" >> tableName ".java";
+        print "\t\t\tthis." tolower(methods[i, 0]) " = null;" >> tableName ".java";
+        print "\t\t} else {" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.setLength(0);" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.append(fields[" i "].replace(String.valueOf(this.enclosure), \"\"));" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.insert(8, '-');" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.insert(13, '-');" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.insert(18, '-');" >> tableName ".java";
+        print "\t\t\tuuidStringBuffer.insert(23, '-');" >> tableName ".java";
+        print "\t\t\tthis." tolower(methods[i, 0]) " = UUID.fromString(uuidStringBuffer.toString());" >> tableName ".java";
+        print "\t\t}" >> tableName ".java";
     }
 
-    if (methods[i, 1] == "Long") print "\t\tthis." tolower(methods[i, 0]) " = Long.valueOf(fields[" i "].replace(String.valueOf(this.enclosure), \"\"));" >> tableName ".java";
+    if (methods[i, 1] == "Long") print "\t\tthis." tolower(methods[i, 0]) " = (fields[" i "].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : Long.valueOf(fields[" i "].replace(String.valueOf(this.enclosure), \"\"));" >> tableName ".java";
 
-    if (methods[i, 1] == "Float") print "\t\tthis." tolower(methods[i, 0]) " = Float.valueOf(fields[" i "].replace(String.valueOf(this.enclosure), \"\"));" >> tableName ".java";
+    if (methods[i, 1] == "Float") print "\t\tthis." tolower(methods[i, 0]) " = (fields[" i "].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : Float.valueOf(fields[" i "].replace(String.valueOf(this.enclosure), \"\"));" >> tableName ".java";
 
     if (methods[i, 1] == "Boolean") print "\t\tthis." tolower(methods[i, 0]) " = fields[" i "].replace(String.valueOf(this.enclosure), \"\").equals(\"1\");" >> tableName ".java";
 
-    if (methods[i, 1] == "byte[]") print "\t\tthis." tolower(methods[i, 0]) " = fields[" i "].replace(String.valueOf(this.enclosure), \"\").getBytes();" >> tableName ".java";
+    if (methods[i, 1] == "byte[]") print "\t\tthis." tolower(methods[i, 0]) " = (fields[" i "].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : fields[" i "].replace(String.valueOf(this.enclosure), \"\").getBytes();" >> tableName ".java";
 
     if (methods[i, 1] == "Timestamp") {
         print "\t\ttry {" >> tableName ".java";
-        print "\t\t\tthis." tolower(methods[i, 0]) " = new Timestamp(simpleDateFormat.parse(fields[" i "].replace(String.valueOf(this.enclosure), \"\")).getTime());" >> tableName ".java";
+        print "\t\t\tthis." tolower(methods[i, 0]) " = (fields[" i "].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : new Timestamp(simpleDateFormat.parse(fields[" i "].replace(String.valueOf(this.enclosure), \"\")).getTime());" >> tableName ".java";
         print "\t\t} catch (ParseException e) {" >> tableName ".java";
         print "\t\t\tSystem.out.println(\"Could not pars " methods[i, 1] " " tolower(methods[i, 0]) " \" + fields[" i "].replace(String.valueOf(this.enclosure), \"\") + \" for table \" + this.getClass().getName() + \". Error: \" + e.getMessage());" >> tableName ".java";
         print "\t\t}" >> tableName ".java";
@@ -190,10 +195,10 @@ for (i = 0; i < methoddNum; i++) {
     #recordString = recordString "+ this.enclosure + this." attribute " + this.enclosure + this.delimiter\n";
     print "\t\trecordStringBuffer.append(this.enclosure);" >> tableName ".java";
     if (methods[i, 1] == "UUID") {
-        print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) ".toString().replace(\"-\",\"\"));" >> tableName ".java";
+        print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" : this." tolower(methods[i, 0]) ".toString().replace(\"-\",\"\"));" >> tableName ".java";
     } else if (methods[i, 1] == "Boolean") {
-        print "\t\trecordStringBuffer.append(" tolower(methods[i, 0]) " ? 1 : 0);" >> tableName ".java";
-    } else print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) ");" >> tableName ".java";
+        print "\t\trecordStringBuffer.append(" tolower(methods[i, 0]) " != null && " tolower(methods[i, 0]) " ? 1 : 0);" >> tableName ".java";
+    } else print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" : this." tolower(methods[i, 0]) ");" >> tableName ".java";
     print "\t\trecordStringBuffer.append(this.enclosure);" >> tableName ".java";
     print "\t\trecordStringBuffer.append(this.delimiter);" >> tableName ".java";
     print "" >> tableName ".java";

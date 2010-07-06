@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysReports implements CSVable {
@@ -134,7 +134,7 @@ public class UsysReports implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -169,39 +169,39 @@ public class UsysReports implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.report);
+        record.append(this.report == null ? "" : this.report);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.order);
+        record.append(this.order == null ? "" : this.order);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.sql);
+        record.append(this.sql == null ? "" : this.sql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.orientation);
+        record.append(this.orientation == null ? "" : this.orientation);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.bottommargin);
+        record.append(this.bottommargin == null ? "" : this.bottommargin);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.activereport);
+        record.append(this.activereport == null ? "" : this.activereport);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.select);
+        record.append(this.select == null ? "" : this.select);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.entsql);
+        record.append(this.entsql == null ? "" : this.entsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.actsql);
+        record.append(this.actsql == null ? "" : this.actsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -209,19 +209,19 @@ public class UsysReports implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.subselect);
+        record.append(this.subselect == null ? "" : this.subselect);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.subsql);
+        record.append(this.subsql == null ? "" : this.subsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.subentsql);
+        record.append(this.subentsql == null ? "" : this.subentsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.subactsql);
+        record.append(this.subactsql == null ? "" : this.subactsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);

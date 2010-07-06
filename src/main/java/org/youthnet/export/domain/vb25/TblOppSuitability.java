@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TblOppSuitability implements CSVable {
@@ -62,7 +62,7 @@ public class TblOppSuitability implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -85,15 +85,15 @@ public class TblOppSuitability implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.id);
+        record.append(this.id == null ? "" : this.id);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.oid);
+        record.append(this.oid == null ? "" : this.oid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.sid);
+        record.append(this.sid == null ? "" : this.sid);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysReportCriteria implements CSVable {
@@ -95,7 +95,7 @@ public class UsysReportCriteria implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -121,27 +121,27 @@ public class UsysReportCriteria implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.report);
+        record.append(this.report == null ? "" : this.report);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.user);
+        record.append(this.user == null ? "" : this.user);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.startdate);
+        record.append(this.startdate == null ? "" : this.startdate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.enddate);
+        record.append(this.enddate == null ? "" : this.enddate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.dateoption);
+        record.append(this.dateoption == null ? "" : this.dateoption);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.sql);
+        record.append(this.sql == null ? "" : this.sql);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

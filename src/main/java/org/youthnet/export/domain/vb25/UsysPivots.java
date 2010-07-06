@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysPivots implements CSVable {
@@ -98,7 +98,7 @@ public class UsysPivots implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -127,39 +127,39 @@ public class UsysPivots implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.id);
+        record.append(this.id == null ? "" : this.id);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.pivot);
+        record.append(this.pivot == null ? "" : this.pivot);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.row);
+        record.append(this.row == null ? "" : this.row);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.column);
+        record.append(this.column == null ? "" : this.column);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.data);
+        record.append(this.data == null ? "" : this.data);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.sql);
+        record.append(this.sql == null ? "" : this.sql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.select);
+        record.append(this.select == null ? "" : this.select);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.entsql);
+        record.append(this.entsql == null ? "" : this.entsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.actsql);
+        record.append(this.actsql == null ? "" : this.actsql);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

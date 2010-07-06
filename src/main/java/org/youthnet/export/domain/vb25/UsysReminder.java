@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysReminder implements CSVable {
@@ -86,7 +86,7 @@ public class UsysReminder implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -113,19 +113,19 @@ public class UsysReminder implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.reminder);
+        record.append(this.reminder == null ? "" : this.reminder);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.period);
+        record.append(this.period == null ? "" : this.period);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.no);
+        record.append(this.no == null ? "" : this.no);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.order);
+        record.append(this.order == null ? "" : this.order);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -133,7 +133,7 @@ public class UsysReminder implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.alarmtime);
+        record.append(this.alarmtime == null ? "" : this.alarmtime);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);

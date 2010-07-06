@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TbluActivity implements CSVable {
@@ -116,7 +116,7 @@ public class TbluActivity implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -148,7 +148,7 @@ public class TbluActivity implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.activity);
+        record.append(this.activity == null ? "" : this.activity);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -172,7 +172,7 @@ public class TbluActivity implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.type);
+        record.append(this.type == null ? "" : this.type);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -180,7 +180,7 @@ public class TbluActivity implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.linkcaption);
+        record.append(this.linkcaption == null ? "" : this.linkcaption);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);

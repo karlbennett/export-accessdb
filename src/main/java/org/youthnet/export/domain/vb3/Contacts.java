@@ -75,17 +75,22 @@ public class Contacts implements CSVable {
 
         this.notes = fields[8].replace(String.valueOf(this.enclosure), "");
 
-        this.vbase2id = Long.valueOf(fields[9].replace(String.valueOf(this.enclosure), ""));
+        this.vbase2id = (fields[9].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[9].replace(String.valueOf(this.enclosure), ""));
 
         this.preferredname = fields[10].replace(String.valueOf(this.enclosure), "");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[11].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.titleid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[11].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.titleid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[11].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.titleid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         this.surname = fields[12].replace(String.valueOf(this.enclosure), "");
 
@@ -93,45 +98,60 @@ public class Contacts implements CSVable {
 
         this.useasmaincontact = fields[14].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[15].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.id = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.id = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[16].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.created = (fields[16].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(simpleDateFormat.parse(fields[16].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars Timestamp created " + fields[16].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[17].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[17].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.createdby = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[17].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.createdby = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         this.deleted = fields[18].replace(String.valueOf(this.enclosure), "").equals("1");
 
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[19].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = (fields[19].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(simpleDateFormat.parse(fields[19].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars Timestamp modified " + fields[19].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[20].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[20].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.modifiedby = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[20].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        this.version = Long.valueOf(fields[21].replace(String.valueOf(this.enclosure), ""));
+        this.version = (fields[21].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[21].replace(String.valueOf(this.enclosure), ""));
 
         this.department = fields[22].replace(String.valueOf(this.enclosure), "");
 
@@ -389,122 +409,122 @@ public class Contacts implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.fax);
+        recordStringBuffer.append(this.fax == null ? "" : this.fax);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.firstname);
+        recordStringBuffer.append(this.firstname == null ? "" : this.firstname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive ? 1 : 0);
+        recordStringBuffer.append(isactive != null && isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingaddressemail ? 1 : 0);
+        recordStringBuffer.append(usingaddressemail != null && usingaddressemail ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.jobtitle);
+        recordStringBuffer.append(this.jobtitle == null ? "" : this.jobtitle);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingaddressfax ? 1 : 0);
+        recordStringBuffer.append(usingaddressfax != null && usingaddressfax ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.mobile);
+        recordStringBuffer.append(this.mobile == null ? "" : this.mobile);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingaddresstel ? 1 : 0);
+        recordStringBuffer.append(usingaddresstel != null && usingaddresstel ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.notes);
+        recordStringBuffer.append(this.notes == null ? "" : this.notes);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.vbase2id);
+        recordStringBuffer.append(this.vbase2id == null ? "" : this.vbase2id);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.preferredname);
+        recordStringBuffer.append(this.preferredname == null ? "" : this.preferredname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.titleid.toString().replace("-", ""));
+        recordStringBuffer.append(this.titleid == null ? "" : this.titleid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.surname);
+        recordStringBuffer.append(this.surname == null ? "" : this.surname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.tel);
+        recordStringBuffer.append(this.tel == null ? "" : this.tel);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(useasmaincontact ? 1 : 0);
+        recordStringBuffer.append(useasmaincontact != null && useasmaincontact ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
+        recordStringBuffer.append(this.id == null ? "" : this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.created);
+        recordStringBuffer.append(this.created == null ? "" : this.created);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.createdby.toString().replace("-", ""));
+        recordStringBuffer.append(this.createdby == null ? "" : this.createdby.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.modified == null ? "" : this.modified);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.modifiedby == null ? "" : this.modifiedby.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.version == null ? "" : this.version);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.department);
+        recordStringBuffer.append(this.department == null ? "" : this.department);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.email);
+        recordStringBuffer.append(this.email == null ? "" : this.email);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

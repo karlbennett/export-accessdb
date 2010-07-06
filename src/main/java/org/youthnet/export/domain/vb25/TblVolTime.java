@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TblVolTime implements CSVable {
@@ -68,7 +68,7 @@ public class TblVolTime implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -92,19 +92,19 @@ public class TblVolTime implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.tid);
+        record.append(this.tid == null ? "" : this.tid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.vid);
+        record.append(this.vid == null ? "" : this.vid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.day);
+        record.append(this.day == null ? "" : this.day);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.timeslot);
+        record.append(this.timeslot == null ? "" : this.timeslot);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

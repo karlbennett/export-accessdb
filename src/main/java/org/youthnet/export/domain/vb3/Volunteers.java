@@ -70,14 +70,14 @@ public class Volunteers implements CSVable {
 
 
         try {
-            this.dateofbirth = new Timestamp(simpleDateFormat.parse(fields[0].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.dateofbirth = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(simpleDateFormat.parse(fields[0].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars Timestamp dateofbirth " + fields[0].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
         this.disabilitydetails = fields[1].replace(String.valueOf(this.enclosure), "");
 
-        this.evecommitment = Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.evecommitment = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
 
         this.preferredname = fields[3].replace(String.valueOf(this.enclosure), "");
 
@@ -87,173 +87,258 @@ public class Volunteers implements CSVable {
 
         this.howhearddetails = fields[6].replace(String.valueOf(this.enclosure), "");
 
-        this.vbase2id = Long.valueOf(fields[7].replace(String.valueOf(this.enclosure), ""));
+        this.vbase2id = (fields[7].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[7].replace(String.valueOf(this.enclosure), ""));
 
         this.isactive = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.howheardid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[9].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.howheardid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.howheardid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[10].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.agerangeid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[10].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.agerangeid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[10].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.agerangeid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         this.lastname = fields[11].replace(String.valueOf(this.enclosure), "");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.nationalityid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[12].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.nationalityid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.nationalityid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[13].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.availabilitystatusid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[13].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.availabilitystatusid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[13].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.availabilitystatusid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         this.othermotivations = fields[14].replace(String.valueOf(this.enclosure), "");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.placementstatusid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[15].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.placementstatusid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.placementstatusid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[16].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.disabilitystatusid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[16].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.disabilitystatusid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[16].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.disabilitystatusid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         this.ownid = fields[17].replace(String.valueOf(this.enclosure), "");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[18].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.religionid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[18].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.religionid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[18].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.religionid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[19].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.drivinglicenceid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[19].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.drivinglicenceid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[19].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.drivinglicenceid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        this.pmcommitment = Long.valueOf(fields[20].replace(String.valueOf(this.enclosure), ""));
+        this.pmcommitment = (fields[20].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[20].replace(String.valueOf(this.enclosure), ""));
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[21].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.sexualorientationid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[21].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.sexualorientationid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[21].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.sexualorientationid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[22].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.employmentstatusid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[22].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.employmentstatusid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[22].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.employmentstatusid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[23].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.titleid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[23].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.titleid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[23].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.titleid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[24].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.ethnicityid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[24].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.ethnicityid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[24].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.ethnicityid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[25].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.transportid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[25].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.transportid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[25].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.transportid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[26].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.genderid = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[26].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.genderid = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[26].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.genderid = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[27].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[27].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.id = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[27].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.id = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[28].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.created = (fields[28].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(simpleDateFormat.parse(fields[28].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars Timestamp created " + fields[28].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[29].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[29].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.createdby = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[29].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.createdby = UUID.fromString(uuidStringBuffer.toString());
+        }
 
         this.deleted = fields[30].replace(String.valueOf(this.enclosure), "").equals("1");
 
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[31].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = (fields[31].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(simpleDateFormat.parse(fields[31].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars Timestamp modified " + fields[31].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[32].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+        if (fields[32].replace(String.valueOf(this.enclosure), "").equals("")) {
+            uuidStringBuffer.setLength(0);
+            this.modifiedby = null;
+        } else {
+            uuidStringBuffer.setLength(0);
+            uuidStringBuffer.append(fields[32].replace(String.valueOf(this.enclosure), ""));
+            uuidStringBuffer.insert(8, '-');
+            uuidStringBuffer.insert(13, '-');
+            uuidStringBuffer.insert(18, '-');
+            uuidStringBuffer.insert(23, '-');
+            this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+        }
 
-        this.version = Long.valueOf(fields[33].replace(String.valueOf(this.enclosure), ""));
+        this.version = (fields[33].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[33].replace(String.valueOf(this.enclosure), ""));
 
         this.agreestobecontacted = fields[34].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.amcommitment = Long.valueOf(fields[35].replace(String.valueOf(this.enclosure), ""));
+        this.amcommitment = (fields[35].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[35].replace(String.valueOf(this.enclosure), ""));
 
     }
 
@@ -615,182 +700,182 @@ public class Volunteers implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.dateofbirth);
+        recordStringBuffer.append(this.dateofbirth == null ? "" : this.dateofbirth);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.disabilitydetails);
+        recordStringBuffer.append(this.disabilitydetails == null ? "" : this.disabilitydetails);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.evecommitment);
+        recordStringBuffer.append(this.evecommitment == null ? "" : this.evecommitment);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.preferredname);
+        recordStringBuffer.append(this.preferredname == null ? "" : this.preferredname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.firstname);
+        recordStringBuffer.append(this.firstname == null ? "" : this.firstname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.qualificationsandexperience);
+        recordStringBuffer.append(this.qualificationsandexperience == null ? "" : this.qualificationsandexperience);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.howhearddetails);
+        recordStringBuffer.append(this.howhearddetails == null ? "" : this.howhearddetails);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.vbase2id);
+        recordStringBuffer.append(this.vbase2id == null ? "" : this.vbase2id);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive ? 1 : 0);
+        recordStringBuffer.append(isactive != null && isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.howheardid.toString().replace("-", ""));
+        recordStringBuffer.append(this.howheardid == null ? "" : this.howheardid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.agerangeid.toString().replace("-", ""));
+        recordStringBuffer.append(this.agerangeid == null ? "" : this.agerangeid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.lastname);
+        recordStringBuffer.append(this.lastname == null ? "" : this.lastname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.nationalityid.toString().replace("-", ""));
+        recordStringBuffer.append(this.nationalityid == null ? "" : this.nationalityid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.availabilitystatusid.toString().replace("-", ""));
+        recordStringBuffer.append(this.availabilitystatusid == null ? "" : this.availabilitystatusid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.othermotivations);
+        recordStringBuffer.append(this.othermotivations == null ? "" : this.othermotivations);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.placementstatusid.toString().replace("-", ""));
+        recordStringBuffer.append(this.placementstatusid == null ? "" : this.placementstatusid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.disabilitystatusid.toString().replace("-", ""));
+        recordStringBuffer.append(this.disabilitystatusid == null ? "" : this.disabilitystatusid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.ownid);
+        recordStringBuffer.append(this.ownid == null ? "" : this.ownid);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.religionid.toString().replace("-", ""));
+        recordStringBuffer.append(this.religionid == null ? "" : this.religionid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.drivinglicenceid.toString().replace("-", ""));
+        recordStringBuffer.append(this.drivinglicenceid == null ? "" : this.drivinglicenceid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.pmcommitment);
+        recordStringBuffer.append(this.pmcommitment == null ? "" : this.pmcommitment);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.sexualorientationid.toString().replace("-", ""));
+        recordStringBuffer.append(this.sexualorientationid == null ? "" : this.sexualorientationid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.employmentstatusid.toString().replace("-", ""));
+        recordStringBuffer.append(this.employmentstatusid == null ? "" : this.employmentstatusid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.titleid.toString().replace("-", ""));
+        recordStringBuffer.append(this.titleid == null ? "" : this.titleid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.ethnicityid.toString().replace("-", ""));
+        recordStringBuffer.append(this.ethnicityid == null ? "" : this.ethnicityid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.transportid.toString().replace("-", ""));
+        recordStringBuffer.append(this.transportid == null ? "" : this.transportid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.genderid.toString().replace("-", ""));
+        recordStringBuffer.append(this.genderid == null ? "" : this.genderid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
+        recordStringBuffer.append(this.id == null ? "" : this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.created);
+        recordStringBuffer.append(this.created == null ? "" : this.created);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.createdby.toString().replace("-", ""));
+        recordStringBuffer.append(this.createdby == null ? "" : this.createdby.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.modified == null ? "" : this.modified);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.modifiedby == null ? "" : this.modifiedby.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.version == null ? "" : this.version);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(agreestobecontacted ? 1 : 0);
+        recordStringBuffer.append(agreestobecontacted != null && agreestobecontacted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.amcommitment);
+        recordStringBuffer.append(this.amcommitment == null ? "" : this.amcommitment);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

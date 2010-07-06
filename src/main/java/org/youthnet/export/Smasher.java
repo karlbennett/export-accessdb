@@ -558,7 +558,7 @@ public class Smasher {
 
         // Add the delimiter getter/setter.
         classStringBuffer.append("\tpublic char getEnclosure() {\n\t\treturn this.enclosure;\n\t}\n\n");
-        classStringBuffer.append("\tpublic void setEnclosure(char delimiter) {\n\t\tthis.enclosure = enclosure;\n\t}\n\n");
+        classStringBuffer.append("\tpublic void setEnclosure(char enclosure) {\n\t\tthis.enclosure = enclosure;\n\t}\n\n");
 
         // Add column number getter.
         classStringBuffer.append("\tpublic Integer getColumnNumber() {\n\t\treturn COLUMN_NUM;\n\t}\n\n");
@@ -581,8 +581,14 @@ public class Smasher {
             classStringBuffer.append("\t\trecord.append(this.");
             if (attribute[1].equals("Boolean")) {
                 classStringBuffer.append(attribute[0]);
+                classStringBuffer.append(" != null && ");
+                classStringBuffer.append(attribute[0]);
                 classStringBuffer.append(" ? 1 : 0");
-            } else classStringBuffer.append(attribute[0]);
+            } else {
+                classStringBuffer.append(attribute[0]);
+                classStringBuffer.append(" == null ? \"\" : this.");
+                classStringBuffer.append(attribute[0]);
+            }
             classStringBuffer.append(");\n\t\trecord.append(this.enclosure);\n");
             classStringBuffer.append("\t\trecord.append(this.delimiter);\n");
         }

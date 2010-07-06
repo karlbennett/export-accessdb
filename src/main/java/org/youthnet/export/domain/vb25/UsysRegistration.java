@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysRegistration implements CSVable {
@@ -143,7 +143,7 @@ public class UsysRegistration implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -177,43 +177,43 @@ public class UsysRegistration implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.shortname);
+        record.append(this.shortname == null ? "" : this.shortname);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.address1);
+        record.append(this.address1 == null ? "" : this.address1);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.address2);
+        record.append(this.address2 == null ? "" : this.address2);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.town);
+        record.append(this.town == null ? "" : this.town);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.county);
+        record.append(this.county == null ? "" : this.county);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.postcode);
+        record.append(this.postcode == null ? "" : this.postcode);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.tel1);
+        record.append(this.tel1 == null ? "" : this.tel1);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.fax);
+        record.append(this.fax == null ? "" : this.fax);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.email);
+        record.append(this.email == null ? "" : this.email);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.www);
+        record.append(this.www == null ? "" : this.www);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -221,15 +221,15 @@ public class UsysRegistration implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datefirstentered);
+        record.append(this.datefirstentered == null ? "" : this.datefirstentered);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datelastupdated);
+        record.append(this.datelastupdated == null ? "" : this.datelastupdated);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.lastupdatedby);
+        record.append(this.lastupdatedby == null ? "" : this.lastupdatedby);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

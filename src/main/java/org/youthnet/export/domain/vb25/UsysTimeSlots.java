@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysTimeSlots implements CSVable {
@@ -56,7 +56,7 @@ public class UsysTimeSlots implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -78,11 +78,11 @@ public class UsysTimeSlots implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.found);
+        record.append(this.found == null ? "" : this.found);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.readable);
+        record.append(this.readable == null ? "" : this.readable);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

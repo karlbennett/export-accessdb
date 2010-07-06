@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TbluAgeRange implements CSVable {
@@ -68,7 +68,7 @@ public class TbluAgeRange implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -92,7 +92,7 @@ public class TbluAgeRange implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.agerange);
+        record.append(this.agerange == null ? "" : this.agerange);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -100,7 +100,7 @@ public class TbluAgeRange implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.order);
+        record.append(this.order == null ? "" : this.order);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);

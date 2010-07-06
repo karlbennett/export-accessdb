@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysChartCriteria implements CSVable {
@@ -80,7 +80,7 @@ public class UsysChartCriteria implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -106,27 +106,27 @@ public class UsysChartCriteria implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.chart);
+        record.append(this.chart == null ? "" : this.chart);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.user);
+        record.append(this.user == null ? "" : this.user);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.inenglish);
+        record.append(this.inenglish == null ? "" : this.inenglish);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.whereclause);
+        record.append(this.whereclause == null ? "" : this.whereclause);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.criteria);
+        record.append(this.criteria == null ? "" : this.criteria);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.altwhereclause);
+        record.append(this.altwhereclause == null ? "" : this.altwhereclause);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

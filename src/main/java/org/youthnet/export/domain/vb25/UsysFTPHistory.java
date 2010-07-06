@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysFTPHistory implements CSVable {
@@ -71,7 +71,7 @@ public class UsysFTPHistory implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -94,15 +94,15 @@ public class UsysFTPHistory implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.hid);
+        record.append(this.hid == null ? "" : this.hid);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.posteddate);
+        record.append(this.posteddate == null ? "" : this.posteddate);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.otherinfo);
+        record.append(this.otherinfo == null ? "" : this.otherinfo);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TblMailings implements CSVable {
@@ -119,7 +119,7 @@ public class TblMailings implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -149,23 +149,23 @@ public class TblMailings implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.mailing);
+        record.append(this.mailing == null ? "" : this.mailing);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.no);
+        record.append(this.no == null ? "" : this.no);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.description);
+        record.append(this.description == null ? "" : this.description);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.fields);
+        record.append(this.fields == null ? "" : this.fields);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.icon);
+        record.append(this.icon == null ? "" : this.icon);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
@@ -173,19 +173,19 @@ public class TblMailings implements CSVable {
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.owner);
+        record.append(this.owner == null ? "" : this.owner);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datefirstentered);
+        record.append(this.datefirstentered == null ? "" : this.datefirstentered);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.datelastupdated);
+        record.append(this.datelastupdated == null ? "" : this.datelastupdated);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.lastupdatedby);
+        record.append(this.lastupdatedby == null ? "" : this.lastupdatedby);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

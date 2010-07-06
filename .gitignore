@@ -4,3 +4,5 @@ export-accessdb.iws
 target/
 output/
 *.csv
+smashed/
+test/

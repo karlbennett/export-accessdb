@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysCharts implements CSVable {
@@ -80,7 +80,7 @@ public class UsysCharts implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -106,27 +106,27 @@ public class UsysCharts implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.chart);
+        record.append(this.chart == null ? "" : this.chart);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.select);
+        record.append(this.select == null ? "" : this.select);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.selectwhere);
+        record.append(this.selectwhere == null ? "" : this.selectwhere);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.groupby);
+        record.append(this.groupby == null ? "" : this.groupby);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.table);
+        record.append(this.table == null ? "" : this.table);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.order);
+        record.append(this.order == null ? "" : this.order);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

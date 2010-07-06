@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysQBFVolAreasOfInterest implements CSVable {
@@ -56,7 +56,7 @@ public class UsysQBFVolAreasOfInterest implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -78,11 +78,11 @@ public class UsysQBFVolAreasOfInterest implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.user);
+        record.append(this.user == null ? "" : this.user);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.areasofinterest);
+        record.append(this.areasofinterest == null ? "" : this.areasofinterest);
         record.append(this.enclosure);
         record.append(this.delimiter);
 

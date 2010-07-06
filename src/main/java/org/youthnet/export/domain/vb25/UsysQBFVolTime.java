@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysQBFVolTime implements CSVable {
@@ -62,7 +62,7 @@ public class UsysQBFVolTime implements CSVable {
         return this.enclosure;
     }
 
-    public void setEnclosure(char delimiter) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -85,15 +85,15 @@ public class UsysQBFVolTime implements CSVable {
         record.setLength(0);
 
         record.append(this.enclosure);
-        record.append(this.user);
+        record.append(this.user == null ? "" : this.user);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.day);
+        record.append(this.day == null ? "" : this.day);
         record.append(this.enclosure);
         record.append(this.delimiter);
         record.append(this.enclosure);
-        record.append(this.timeslot);
+        record.append(this.timeslot == null ? "" : this.timeslot);
         record.append(this.enclosure);
         record.append(this.delimiter);
 
