@@ -393,19 +393,24 @@ public class Smasher {
 
 
         // Add the imports.
+        classStringBuffer.append("import org.youthnet.export.domain.CSVable;\n\n");
         for (String imp : imports) {
             classStringBuffer.append(imp);
             classStringBuffer.append("\n");
         }
+        classStringBuffer.append("import java.util.List;\n");
+        classStringBuffer.append("import java.util.ArrayList;\n");
+
         // If there are date classes within the imports then also import the classes required to pars dates.
         if (hasDates) {
-            classStringBuffer.append("import java.text.ParseException;\nimport java.text.SimpleDateFormat;\nimport java.util.List;\n\n");
-        } else classStringBuffer.append("\n\n");
+            classStringBuffer.append("import java.text.ParseException;\nimport java.text.SimpleDateFormat;\n");
+        }
+        classStringBuffer.append("\n\n");
 
         // Add the class name and constants.
         classStringBuffer.append("public class ");
         classStringBuffer.append(className);
-        classStringBuffer.append(" {\n\n\tprivate char delimiter = '");
+        classStringBuffer.append(" implements CSVable {\n\n\tprivate char delimiter = '");
         classStringBuffer.append(CSV_DELIMITER);
         classStringBuffer.append("';\n");
         classStringBuffer.append("\tprivate char enclosure = '");
@@ -414,8 +419,8 @@ public class Smasher {
         classStringBuffer.append("\tpublic static final int COLUMN_NUM = ");
         classStringBuffer.append(attributeNum);
         classStringBuffer.append(";\n\n");
-        classStringBuffer.append("\tpublic List<String> columnNames = null;\n\n");
-        classStringBuffer.append("\tpublic StringBuffer record = new StringBuffer();\n\n");
+        classStringBuffer.append("\tprivate List<String> columnNames = null;\n\n");
+        classStringBuffer.append("\tprivate StringBuffer record = new StringBuffer();\n\n");
 
         StringBuffer initAttributesStringBuffer = new StringBuffer();
         // Add the attributes and create the code that will be used to initialise the attributes..
@@ -431,7 +436,7 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = Short.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
 
             if (attributes[i][1].equals("Integer")) {
@@ -439,15 +444,15 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = Integer.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
 
             if (attributes[i][1].equals("Long")) {
-                initAttributesStringBuffer.append("\t\t\tthis.");
+                initAttributesStringBuffer.append("\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = Long.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
 
             if (attributes[i][1].equals("BigDecimal")) {
@@ -473,7 +478,7 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\");\n");
             }
 
             if (attributes[i][1].equals("Boolean")) {
@@ -481,7 +486,7 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"1\"));\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"1\");\n");
             }
 
             if (attributes[i][1].equals("Date")
@@ -514,7 +519,7 @@ public class Smasher {
         classStringBuffer.append("(String record) {\n\t\tinit(record);\n\t}\n\n");
 
         // Add the init method.
-        classStringBuffer.append("\tpublic void init(String record) {\n\t\tString[] fields = record.split(this.delimiter);\n");
+        classStringBuffer.append("\tpublic void init(String record) {\n\t\tString[] fields = record.split(\"\\\\\" + String.valueOf(this.delimiter));\n");
         if (hasDates) { // If there are date attributes then a date formatter will be needed.
             classStringBuffer.append("\t\tSimpleDateFormat simpleDateFormat = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss.S\");\n\n");
         } else classStringBuffer.append("\n\n");
@@ -546,7 +551,7 @@ public class Smasher {
         classStringBuffer.append("\tpublic Integer getColumnNumber() {\n\t\treturn COLUMN_NUM;\n\t}\n\n");
 
         // Add column name getter.
-        classStringBuffer.append("\tpublic List<String> getColumnNames() {\n\t\tif (this.columnNames == null) {\n");
+        classStringBuffer.append("\tpublic List<String> getColumnNames() {\n\t\tif (this.columnNames == null) {\n\t\t\tcolumnNames = new ArrayList<String>();\n");
         for (Column column : columns) {
              classStringBuffer.append("\t\t\tcolumnNames.add(\"");
              classStringBuffer.append(column.getName());
@@ -560,16 +565,16 @@ public class Smasher {
         classStringBuffer.append("\tpublic String getRecord() {\n\t\trecord.setLength(0);\n\n");
         for (String[] attribute : attributes) {
             classStringBuffer.append("\t\trecord.append(this.enclosure);\n");
-            classStringBuffer.append("\t\tthis.");
-            if (attribute[1].equals("UUID")) {
+            classStringBuffer.append("\t\trecord.append(this.");
+            if (attribute[1].equals("Boolean")) {
                 classStringBuffer.append(attribute[0]);
-                classStringBuffer.append(".toString().replace(\"-\",\"\"));");
+                classStringBuffer.append(" ? 1 : 0");
             } else classStringBuffer.append(attribute[0]);
-            classStringBuffer.append(";\n\t\trecord.append(this.enclosure);\n");
-            classStringBuffer.append(";\n\t\trecord.append(this.delimiter);\n");
+            classStringBuffer.append(");\n\t\trecord.append(this.enclosure);\n");
+            classStringBuffer.append("\t\trecord.append(this.delimiter);\n");
         }
         classStringBuffer.append("\n\t\treturn record.toString();");
-        classStringBuffer.append("\n\t}");
+        classStringBuffer.append("\n\t}\n");
 
         // Close off class.
         classStringBuffer.append("}\n");

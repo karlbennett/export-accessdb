@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class UsysFieldList {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class UsysFieldList implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 3;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private String field;
     private String area;
@@ -13,17 +23,16 @@ public class UsysFieldList {
 
 
     public UsysFieldList(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.field = fields[0].substring(1, fields[0].length() - 1);
-        this.area = fields[1].substring(1, fields[1].length() - 1);
-        try {
-            this.order = Short.parseShort(fields[2].substring(1, fields[2].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars order Short " + fields[2].substring(1, fields[2].length() - 1)
-                    + " in row " + this.field + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
+        this.field = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.area = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.order = Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
     }
 
     public String getField() {
@@ -38,4 +47,53 @@ public class UsysFieldList {
         return this.order;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Field");
+            columnNames.add("Area");
+            columnNames.add("Order");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.field);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.area);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.order);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

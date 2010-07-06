@@ -1,14 +1,24 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TblOrg {
 
-    private static final String DELIMITER = "\\|";
+public class TblOrg implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 35;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private Long orgid;
     private String orgenteredid;
@@ -48,61 +58,60 @@ public class TblOrg {
 
 
     public TblOrg(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        try {
-            this.orgid = Long.parseLong(fields[0].substring(1, fields[0].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars orgid Long " + fields[0].substring(1, fields[0].length() - 1)
-                    + " in row " + this.orgid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.orgenteredid = fields[1].substring(1, fields[1].length() - 1);
-        this.name = fields[2].substring(1, fields[2].length() - 1);
-        this.address1 = fields[3].substring(1, fields[3].length() - 1);
-        this.address2 = fields[4].substring(1, fields[4].length() - 1);
-        this.town = fields[5].substring(1, fields[5].length() - 1);
-        this.county = fields[6].substring(1, fields[6].length() - 1);
-        this.postcode = fields[7].substring(1, fields[7].length() - 1);
-        this.tel1 = fields[8].substring(1, fields[8].length() - 1);
-        this.fax = fields[9].substring(1, fields[9].length() - 1);
-        this.email = fields[10].substring(1, fields[10].length() - 1);
-        this.www = fields[11].substring(1, fields[11].length() - 1);
-        this.geographicalarea = fields[12].substring(1, fields[12].length() - 1);
-        this.directions = fields[13].substring(1, fields[13].length() - 1);
-        this.firstname = fields[14].substring(1, fields[14].length() - 1);
-        this.lastname = fields[15].substring(1, fields[15].length() - 1);
-        this.title = fields[16].substring(1, fields[16].length() - 1);
-        this.salutation = fields[17].substring(1, fields[17].length() - 1);
-        this.jobtitle = fields[18].substring(1, fields[18].length() - 1);
-        this.contacttel1 = fields[19].substring(1, fields[19].length() - 1);
-        this.contactfax = fields[20].substring(1, fields[20].length() - 1);
-        this.contactemail = fields[21].substring(1, fields[21].length() - 1);
-        this.contactwww = fields[22].substring(1, fields[22].length() - 1);
-        this.mission = fields[23].substring(1, fields[23].length() - 1);
-        this.activities = fields[24].substring(1, fields[24].length() - 1);
+        this.orgid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.orgenteredid = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.name = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.address1 = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.address2 = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.town = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.county = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.postcode = fields[7].replace(String.valueOf(this.enclosure), "");
+        this.tel1 = fields[8].replace(String.valueOf(this.enclosure), "");
+        this.fax = fields[9].replace(String.valueOf(this.enclosure), "");
+        this.email = fields[10].replace(String.valueOf(this.enclosure), "");
+        this.www = fields[11].replace(String.valueOf(this.enclosure), "");
+        this.geographicalarea = fields[12].replace(String.valueOf(this.enclosure), "");
+        this.directions = fields[13].replace(String.valueOf(this.enclosure), "");
+        this.firstname = fields[14].replace(String.valueOf(this.enclosure), "");
+        this.lastname = fields[15].replace(String.valueOf(this.enclosure), "");
+        this.title = fields[16].replace(String.valueOf(this.enclosure), "");
+        this.salutation = fields[17].replace(String.valueOf(this.enclosure), "");
+        this.jobtitle = fields[18].replace(String.valueOf(this.enclosure), "");
+        this.contacttel1 = fields[19].replace(String.valueOf(this.enclosure), "");
+        this.contactfax = fields[20].replace(String.valueOf(this.enclosure), "");
+        this.contactemail = fields[21].replace(String.valueOf(this.enclosure), "");
+        this.contactwww = fields[22].replace(String.valueOf(this.enclosure), "");
+        this.mission = fields[23].replace(String.valueOf(this.enclosure), "");
+        this.activities = fields[24].replace(String.valueOf(this.enclosure), "");
         try {
             this.datefirstentered = new Timestamp(
-                    simpleDateFormat.parse(fields[25].substring(1, fields[25].length() - 1)).getTime());
+                    simpleDateFormat.parse(fields[25].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered Timestamp " + fields[25].substring(1, fields[25].length() - 1)
+            System.out.println("Could not pars datefirstentered Timestamp " + fields[25].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.orgid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
-                    simpleDateFormat.parse(fields[26].substring(1, fields[26].length() - 1)).getTime());
+                    simpleDateFormat.parse(fields[26].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated Timestamp " + fields[26].substring(1, fields[26].length() - 1)
+            System.out.println("Could not pars datelastupdated Timestamp " + fields[26].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.orgid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
-        this.lastupdatedby = fields[27].substring(1, fields[27].length() - 1);
-        this.contactaddress1 = fields[28].substring(1, fields[28].length() - 1);
-        this.contactaddress2 = fields[29].substring(1, fields[29].length() - 1);
-        this.contacttown = fields[30].substring(1, fields[30].length() - 1);
-        this.contactcounty = fields[31].substring(1, fields[31].length() - 1);
-        this.contactpostcode = fields[32].substring(1, fields[32].length() - 1);
-        this.telfaxsearch = fields[33].substring(1, fields[33].length() - 1);
-        this.demodata = fields[34].substring(1, fields[34].length() - 1).equals("1");
+        this.lastupdatedby = fields[27].replace(String.valueOf(this.enclosure), "");
+        this.contactaddress1 = fields[28].replace(String.valueOf(this.enclosure), "");
+        this.contactaddress2 = fields[29].replace(String.valueOf(this.enclosure), "");
+        this.contacttown = fields[30].replace(String.valueOf(this.enclosure), "");
+        this.contactcounty = fields[31].replace(String.valueOf(this.enclosure), "");
+        this.contactpostcode = fields[32].replace(String.valueOf(this.enclosure), "");
+        this.telfaxsearch = fields[33].replace(String.valueOf(this.enclosure), "");
+        this.demodata = fields[34].replace(String.valueOf(this.enclosure), "").equals("1");
     }
 
     public Long getOrgid() {
@@ -245,4 +254,213 @@ public class TblOrg {
         return this.demodata;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("OrgID");
+            columnNames.add("OrgEnteredID");
+            columnNames.add("Name");
+            columnNames.add("Address1");
+            columnNames.add("Address2");
+            columnNames.add("Town");
+            columnNames.add("County");
+            columnNames.add("Postcode");
+            columnNames.add("Tel1");
+            columnNames.add("Fax");
+            columnNames.add("Email");
+            columnNames.add("WWW");
+            columnNames.add("GeographicalArea");
+            columnNames.add("Directions");
+            columnNames.add("FirstName");
+            columnNames.add("LastName");
+            columnNames.add("Title");
+            columnNames.add("Salutation");
+            columnNames.add("JobTitle");
+            columnNames.add("ContactTel1");
+            columnNames.add("ContactFax");
+            columnNames.add("ContactEmail");
+            columnNames.add("ContactWWW");
+            columnNames.add("Mission");
+            columnNames.add("Activities");
+            columnNames.add("DateFirstEntered");
+            columnNames.add("DateLastUpdated");
+            columnNames.add("LastUpdatedBy");
+            columnNames.add("ContactAddress1");
+            columnNames.add("ContactAddress2");
+            columnNames.add("ContactTown");
+            columnNames.add("ContactCounty");
+            columnNames.add("ContactPostcode");
+            columnNames.add("TelFaxSearch");
+            columnNames.add("DemoData");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.orgid);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.orgenteredid);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.name);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.address1);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.address2);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.town);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.county);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.postcode);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.tel1);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.fax);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.email);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.www);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.geographicalarea);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.directions);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.firstname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.lastname);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.title);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.salutation);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.jobtitle);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contacttel1);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactfax);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactemail);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactwww);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.mission);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.activities);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.datefirstentered);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.datelastupdated);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.lastupdatedby);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactaddress1);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactaddress2);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contacttown);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactcounty);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.contactpostcode);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.telfaxsearch);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.demodata ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

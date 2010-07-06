@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class UsysPivots {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class UsysPivots implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 9;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private Long id;
     private String pivot;
@@ -19,23 +29,22 @@ public class UsysPivots {
 
 
     public UsysPivots(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        try {
-            this.id = Long.parseLong(fields[0].substring(1, fields[0].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars id Long " + fields[0].substring(1, fields[0].length() - 1)
-                    + " in row " + this.id + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.pivot = fields[1].substring(1, fields[1].length() - 1);
-        this.row = fields[2].substring(1, fields[2].length() - 1);
-        this.column = fields[3].substring(1, fields[3].length() - 1);
-        this.data = fields[4].substring(1, fields[4].length() - 1);
-        this.sql = fields[5].substring(1, fields[5].length() - 1);
-        this.select = fields[6].substring(1, fields[6].length() - 1);
-        this.entsql = fields[7].substring(1, fields[7].length() - 1);
-        this.actsql = fields[8].substring(1, fields[8].length() - 1);
+        this.id = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.pivot = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.row = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.column = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.data = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.sql = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.select = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.entsql = fields[7].replace(String.valueOf(this.enclosure), "");
+        this.actsql = fields[8].replace(String.valueOf(this.enclosure), "");
     }
 
     public Long getId() {
@@ -74,4 +83,83 @@ public class UsysPivots {
         return this.actsql;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("ID");
+            columnNames.add("Pivot");
+            columnNames.add("Row");
+            columnNames.add("Column");
+            columnNames.add("Data");
+            columnNames.add("SQL");
+            columnNames.add("Select");
+            columnNames.add("EntSQL");
+            columnNames.add("ActSQL");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.pivot);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.row);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.column);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.data);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.sql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.select);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.entsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.actsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

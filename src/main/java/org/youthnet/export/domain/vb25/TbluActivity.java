@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class TbluActivity {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class TbluActivity implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 12;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private String activity;
     private Boolean active;
@@ -22,21 +32,25 @@ public class TbluActivity {
 
 
     public TbluActivity(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.activity = fields[0].substring(1, fields[0].length() - 1);
-        this.active = fields[1].substring(1, fields[1].length() - 1).equals("1");
-        this.showincalendar = fields[2].substring(1, fields[2].length() - 1).equals("1");
-        this.showopplink = fields[3].substring(1, fields[3].length() - 1).equals("1");
-        this.showhoursworked = fields[4].substring(1, fields[4].length() - 1).equals("1");
-        this.alldayevent = fields[5].substring(1, fields[5].length() - 1).equals("1");
-        this.type = fields[6].substring(1, fields[6].length() - 1);
-        this.uselink = fields[7].substring(1, fields[7].length() - 1).equals("1");
-        this.linkcaption = fields[8].substring(1, fields[8].length() - 1);
-        this.caldefault = fields[9].substring(1, fields[9].length() - 1).equals("1");
-        this.keep = fields[10].substring(1, fields[10].length() - 1).equals("1");
-        this.demodata = fields[11].substring(1, fields[11].length() - 1).equals("1");
+        this.activity = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.showincalendar = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.showopplink = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.showhoursworked = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.alldayevent = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.type = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.uselink = fields[7].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.linkcaption = fields[8].replace(String.valueOf(this.enclosure), "");
+        this.caldefault = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.keep = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.demodata = fields[11].replace(String.valueOf(this.enclosure), "").equals("1");
     }
 
     public String getActivity() {
@@ -87,4 +101,98 @@ public class TbluActivity {
         return this.demodata;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Activity");
+            columnNames.add("Active");
+            columnNames.add("ShowInCalendar");
+            columnNames.add("ShowOppLink");
+            columnNames.add("ShowHoursWorked");
+            columnNames.add("AllDayEvent");
+            columnNames.add("Type");
+            columnNames.add("UseLink");
+            columnNames.add("LinkCaption");
+            columnNames.add("CalDefault");
+            columnNames.add("Keep");
+            columnNames.add("DemoData");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.activity);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.active ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.showincalendar ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.showopplink ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.showhoursworked ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.alldayevent ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.type);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.uselink ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.linkcaption);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.caldefault ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.keep ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.demodata ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

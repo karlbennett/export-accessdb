@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class UsysReportsSpecial {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class UsysReportsSpecial implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 8;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private String report;
     private Short type;
@@ -18,22 +28,21 @@ public class UsysReportsSpecial {
 
 
     public UsysReportsSpecial(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.report = fields[0].substring(1, fields[0].length() - 1);
-        try {
-            this.type = Short.parseShort(fields[1].substring(1, fields[1].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars type Short " + fields[1].substring(1, fields[1].length() - 1)
-                    + " in row " + this.report + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.sql = fields[2].substring(1, fields[2].length() - 1);
-        this.entsql = fields[3].substring(1, fields[3].length() - 1);
-        this.actsql = fields[4].substring(1, fields[4].length() - 1);
-        this.subsql = fields[5].substring(1, fields[5].length() - 1);
-        this.subentsql = fields[6].substring(1, fields[6].length() - 1);
-        this.subactsql = fields[7].substring(1, fields[7].length() - 1);
+        this.report = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.type = Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.sql = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.entsql = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.actsql = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.subsql = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.subentsql = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.subactsql = fields[7].replace(String.valueOf(this.enclosure), "");
     }
 
     public String getReport() {
@@ -68,4 +77,78 @@ public class UsysReportsSpecial {
         return this.subactsql;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Report");
+            columnNames.add("Type");
+            columnNames.add("SQL");
+            columnNames.add("EntSQL");
+            columnNames.add("ActSQL");
+            columnNames.add("SubSQL");
+            columnNames.add("SubEntSQL");
+            columnNames.add("SubActSQL");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.report);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.type);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.sql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.entsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.actsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subentsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subactsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

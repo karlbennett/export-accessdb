@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class UsysReports {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class UsysReports implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 15;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private String report;
     private Short order;
@@ -25,39 +35,28 @@ public class UsysReports {
 
 
     public UsysReports(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.report = fields[0].substring(1, fields[0].length() - 1);
-        try {
-            this.order = Short.parseShort(fields[1].substring(1, fields[1].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars order Short " + fields[1].substring(1, fields[1].length() - 1)
-                    + " in row " + this.report + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.sql = fields[2].substring(1, fields[2].length() - 1);
-        try {
-            this.orientation = Short.parseShort(fields[3].substring(1, fields[3].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars orientation Short " + fields[3].substring(1, fields[3].length() - 1)
-                    + " in row " + this.report + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        try {
-            this.bottommargin = Short.parseShort(fields[4].substring(1, fields[4].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars bottommargin Short " + fields[4].substring(1, fields[4].length() - 1)
-                    + " in row " + this.report + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.activereport = fields[5].substring(1, fields[5].length() - 1);
-        this.select = fields[6].substring(1, fields[6].length() - 1);
-        this.entsql = fields[7].substring(1, fields[7].length() - 1);
-        this.actsql = fields[8].substring(1, fields[8].length() - 1);
-        this.subreport = fields[9].substring(1, fields[9].length() - 1).equals("1");
-        this.subselect = fields[10].substring(1, fields[10].length() - 1);
-        this.subsql = fields[11].substring(1, fields[11].length() - 1);
-        this.subentsql = fields[12].substring(1, fields[12].length() - 1);
-        this.subactsql = fields[13].substring(1, fields[13].length() - 1);
-        this.usespecial = fields[14].substring(1, fields[14].length() - 1).equals("1");
+        this.report = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.order = Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.sql = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.orientation = Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.bottommargin = Short.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+        this.activereport = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.select = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.entsql = fields[7].replace(String.valueOf(this.enclosure), "");
+        this.actsql = fields[8].replace(String.valueOf(this.enclosure), "");
+        this.subreport = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.subselect = fields[10].replace(String.valueOf(this.enclosure), "");
+        this.subsql = fields[11].replace(String.valueOf(this.enclosure), "");
+        this.subentsql = fields[12].replace(String.valueOf(this.enclosure), "");
+        this.subactsql = fields[13].replace(String.valueOf(this.enclosure), "");
+        this.usespecial = fields[14].replace(String.valueOf(this.enclosure), "").equals("1");
     }
 
     public String getReport() {
@@ -120,4 +119,113 @@ public class UsysReports {
         return this.usespecial;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Report");
+            columnNames.add("Order");
+            columnNames.add("SQL");
+            columnNames.add("Orientation");
+            columnNames.add("BottomMargin");
+            columnNames.add("ActiveReport");
+            columnNames.add("Select");
+            columnNames.add("EntSQL");
+            columnNames.add("ActSQL");
+            columnNames.add("SubReport");
+            columnNames.add("SubSelect");
+            columnNames.add("SubSQL");
+            columnNames.add("SubEntSQL");
+            columnNames.add("SubActSQL");
+            columnNames.add("UseSpecial");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.report);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.order);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.sql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.orientation);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.bottommargin);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.activereport);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.select);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.entsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.actsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subreport ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subselect);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subentsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.subactsql);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.usespecial ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

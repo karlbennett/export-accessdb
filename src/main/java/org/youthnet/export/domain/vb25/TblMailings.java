@@ -1,14 +1,24 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TblMailings {
 
-    private static final String DELIMITER = "\\|";
+public class TblMailings implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 10;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private String mailing;
     private Short no;
@@ -23,41 +33,35 @@ public class TblMailings {
 
 
     public TblMailings(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.mailing = fields[0].substring(1, fields[0].length() - 1);
-        try {
-            this.no = Short.parseShort(fields[1].substring(1, fields[1].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars no Short " + fields[1].substring(1, fields[1].length() - 1)
-                    + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.description = fields[2].substring(1, fields[2].length() - 1);
-        this.fields = fields[3].substring(1, fields[3].length() - 1);
-        try {
-            this.icon = Short.parseShort(fields[4].substring(1, fields[4].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars icon Short " + fields[4].substring(1, fields[4].length() - 1)
-                    + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.email = fields[5].substring(1, fields[5].length() - 1).equals("1");
-        this.owner = fields[6].substring(1, fields[6].length() - 1);
+        this.mailing = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.no = Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.description = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.fields = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.icon = Short.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+        this.email = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.owner = fields[6].replace(String.valueOf(this.enclosure), "");
         try {
             this.datefirstentered = new Timestamp(
-                    simpleDateFormat.parse(fields[7].substring(1, fields[7].length() - 1)).getTime());
+                    simpleDateFormat.parse(fields[7].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datefirstentered Timestamp " + fields[7].substring(1, fields[7].length() - 1)
+            System.out.println("Could not pars datefirstentered Timestamp " + fields[7].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
             this.datelastupdated = new Timestamp(
-                    simpleDateFormat.parse(fields[8].substring(1, fields[8].length() - 1)).getTime());
+                    simpleDateFormat.parse(fields[8].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars datelastupdated Timestamp " + fields[8].substring(1, fields[8].length() - 1)
+            System.out.println("Could not pars datelastupdated Timestamp " + fields[8].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
-        this.lastupdatedby = fields[9].substring(1, fields[9].length() - 1);
+        this.lastupdatedby = fields[9].replace(String.valueOf(this.enclosure), "");
     }
 
     public String getMailing() {
@@ -100,4 +104,88 @@ public class TblMailings {
         return this.lastupdatedby;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Mailing");
+            columnNames.add("No");
+            columnNames.add("Description");
+            columnNames.add("Fields");
+            columnNames.add("Icon");
+            columnNames.add("Email");
+            columnNames.add("Owner");
+            columnNames.add("DateFirstEntered");
+            columnNames.add("DateLastUpdated");
+            columnNames.add("LastUpdatedBy");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.mailing);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.no);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.description);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.fields);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.icon);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.email ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.owner);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.datefirstentered);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.datelastupdated);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.lastupdatedby);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

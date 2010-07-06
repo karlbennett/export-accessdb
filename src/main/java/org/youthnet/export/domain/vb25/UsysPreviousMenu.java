@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class UsysPreviousMenu {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class UsysPreviousMenu implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 4;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private Long id;
     private String user;
@@ -14,23 +24,17 @@ public class UsysPreviousMenu {
 
 
     public UsysPreviousMenu(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        try {
-            this.id = Long.parseLong(fields[0].substring(1, fields[0].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars id Long " + fields[0].substring(1, fields[0].length() - 1)
-                    + " in row " + this.id + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.user = fields[1].substring(1, fields[1].length() - 1);
-        this.name = fields[2].substring(1, fields[2].length() - 1);
-        try {
-            this.type = Short.parseShort(fields[3].substring(1, fields[3].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars type Short " + fields[3].substring(1, fields[3].length() - 1)
-                    + " in row " + this.id + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
+        this.id = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.user = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.name = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.type = Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
     }
 
     public Long getId() {
@@ -49,4 +53,58 @@ public class UsysPreviousMenu {
         return this.type;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("ID");
+            columnNames.add("User");
+            columnNames.add("Name");
+            columnNames.add("Type");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.user);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.name);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.type);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

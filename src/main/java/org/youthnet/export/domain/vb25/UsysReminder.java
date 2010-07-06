@@ -1,11 +1,21 @@
 package org.youthnet.export.domain.vb25;
 
+import org.youthnet.export.domain.CSVable;
 
-public class UsysReminder {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String DELIMITER = "\\|";
+
+public class UsysReminder implements CSVable {
+
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
     public static final int COLUMN_NUM = 7;
+
+    private List<String> columnNames = null;
+
+    private StringBuffer record = new StringBuffer();
 
     private String reminder;
     private String period;
@@ -17,26 +27,20 @@ public class UsysReminder {
 
 
     public UsysReminder(String record) {
-        String[] fields = record.split(DELIMITER);
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.reminder = fields[0].substring(1, fields[0].length() - 1);
-        this.period = fields[1].substring(1, fields[1].length() - 1);
-        try {
-            this.no = Short.parseShort(fields[2].substring(1, fields[2].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars no Short " + fields[2].substring(1, fields[2].length() - 1)
-                    + " in row " + this.reminder + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        try {
-            this.order = Short.parseShort(fields[3].substring(1, fields[3].length() - 1));
-        } catch (NumberFormatException e) {
-            System.out.println("Could not pars order Short " + fields[3].substring(1, fields[3].length() - 1)
-                    + " in row " + this.reminder + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-        this.promptfortime = fields[4].substring(1, fields[4].length() - 1).equals("1");
-        this.alarmtime = fields[5].substring(1, fields[5].length() - 1);
-        this.active = fields[6].substring(1, fields[6].length() - 1).equals("1");
+        this.reminder = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.period = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.no = Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.order = Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.promptfortime = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.alarmtime = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.active = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
     }
 
     public String getReminder() {
@@ -67,4 +71,73 @@ public class UsysReminder {
         return this.active;
     }
 
+    public char getDelimiter() {
+        return this.delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public char getEnclosure() {
+        return this.enclosure;
+    }
+
+    public void setEnclosure(char delimiter) {
+        this.enclosure = enclosure;
+    }
+
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
+
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Reminder");
+            columnNames.add("Period");
+            columnNames.add("No");
+            columnNames.add("Order");
+            columnNames.add("PromptForTime");
+            columnNames.add("AlarmTime");
+            columnNames.add("Active");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.reminder);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.period);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.no);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.order);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.promptfortime ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.alarmtime);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.active ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }
