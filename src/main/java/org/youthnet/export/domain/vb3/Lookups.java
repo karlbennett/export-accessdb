@@ -4,6 +4,8 @@ package org.youthnet.export.domain.vb3;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,11 +13,11 @@ import java.util.UUID;
 
 public class Lookups implements CSVable {
 
-    private String delimiter = "|";
-    private String enclosure = "¬";
+    private char delimiter = '|';
+    private char enclosure = '¬';
     private Integer columnNum = 18;
     private List<String> columnNames = null;
-    private StringBuffer record = new StringBuffer();
+    private StringBuffer recordStringBuffer = new StringBuffer();
 
     private UUID languageid;
     private Boolean appliestoopportunities;
@@ -39,20 +41,99 @@ public class Lookups implements CSVable {
     public Lookups() {
     }
 
+    public Lookups(String record) {
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split(String.valueOf(this.delimiter));
+        StringBuffer uuidStringBuffer = new StringBuffer();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[0].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.languageid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.value = fields[1].replace(String.valueOf(this.enclosure), "");
+
+        this.appliestoopportunities = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.ownerid = UUID.fromString(uuidStringBuffer.toString());
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.id = UUID.fromString(uuidStringBuffer.toString());
+
+        this.deleted = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.version = Long.valueOf(fields[6].replace(String.valueOf(this.enclosure), ""));
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.appliestovolunteers = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.isactive = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.sortorder = Long.valueOf(fields[10].replace(String.valueOf(this.enclosure), ""));
+
+        try {
+            this.created = new Timestamp(simpleDateFormat.parse(fields[11].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp created " + fields[11].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.vbase2id = Long.valueOf(fields[13].replace(String.valueOf(this.enclosure), ""));
+
+        this.isusereditable = fields[14].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.discriminator = fields[15].replace(String.valueOf(this.enclosure), "");
+
+        this.appliestoorganisations = fields[16].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        try {
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[17].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp modified " + fields[17].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
+
+    }
+
+
     public UUID getLanguageId() {
         return this.languageid;
     }
 
     public void setLanguageId(UUID languageid) {
         this.languageid = languageid;
-    }
-
-    public String getValue() {
-        return this.value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public Boolean getAppliesToOpportunities() {
@@ -63,12 +144,12 @@ public class Lookups implements CSVable {
         this.appliestoopportunities = appliestoopportunities;
     }
 
-    public UUID getOwnerId() {
-        return this.ownerid;
+    public String getValue() {
+        return this.value;
     }
 
-    public void setOwnerId(UUID ownerid) {
-        this.ownerid = ownerid;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public UUID getId() {
@@ -77,6 +158,14 @@ public class Lookups implements CSVable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getOwnerId() {
+        return this.ownerid;
+    }
+
+    public void setOwnerId(UUID ownerid) {
+        this.ownerid = ownerid;
     }
 
     public Boolean getDeleted() {
@@ -167,14 +256,6 @@ public class Lookups implements CSVable {
         this.discriminator = discriminator;
     }
 
-    public Boolean getAppliesToOrganisations() {
-        return this.appliestoorganisations;
-    }
-
-    public void setAppliesToOrganisations(Boolean appliestoorganisations) {
-        this.appliestoorganisations = appliestoorganisations;
-    }
-
     public Timestamp getModified() {
         return this.modified;
     }
@@ -183,35 +264,43 @@ public class Lookups implements CSVable {
         this.modified = modified;
     }
 
+    public Boolean getAppliesToOrganisations() {
+        return this.appliestoorganisations;
+    }
 
-    public String getDelimiter() {
+    public void setAppliesToOrganisations(Boolean appliestoorganisations) {
+        this.appliestoorganisations = appliestoorganisations;
+    }
+
+
+    public char getDelimiter() {
         return this.delimiter;
     }
 
-    public void setDelimiter(String delimiter) {
+    public void setDelimiter(char delimiter) {
         this.delimiter = delimiter;
     }
 
-    public String getEnclosure() {
+    public char getEnclosure() {
         return this.enclosure;
     }
 
-    public void setEnclosure(String enclosure) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
-    public Integer getClumnNumber() {
+    public Integer getColumnNumber() {
         return this.columnNum;
     }
 
-    public List<String> getClumnNames() {
+    public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
             this.columnNames.add("LanguageId");
-            this.columnNames.add("AppliesToOpportunities");
             this.columnNames.add("Value");
-            this.columnNames.add("Id");
+            this.columnNames.add("AppliesToOpportunities");
             this.columnNames.add("OwnerId");
+            this.columnNames.add("Id");
             this.columnNames.add("Deleted");
             this.columnNames.add("Version");
             this.columnNames.add("ModifiedBy");
@@ -223,106 +312,106 @@ public class Lookups implements CSVable {
             this.columnNames.add("VBase2Id");
             this.columnNames.add("IsUserEditable");
             this.columnNames.add("Discriminator");
-            this.columnNames.add("Modified");
             this.columnNames.add("AppliesToOrganisations");
+            this.columnNames.add("Modified");
         }
 
         return this.columnNames;
     }
 
     public String getRecord() {
-        record.setLength(0);
+        recordStringBuffer.setLength(0);
 
-        record.append(this.enclosure);
-        record.append(this.languageid.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.languageid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.appliestoopportunities);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.value);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.value);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(appliestoopportunities ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.id.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.ownerid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.ownerid.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.deleted);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.version);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.modifiedby.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.appliestovolunteers);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(appliestovolunteers ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.isactive);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(isactive ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.sortorder);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.sortorder);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.created);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.created);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.createdby.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.createdby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.vbase2id);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.vbase2id);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.isusereditable);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(isusereditable ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.discriminator);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.discriminator);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.modified);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(appliestoorganisations ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.appliestoorganisations);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        return record.toString();
+        return recordStringBuffer.toString();
     }
 }

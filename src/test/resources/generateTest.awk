@@ -49,7 +49,7 @@ END {
         testString = testString "+ \"¬\" + " constants[constant] " + \"¬\" + \"|\"\n";
     }
     sub(/^\+ /, "", testString);
-    sub(/$/, " + \"\\n\";", testString);
+    sub(/\n$/, ";", testString);
     printf "String testRecord = " testString "\n"
     print "";
     print "assertEquals(\"record equal\", testRecord, " bean ".getRecord());";

@@ -8,13 +8,19 @@ import java.util.List;
  */
 public interface CSVable {
 
-    public void setDelimiter(String delimiter);
+    public void init(String record);
 
-    public void setEnclosure(String enclosure);
+    public char getDelimiter();
 
-    public Integer getClumnNumber();
+    public void setDelimiter(char delimiter);
 
-    public List<String> getClumnNames();
+    public char getEnclosure();
+
+    public void setEnclosure(char enclosure);
+
+    public Integer getColumnNumber();
+
+    public List<String> getColumnNames();
 
     public String getRecord();
 }

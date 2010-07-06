@@ -29,8 +29,8 @@ public class Smasher {
     public static final String SQL_POST = "post";
     public static final String LOGS_DIR = "logs";
     public static final String JAVA_DIR = "java";
-    public static final String CSV_ENCLOSURE = "¬";
-    public static final String CSV_DELIMITER = "|";
+    public static final char CSV_ENCLOSURE = '¬';
+    public static final char CSV_DELIMITER = '|';
 
     public static void main(String[] args) {
 
@@ -399,18 +399,23 @@ public class Smasher {
         }
         // If there are date classes within the imports then also import the classes required to pars dates.
         if (hasDates) {
-            classStringBuffer.append("import java.text.ParseException;\nimport java.text.SimpleDateFormat;\n\n");
+            classStringBuffer.append("import java.text.ParseException;\nimport java.text.SimpleDateFormat;\nimport java.util.List;\n\n");
         } else classStringBuffer.append("\n\n");
 
         // Add the class name and constants.
         classStringBuffer.append("public class ");
         classStringBuffer.append(className);
-        classStringBuffer.append(" {\n\n\tprivate static final String DELIMITER = \"\\\\");
+        classStringBuffer.append(" {\n\n\tprivate char delimiter = '");
         classStringBuffer.append(CSV_DELIMITER);
-        classStringBuffer.append("\";\n\n");
+        classStringBuffer.append("';\n");
+        classStringBuffer.append("\tprivate char enclosure = '");
+        classStringBuffer.append(CSV_ENCLOSURE);
+        classStringBuffer.append("';\n\n");
         classStringBuffer.append("\tpublic static final int COLUMN_NUM = ");
         classStringBuffer.append(attributeNum);
         classStringBuffer.append(";\n\n");
+        classStringBuffer.append("\tpublic List<String> columnNames = null;\n\n");
+        classStringBuffer.append("\tpublic StringBuffer record = new StringBuffer();\n\n");
 
         StringBuffer initAttributesStringBuffer = new StringBuffer();
         // Add the attributes and create the code that will be used to initialise the attributes..
@@ -422,63 +427,27 @@ public class Smasher {
             classStringBuffer.append(";\n");
 
             if (attributes[i][1].equals("Short")) {
-                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
+                initAttributesStringBuffer.append("\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Short.parseShort(fields[");
+                initAttributesStringBuffer.append(" = Short.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
-                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
-                initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" Short \" + fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
-                initAttributesStringBuffer.append(attributes[0][0]);
-                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
-                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));");
             }
 
             if (attributes[i][1].equals("Integer")) {
-                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
+                initAttributesStringBuffer.append("\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Integer.parseInt(fields[");
+                initAttributesStringBuffer.append(" = Integer.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
-                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
-                initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" Integer \" + fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
-                initAttributesStringBuffer.append(attributes[0][0]);
-                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
-                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));");
             }
 
             if (attributes[i][1].equals("Long")) {
-                initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
+                initAttributesStringBuffer.append("\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Long.parseLong(fields[");
+                initAttributesStringBuffer.append(" = Long.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
-                initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
-                initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" Long \" + fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
-                initAttributesStringBuffer.append(attributes[0][0]);
-                initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
-                initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));");
             }
 
             if (attributes[i][1].equals("BigDecimal")) {
@@ -486,9 +455,7 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = new BigDecimal(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
                 initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" BigDecimal \" + fields[");
@@ -506,9 +473,7 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1);\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
 
             if (attributes[i][1].equals("Boolean")) {
@@ -516,9 +481,7 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" = fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1).equals(\"1\");\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"1\"));\n");
             }
 
             if (attributes[i][1].equals("Date")
@@ -530,18 +493,14 @@ public class Smasher {
                 initAttributesStringBuffer.append(attributes[i][1]);
                 initAttributesStringBuffer.append("(\n\t\t\t\tsimpleDateFormat.parse(fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1)).getTime());\n\t\t} catch (ParseException e) {\n");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\")).getTime());\n\t\t} catch (ParseException e) {\n");
                 initAttributesStringBuffer.append("\t\t\tSystem.out.println(\"Could not pars ");
                 initAttributesStringBuffer.append(attributes[i][0]);
                 initAttributesStringBuffer.append(" ");
                 initAttributesStringBuffer.append(attributes[i][1]);
                 initAttributesStringBuffer.append(" \" + fields[");
                 initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].substring(1, fields[");
-                initAttributesStringBuffer.append(i);
-                initAttributesStringBuffer.append("].length() - 1)\n\t\t\t\t+ \" in row \" + this.");
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\")\n\t\t\t\t+ \" in row \" + this.");
                 initAttributesStringBuffer.append(attributes[0][0]);
                 initAttributesStringBuffer.append("+ \" for table \" + this.getClass().getName() + \". Error: \"");
                 initAttributesStringBuffer.append("+ e.getMessage());\n\t\t}\n");
@@ -552,7 +511,10 @@ public class Smasher {
         // Add the constructor.
         classStringBuffer.append("\tpublic ");
         classStringBuffer.append(className);
-        classStringBuffer.append("(String record) {\n\t\tString[] fields = record.split(DELIMITER);\n");
+        classStringBuffer.append("(String record) {\n\t\tinit(record);\n\t}\n\n");
+
+        // Add the init method.
+        classStringBuffer.append("\tpublic void init(String record) {\n\t\tString[] fields = record.split(this.delimiter);\n");
         if (hasDates) { // If there are date attributes then a date formatter will be needed.
             classStringBuffer.append("\t\tSimpleDateFormat simpleDateFormat = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss.S\");\n\n");
         } else classStringBuffer.append("\n\n");
@@ -571,6 +533,43 @@ public class Smasher {
             classStringBuffer.append(attribute[0]);
             classStringBuffer.append(";\n\t}\n\n");
         }
+
+        // Add the delimiter getter/setter.
+        classStringBuffer.append("\tpublic char getDelimiter() {\n\t\treturn this.delimiter;\n\t}\n\n");
+        classStringBuffer.append("\tpublic void setDelimiter(char delimiter) {\n\t\tthis.delimiter = delimiter;\n\t}\n\n");
+
+        // Add the delimiter getter/setter.
+        classStringBuffer.append("\tpublic char getEnclosure() {\n\t\treturn this.enclosure;\n\t}\n\n");
+        classStringBuffer.append("\tpublic void setEnclosure(char delimiter) {\n\t\tthis.enclosure = enclosure;\n\t}\n\n");
+
+        // Add column number getter.
+        classStringBuffer.append("\tpublic Integer getColumnNumber() {\n\t\treturn COLUMN_NUM;\n\t}\n\n");
+
+        // Add column name getter.
+        classStringBuffer.append("\tpublic List<String> getColumnNames() {\n\t\tif (this.columnNames == null) {\n");
+        for (Column column : columns) {
+             classStringBuffer.append("\t\t\tcolumnNames.add(\"");
+             classStringBuffer.append(column.getName());
+             classStringBuffer.append("\");\n");        
+        }
+        classStringBuffer.append("\t\t}\n\n");
+        classStringBuffer.append("\t\treturn columnNames;");
+        classStringBuffer.append("\t}\n\n");
+
+        // Add column name getter.
+        classStringBuffer.append("\tpublic String getRecord() {\n\t\trecord.setLength(0);\n\n");
+        for (String[] attribute : attributes) {
+            classStringBuffer.append("\t\trecord.append(this.enclosure);\n");
+            classStringBuffer.append("\t\tthis.");
+            if (attribute[1].equals("UUID")) {
+                classStringBuffer.append(attribute[0]);
+                classStringBuffer.append(".toString().replace(\"-\",\"\"));");
+            } else classStringBuffer.append(attribute[0]);
+            classStringBuffer.append(";\n\t\trecord.append(this.enclosure);\n");
+            classStringBuffer.append(";\n\t\trecord.append(this.delimiter);\n");
+        }
+        classStringBuffer.append("\n\t\treturn record.toString();");
+        classStringBuffer.append("\n\t}");
 
         // Close off class.
         classStringBuffer.append("}\n");
@@ -630,7 +629,7 @@ public class Smasher {
                                 valueString = StringEscapeUtils.escapeSql(valueString); // Sanitize the string.
 
                                 // Make sure that neither the enclosing or delimiting characters are in the string.
-                                valueString = valueString.replaceAll(CSV_ENCLOSURE, "[[ENCL]]");
+                                valueString = valueString.replaceAll(String.valueOf(CSV_ENCLOSURE), "[[ENCL]]");
                                 valueString = valueString.replaceAll("\\" + CSV_DELIMITER, "[[DELM]]");
                                 valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
 

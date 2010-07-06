@@ -3,6 +3,7 @@ package org.youthnet.export.domain.vb3;
 
 import org.youthnet.export.domain.CSVable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,11 +11,11 @@ import java.util.UUID;
 
 public class OrganisationAddresses implements CSVable {
 
-    private String delimiter = "|";
-    private String enclosure = "¬";
+    private char delimiter = '|';
+    private char enclosure = '¬';
     private Integer columnNum = 12;
     private List<String> columnNames = null;
-    private StringBuffer record = new StringBuffer();
+    private StringBuffer recordStringBuffer = new StringBuffer();
 
     private UUID orgaddconinfoid;
     private Boolean usecustomorganisationname;
@@ -31,6 +32,55 @@ public class OrganisationAddresses implements CSVable {
 
     public OrganisationAddresses() {
     }
+
+    public OrganisationAddresses(String record) {
+        init(record);
+    }
+
+    public void init(String record) {
+        String[] fields = record.split(String.valueOf(this.delimiter));
+        StringBuffer uuidStringBuffer = new StringBuffer();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[0].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.orgaddconinfoid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.usecustomorganisationname = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.email = fields[2].replace(String.valueOf(this.enclosure), "");
+
+        this.directions = fields[3].replace(String.valueOf(this.enclosure), "");
+
+        this.telephone = fields[4].replace(String.valueOf(this.enclosure), "");
+
+        this.friendlyname = fields[5].replace(String.valueOf(this.enclosure), "");
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.addressid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.emergencytelephone = fields[7].replace(String.valueOf(this.enclosure), "");
+
+        this.isdefaultaddress = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.fax = fields[9].replace(String.valueOf(this.enclosure), "");
+
+        this.website = fields[10].replace(String.valueOf(this.enclosure), "");
+
+        this.organisationname = fields[11].replace(String.valueOf(this.enclosure), "");
+
+    }
+
 
     public UUID getOrgAddConInfoId() {
         return this.orgaddconinfoid;
@@ -129,27 +179,27 @@ public class OrganisationAddresses implements CSVable {
     }
 
 
-    public String getDelimiter() {
+    public char getDelimiter() {
         return this.delimiter;
     }
 
-    public void setDelimiter(String delimiter) {
+    public void setDelimiter(char delimiter) {
         this.delimiter = delimiter;
     }
 
-    public String getEnclosure() {
+    public char getEnclosure() {
         return this.enclosure;
     }
 
-    public void setEnclosure(String enclosure) {
+    public void setEnclosure(char enclosure) {
         this.enclosure = enclosure;
     }
 
-    public Integer getClumnNumber() {
+    public Integer getColumnNumber() {
         return this.columnNum;
     }
 
-    public List<String> getClumnNames() {
+    public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
             this.columnNames.add("OrgAddConInfoId");
@@ -170,68 +220,68 @@ public class OrganisationAddresses implements CSVable {
     }
 
     public String getRecord() {
-        record.setLength(0);
+        recordStringBuffer.setLength(0);
 
-        record.append(this.enclosure);
-        record.append(this.orgaddconinfoid.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.orgaddconinfoid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.usecustomorganisationname);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usecustomorganisationname ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.email);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.email);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.directions);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.directions);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.telephone);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.telephone);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.friendlyname);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.friendlyname);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.addressid.toString().replace("-", ""));
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.emergencytelephone);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.emergencytelephone);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.isdefaultaddress);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(isdefaultaddress ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.fax);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.fax);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.website);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.website);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        record.append(this.enclosure);
-        record.append(this.organisationname);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.organisationname);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
 
-        return record.toString();
+        return recordStringBuffer.toString();
     }
 }

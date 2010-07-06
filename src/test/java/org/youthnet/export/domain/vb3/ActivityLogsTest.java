@@ -1,11 +1,12 @@
 package org.youthnet.export.domain.vb3;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: karl
@@ -56,24 +57,24 @@ public class ActivityLogsTest {
 
         System.out.println(activityLogs.getRecord());
 
-        String testRecord = "¬" + ENDDATE + "¬|"
-        + "¬" + SHOWINCALENDER + "¬|"
-        + "¬" + ID.toString().replace("-", "") + "¬|"
-        + "¬" + STARTDATE + "¬|"
-        + "¬" + DELETED + "¬|"
-        + "¬" + VBASE2ID + "¬|"
-        + "¬" + ENDTIME + "¬|"
-        + "¬" + STARTTIME + "¬|"
-        + "¬" + VERSION + "¬|"
-        + "¬" + MODIFIEDBY.toString().replace("-", "") + "¬|"
-        + "¬" + SUBJECT + "¬|"
-        + "¬" + ISALLDAYEVENT + "¬|"
-        + "¬" + PERSONHEREID.toString().replace("-", "") + "¬|"
-        + "¬" + CREATED + "¬|"
-        + "¬" + CREATEDBY.toString().replace("-", "") + "¬|"
-        + "¬" + ACTIVITYTYPEID.toString().replace("-", "") + "¬|"
-        + "¬" + MODIFIED + "¬|"
-        + "¬" + NOTES + "¬|";
+        String testRecord = "¬" + ENDDATE + "¬" + "|"
+                + "¬" + 1 + "¬" + "|"
+                + "¬" + STARTDATE + "¬" + "|"
+                + "¬" + ID.toString().replace("-", "") + "¬" + "|"
+                + "¬" + 1 + "¬" + "|"
+                + "¬" + VBASE2ID + "¬" + "|"
+                + "¬" + ENDTIME + "¬" + "|"
+                + "¬" + STARTTIME + "¬" + "|"
+                + "¬" + VERSION + "¬" + "|"
+                + "¬" + MODIFIEDBY.toString().replace("-", "") + "¬" + "|"
+                + "¬" + SUBJECT + "¬" + "|"
+                + "¬" + 1 + "¬" + "|"
+                + "¬" + PERSONHEREID.toString().replace("-", "") + "¬" + "|"
+                + "¬" + CREATED + "¬" + "|"
+                + "¬" + CREATEDBY.toString().replace("-", "") + "¬" + "|"
+                + "¬" + ACTIVITYTYPEID.toString().replace("-", "") + "¬" + "|"
+                + "¬" + MODIFIED + "¬" + "|"
+                + "¬" + NOTES + "¬" + "|";
 
         assertEquals("record equal", testRecord, activityLogs.getRecord());
     }
