@@ -32,24 +32,24 @@ public class ActivityLogsTest {
     private static final Timestamp MODIFIED = new Timestamp(new Date().getTime());
     private static final String NOTES = "Test String.";
 
-    private String testRecord = "¬" + ENDDATE + "¬" + "|"
-                + "¬" + 1 + "¬" + "|"
-                + "¬" + STARTDATE + "¬" + "|"
-                + "¬" + ID.toString().replace("-", "") + "¬" + "|"
-                + "¬" + 1 + "¬" + "|"
-                + "¬" + VBASE2ID + "¬" + "|"
-                + "¬" + ENDTIME + "¬" + "|"
-                + "¬" + STARTTIME + "¬" + "|"
-                + "¬" + VERSION + "¬" + "|"
-                + "¬" + MODIFIEDBY.toString().replace("-", "") + "¬" + "|"
-                + "¬" + SUBJECT + "¬" + "|"
-                + "¬" + 1 + "¬" + "|"
-                + "¬" + PERSONHEREID.toString().replace("-", "") + "¬" + "|"
-                + "¬" + CREATED + "¬" + "|"
-                + "¬" + CREATEDBY.toString().replace("-", "") + "¬" + "|"
-                + "¬" + ACTIVITYTYPEID.toString().replace("-", "") + "¬" + "|"
-                + "¬" + MODIFIED + "¬" + "|"
-                + "¬" + NOTES + "¬" + "|";
+    private String testRecord = "¬" + (ISALLDAYEVENT ? 1 : 0) + "¬" + "|"
+            + "¬" + NOTES + "¬" + "|"
+            + "¬" + (SHOWINCALENDER ? 1 : 0) + "¬" + "|"
+            + "¬" + STARTDATE + "¬" + "|"
+            + "¬" + STARTTIME + "¬" + "|"
+            + "¬" + SUBJECT + "¬" + "|"
+            + "¬" + VBASE2ID + "¬" + "|"
+            + "¬" + ACTIVITYTYPEID.toString().replace("-", "") + "¬" + "|"
+            + "¬" + PERSONHEREID.toString().replace("-", "") + "¬" + "|"
+            + "¬" + ID.toString().replace("-", "") + "¬" + "|"
+            + "¬" + CREATED + "¬" + "|"
+            + "¬" + CREATEDBY.toString().replace("-", "") + "¬" + "|"
+            + "¬" + (DELETED ? 1 : 0) + "¬" + "|"
+            + "¬" + MODIFIED + "¬" + "|"
+            + "¬" + MODIFIEDBY.toString().replace("-", "") + "¬" + "|"
+            + "¬" + VERSION + "¬" + "|"
+            + "¬" + ENDDATE + "¬" + "|"
+            + "¬" + ENDTIME + "¬" + "|";
 
     @Test
     public void testBuildActivityLog() {
@@ -74,10 +74,6 @@ public class ActivityLogsTest {
         activityLogs.setModified(MODIFIED);
         activityLogs.setNotes(NOTES);
 
-        System.out.println(activityLogs.getRecord());
-
-
-
         assertEquals("record equal", testRecord, activityLogs.getRecord());
     }
 
@@ -86,6 +82,25 @@ public class ActivityLogsTest {
         ActivityLogs activityLogs = new ActivityLogs(testRecord);
 
         assertEquals("record equal", testRecord, activityLogs.getRecord());
+
+        assertEquals("ENDDATE equal", ENDDATE, activityLogs.getEndDate());
+        assertEquals("SHOWINCALENDER equal", SHOWINCALENDER, activityLogs.getShowInCalender());
+        assertEquals("STARTDATE equal", STARTDATE, activityLogs.getStartDate());
+        assertEquals("ID equal", ID, activityLogs.getId());
+        assertEquals("DELETED equal", DELETED, activityLogs.getDeleted());
+        assertEquals("VBASE2ID equal", VBASE2ID, activityLogs.getVbase2Id());
+        assertEquals("ENDTIME equal", ENDTIME, activityLogs.getEndTime());
+        assertEquals("STARTTIME equal", STARTTIME, activityLogs.getStartTime());
+        assertEquals("VERSION equal", VERSION, activityLogs.getVersion());
+        assertEquals("MODIFIEDBY equal", MODIFIEDBY, activityLogs.getModifiedBy());
+        assertEquals("SUBJECT equal", SUBJECT, activityLogs.getSubject());
+        assertEquals("ISALLDAYEVENT equal", ISALLDAYEVENT, activityLogs.getIsAllDayEvent());
+        assertEquals("PERSONHEREID equal", PERSONHEREID, activityLogs.getPersonHereId());
+        assertEquals("CREATED equal", CREATED, activityLogs.getCreated());
+        assertEquals("CREATEDBY equal", CREATEDBY, activityLogs.getCreatedBy());
+        assertEquals("ACTIVITYTYPEID equal", ACTIVITYTYPEID, activityLogs.getActivityTypeId());
+        assertEquals("MODIFIED equal", MODIFIED, activityLogs.getModified());
+        assertEquals("NOTES equal", NOTES, activityLogs.getNotes());
 
         ActivityLogs newActivityLogs = new ActivityLogs(activityLogs.getRecord());
 

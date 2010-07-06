@@ -17,8 +17,8 @@ public class OpportunityArrPolicyEntry implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID policyid;
     private UUID opportunityid;
+    private UUID policyid;
 
     public OpportunityArrPolicyEntry() {
     }
@@ -39,7 +39,7 @@ public class OpportunityArrPolicyEntry implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.policyid = UUID.fromString(uuidStringBuffer.toString());
+        this.opportunityid = UUID.fromString(uuidStringBuffer.toString());
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
@@ -47,18 +47,10 @@ public class OpportunityArrPolicyEntry implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.opportunityid = UUID.fromString(uuidStringBuffer.toString());
+        this.policyid = UUID.fromString(uuidStringBuffer.toString());
 
     }
 
-
-    public UUID getPolicyId() {
-        return this.policyid;
-    }
-
-    public void setPolicyId(UUID policyid) {
-        this.policyid = policyid;
-    }
 
     public UUID getOpportunityId() {
         return this.opportunityid;
@@ -66,6 +58,14 @@ public class OpportunityArrPolicyEntry implements CSVable {
 
     public void setOpportunityId(UUID opportunityid) {
         this.opportunityid = opportunityid;
+    }
+
+    public UUID getPolicyId() {
+        return this.policyid;
+    }
+
+    public void setPolicyId(UUID policyid) {
+        this.policyid = policyid;
     }
 
 
@@ -92,8 +92,8 @@ public class OpportunityArrPolicyEntry implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("PolicyId");
             this.columnNames.add("OpportunityId");
+            this.columnNames.add("PolicyId");
         }
 
         return this.columnNames;
@@ -103,12 +103,12 @@ public class OpportunityArrPolicyEntry implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.policyid.toString().replace("-", ""));
+        recordStringBuffer.append(this.opportunityid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.opportunityid.toString().replace("-", ""));
+        recordStringBuffer.append(this.policyid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

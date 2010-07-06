@@ -19,18 +19,18 @@ public class PolicyEntries implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private String comments;
-    private UUID id;
-    private Boolean deleted;
     private Long vbase2id;
     private UUID policyid;
-    private Long version;
-    private UUID modifiedby;
+    private UUID policystatusid;
+    private String discriminator;
+    private UUID id;
     private Timestamp created;
     private UUID createdby;
-    private String discriminator;
+    private Boolean deleted;
     private Timestamp modified;
-    private UUID policystatusid;
+    private UUID modifiedby;
+    private Long version;
+    private String comments;
 
     public PolicyEntries() {
     }
@@ -45,7 +45,7 @@ public class PolicyEntries implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.comments = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.vbase2id = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
@@ -53,11 +53,17 @@ public class PolicyEntries implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
+        this.policyid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.deleted = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.policystatusid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.vbase2id = Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.discriminator = fields[3].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
@@ -65,9 +71,13 @@ public class PolicyEntries implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.policyid = UUID.fromString(uuidStringBuffer.toString());
+        this.id = UUID.fromString(uuidStringBuffer.toString());
 
-        this.version = Long.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
+        try {
+            this.created = new Timestamp(simpleDateFormat.parse(fields[5].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp created " + fields[5].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
@@ -75,64 +85,30 @@ public class PolicyEntries implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
-
-        try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[7].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[7].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[8].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
         this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
-        this.discriminator = fields[9].replace(String.valueOf(this.enclosure), "");
+        this.deleted = fields[7].replace(String.valueOf(this.enclosure), "").equals("1");
 
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[10].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[8].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[10].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp modified " + fields[8].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[11].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.policystatusid = UUID.fromString(uuidStringBuffer.toString());
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[10].replace(String.valueOf(this.enclosure), ""));
+
+        this.comments = fields[11].replace(String.valueOf(this.enclosure), "");
 
     }
 
-
-    public String getComments() {
-        return this.comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public UUID getId() {
-        return this.id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
 
     public Long getVbase2Id() {
         return this.vbase2id;
@@ -150,20 +126,28 @@ public class PolicyEntries implements CSVable {
         this.policyid = policyid;
     }
 
-    public Long getVersion() {
-        return this.version;
+    public UUID getPolicyStatusId() {
+        return this.policystatusid;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setPolicyStatusId(UUID policystatusid) {
+        this.policystatusid = policystatusid;
     }
 
-    public UUID getModifiedBy() {
-        return this.modifiedby;
+    public String getDiscriminator() {
+        return this.discriminator;
     }
 
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
+    public void setDiscriminator(String discriminator) {
+        this.discriminator = discriminator;
+    }
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Timestamp getCreated() {
@@ -182,12 +166,12 @@ public class PolicyEntries implements CSVable {
         this.createdby = createdby;
     }
 
-    public String getDiscriminator() {
-        return this.discriminator;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-    public void setDiscriminator(String discriminator) {
-        this.discriminator = discriminator;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getModified() {
@@ -198,12 +182,28 @@ public class PolicyEntries implements CSVable {
         this.modified = modified;
     }
 
-    public UUID getPolicyStatusId() {
-        return this.policystatusid;
+    public UUID getModifiedBy() {
+        return this.modifiedby;
     }
 
-    public void setPolicyStatusId(UUID policystatusid) {
-        this.policystatusid = policystatusid;
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getComments() {
+        return this.comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
 
@@ -230,18 +230,18 @@ public class PolicyEntries implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Comments");
-            this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
             this.columnNames.add("Vbase2Id");
             this.columnNames.add("PolicyId");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("PolicyStatusId");
+            this.columnNames.add("Discriminator");
+            this.columnNames.add("Id");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
-            this.columnNames.add("Discriminator");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
-            this.columnNames.add("PolicyStatusId");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("Comments");
         }
 
         return this.columnNames;
@@ -249,21 +249,6 @@ public class PolicyEntries implements CSVable {
 
     public String getRecord() {
         recordStringBuffer.setLength(0);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.comments);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.vbase2id);
@@ -276,12 +261,17 @@ public class PolicyEntries implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.policystatusid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.discriminator);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -296,7 +286,7 @@ public class PolicyEntries implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.discriminator);
+        recordStringBuffer.append(deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -306,7 +296,17 @@ public class PolicyEntries implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.policystatusid.toString().replace("-", ""));
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.comments);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

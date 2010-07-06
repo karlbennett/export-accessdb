@@ -21,14 +21,14 @@ public class LookupTypes implements CSVable {
 
     private String value;
     private UUID id;
-    private Boolean deleted;
-    private Boolean canedit;
-    private Long version;
-    private UUID modifiedby;
-    private Boolean isvisible;
     private Timestamp created;
     private UUID createdby;
+    private Boolean deleted;
     private Timestamp modified;
+    private UUID modifiedby;
+    private Long version;
+    private Boolean canedit;
+    private Boolean isvisible;
 
     public LookupTypes() {
     }
@@ -53,41 +53,41 @@ public class LookupTypes implements CSVable {
         uuidStringBuffer.insert(23, '-');
         this.id = UUID.fromString(uuidStringBuffer.toString());
 
-        this.deleted = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.canedit = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.version = Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[5].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
-
-        this.isvisible = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
-
         try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[7].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.created = new Timestamp(simpleDateFormat.parse(fields[2].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[7].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp created " + fields[2].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[8].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
+        this.deleted = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
+
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[9].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[5].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[9].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp modified " + fields[5].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[7].replace(String.valueOf(this.enclosure), ""));
+
+        this.canedit = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.isvisible = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
 
     }
 
@@ -108,46 +108,6 @@ public class LookupTypes implements CSVable {
         this.id = id;
     }
 
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Boolean getCanEdit() {
-        return this.canedit;
-    }
-
-    public void setCanEdit(Boolean canedit) {
-        this.canedit = canedit;
-    }
-
-    public Long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
-    }
-
-    public Boolean getIsVisible() {
-        return this.isvisible;
-    }
-
-    public void setIsVisible(Boolean isvisible) {
-        this.isvisible = isvisible;
-    }
-
     public Timestamp getCreated() {
         return this.created;
     }
@@ -164,12 +124,52 @@ public class LookupTypes implements CSVable {
         this.createdby = createdby;
     }
 
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Timestamp getModified() {
         return this.modified;
     }
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Boolean getCanEdit() {
+        return this.canedit;
+    }
+
+    public void setCanEdit(Boolean canedit) {
+        this.canedit = canedit;
+    }
+
+    public Boolean getIsVisible() {
+        return this.isvisible;
+    }
+
+    public void setIsVisible(Boolean isvisible) {
+        this.isvisible = isvisible;
     }
 
 
@@ -198,14 +198,14 @@ public class LookupTypes implements CSVable {
             this.columnNames = new ArrayList<String>();
             this.columnNames.add("Value");
             this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("CanEdit");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("IsVisible");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("CanEdit");
+            this.columnNames.add("IsVisible");
         }
 
         return this.columnNames;
@@ -225,31 +225,6 @@ public class LookupTypes implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(canedit ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isvisible ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.created);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
@@ -260,7 +235,32 @@ public class LookupTypes implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(canedit ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(isvisible ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

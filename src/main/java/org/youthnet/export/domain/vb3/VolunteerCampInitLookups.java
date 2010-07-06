@@ -17,8 +17,8 @@ public class VolunteerCampInitLookups implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID lookupid;
     private UUID volunteerid;
+    private UUID lookupid;
 
     public VolunteerCampInitLookups() {
     }
@@ -39,7 +39,7 @@ public class VolunteerCampInitLookups implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.lookupid = UUID.fromString(uuidStringBuffer.toString());
+        this.volunteerid = UUID.fromString(uuidStringBuffer.toString());
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
@@ -47,18 +47,10 @@ public class VolunteerCampInitLookups implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.volunteerid = UUID.fromString(uuidStringBuffer.toString());
+        this.lookupid = UUID.fromString(uuidStringBuffer.toString());
 
     }
 
-
-    public UUID getLookupId() {
-        return this.lookupid;
-    }
-
-    public void setLookupId(UUID lookupid) {
-        this.lookupid = lookupid;
-    }
 
     public UUID getVolunteerId() {
         return this.volunteerid;
@@ -66,6 +58,14 @@ public class VolunteerCampInitLookups implements CSVable {
 
     public void setVolunteerId(UUID volunteerid) {
         this.volunteerid = volunteerid;
+    }
+
+    public UUID getLookupId() {
+        return this.lookupid;
+    }
+
+    public void setLookupId(UUID lookupid) {
+        this.lookupid = lookupid;
     }
 
 
@@ -92,8 +92,8 @@ public class VolunteerCampInitLookups implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("LookupId");
             this.columnNames.add("VolunteerId");
+            this.columnNames.add("LookupId");
         }
 
         return this.columnNames;
@@ -103,12 +103,12 @@ public class VolunteerCampInitLookups implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.lookupid.toString().replace("-", ""));
+        recordStringBuffer.append(this.volunteerid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.volunteerid.toString().replace("-", ""));
+        recordStringBuffer.append(this.lookupid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

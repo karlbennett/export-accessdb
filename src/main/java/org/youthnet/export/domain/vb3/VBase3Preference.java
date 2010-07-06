@@ -19,25 +19,25 @@ public class VBase3Preference implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
+    private String copyright;
+    private Long dataschemaversion;
+    private UUID defaultcountryid;
     private UUID defaultcountyid;
+    private UUID languageid;
     private Boolean usedefaultcountry;
-    private Boolean usingvisualnotification;
+    private Boolean usedefaultcounty;
     private Boolean usingaudionotification;
     private Boolean usinglognotification;
-    private UUID languageid;
-    private Long colourtheme;
+    private Boolean usingvisualnotification;
     private UUID id;
-    private Boolean deleted;
-    private String copyright;
-    private String applicationname;
-    private Long version;
-    private UUID modifiedby;
     private Timestamp created;
     private UUID createdby;
-    private Long dataschemaversion;
-    private Boolean usedefaultcounty;
+    private Boolean deleted;
     private Timestamp modified;
-    private UUID defaultcountryid;
+    private UUID modifiedby;
+    private Long version;
+    private String applicationname;
+    private Long colourtheme;
 
     public VBase3Preference() {
     }
@@ -52,19 +52,25 @@ public class VBase3Preference implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
+        this.copyright = fields[0].replace(String.valueOf(this.enclosure), "");
+
+        this.dataschemaversion = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[0].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.defaultcountryid = UUID.fromString(uuidStringBuffer.toString());
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.defaultcountyid = UUID.fromString(uuidStringBuffer.toString());
-
-        this.usedefaultcountry = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.usingvisualnotification = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.usingaudionotification = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
@@ -74,25 +80,29 @@ public class VBase3Preference implements CSVable {
         uuidStringBuffer.insert(23, '-');
         this.languageid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.usinglognotification = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.usedefaultcountry = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.colourtheme = Long.valueOf(fields[6].replace(String.valueOf(this.enclosure), ""));
+        this.usedefaultcounty = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.usingaudionotification = fields[7].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.usinglognotification = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.usingvisualnotification = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[10].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.id = UUID.fromString(uuidStringBuffer.toString());
 
-        this.copyright = fields[8].replace(String.valueOf(this.enclosure), "");
-
-        this.deleted = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.applicationname = fields[10].replace(String.valueOf(this.enclosure), "");
-
-        this.version = Long.valueOf(fields[11].replace(String.valueOf(this.enclosure), ""));
+        try {
+            this.created = new Timestamp(simpleDateFormat.parse(fields[11].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp created " + fields[11].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
@@ -100,42 +110,56 @@ public class VBase3Preference implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
-
-        try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[13].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[13].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[14].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
         this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
-        this.dataschemaversion = Long.valueOf(fields[15].replace(String.valueOf(this.enclosure), ""));
+        this.deleted = fields[13].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.usedefaultcounty = fields[16].replace(String.valueOf(this.enclosure), "").equals("1");
+        try {
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[14].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp modified " + fields[14].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[17].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.defaultcountryid = UUID.fromString(uuidStringBuffer.toString());
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
 
-        try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[18].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[18].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
+        this.version = Long.valueOf(fields[16].replace(String.valueOf(this.enclosure), ""));
+
+        this.applicationname = fields[17].replace(String.valueOf(this.enclosure), "");
+
+        this.colourtheme = Long.valueOf(fields[18].replace(String.valueOf(this.enclosure), ""));
 
     }
 
+
+    public String getCopyright() {
+        return this.copyright;
+    }
+
+    public void setCopyright(String copyright) {
+        this.copyright = copyright;
+    }
+
+    public Long getDataSchemaVersion() {
+        return this.dataschemaversion;
+    }
+
+    public void setDataSchemaVersion(Long dataschemaversion) {
+        this.dataschemaversion = dataschemaversion;
+    }
+
+    public UUID getDefaultCountryId() {
+        return this.defaultcountryid;
+    }
+
+    public void setDefaultCountryId(UUID defaultcountryid) {
+        this.defaultcountryid = defaultcountryid;
+    }
 
     public UUID getDefaultCountyId() {
         return this.defaultcountyid;
@@ -143,6 +167,14 @@ public class VBase3Preference implements CSVable {
 
     public void setDefaultCountyId(UUID defaultcountyid) {
         this.defaultcountyid = defaultcountyid;
+    }
+
+    public UUID getLanguageId() {
+        return this.languageid;
+    }
+
+    public void setLanguageId(UUID languageid) {
+        this.languageid = languageid;
     }
 
     public Boolean getUseDefaultCountry() {
@@ -153,12 +185,12 @@ public class VBase3Preference implements CSVable {
         this.usedefaultcountry = usedefaultcountry;
     }
 
-    public Boolean getUsingVisualNotification() {
-        return this.usingvisualnotification;
+    public Boolean getUseDefaultCounty() {
+        return this.usedefaultcounty;
     }
 
-    public void setUsingVisualNotification(Boolean usingvisualnotification) {
-        this.usingvisualnotification = usingvisualnotification;
+    public void setUseDefaultCounty(Boolean usedefaultcounty) {
+        this.usedefaultcounty = usedefaultcounty;
     }
 
     public Boolean getUsingAudioNotification() {
@@ -177,20 +209,12 @@ public class VBase3Preference implements CSVable {
         this.usinglognotification = usinglognotification;
     }
 
-    public UUID getLanguageId() {
-        return this.languageid;
+    public Boolean getUsingVisualNotification() {
+        return this.usingvisualnotification;
     }
 
-    public void setLanguageId(UUID languageid) {
-        this.languageid = languageid;
-    }
-
-    public Long getColourTheme() {
-        return this.colourtheme;
-    }
-
-    public void setColourTheme(Long colourtheme) {
-        this.colourtheme = colourtheme;
+    public void setUsingVisualNotification(Boolean usingvisualnotification) {
+        this.usingvisualnotification = usingvisualnotification;
     }
 
     public UUID getId() {
@@ -199,46 +223,6 @@ public class VBase3Preference implements CSVable {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getCopyright() {
-        return this.copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
-
-    public String getApplicationName() {
-        return this.applicationname;
-    }
-
-    public void setApplicationName(String applicationname) {
-        this.applicationname = applicationname;
-    }
-
-    public Long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
     }
 
     public Timestamp getCreated() {
@@ -257,20 +241,12 @@ public class VBase3Preference implements CSVable {
         this.createdby = createdby;
     }
 
-    public Long getDataSchemaVersion() {
-        return this.dataschemaversion;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-    public void setDataSchemaVersion(Long dataschemaversion) {
-        this.dataschemaversion = dataschemaversion;
-    }
-
-    public Boolean getUseDefaultCounty() {
-        return this.usedefaultcounty;
-    }
-
-    public void setUseDefaultCounty(Boolean usedefaultcounty) {
-        this.usedefaultcounty = usedefaultcounty;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getModified() {
@@ -281,12 +257,36 @@ public class VBase3Preference implements CSVable {
         this.modified = modified;
     }
 
-    public UUID getDefaultCountryId() {
-        return this.defaultcountryid;
+    public UUID getModifiedBy() {
+        return this.modifiedby;
     }
 
-    public void setDefaultCountryId(UUID defaultcountryid) {
-        this.defaultcountryid = defaultcountryid;
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getApplicationName() {
+        return this.applicationname;
+    }
+
+    public void setApplicationName(String applicationname) {
+        this.applicationname = applicationname;
+    }
+
+    public Long getColourTheme() {
+        return this.colourtheme;
+    }
+
+    public void setColourTheme(Long colourtheme) {
+        this.colourtheme = colourtheme;
     }
 
 
@@ -313,25 +313,25 @@ public class VBase3Preference implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("DefaultCountyId");
-            this.columnNames.add("UseDefaultCountry");
-            this.columnNames.add("UsingVisualNotification");
-            this.columnNames.add("UsingAudioNotification");
-            this.columnNames.add("LanguageId");
-            this.columnNames.add("UsingLogNotification");
-            this.columnNames.add("ColourTheme");
-            this.columnNames.add("Id");
             this.columnNames.add("Copyright");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("ApplicationName");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("DataSchemaVersion");
+            this.columnNames.add("DefaultCountryId");
+            this.columnNames.add("DefaultCountyId");
+            this.columnNames.add("LanguageId");
+            this.columnNames.add("UseDefaultCountry");
+            this.columnNames.add("UseDefaultCounty");
+            this.columnNames.add("UsingAudioNotification");
+            this.columnNames.add("UsingLogNotification");
+            this.columnNames.add("UsingVisualNotification");
+            this.columnNames.add("Id");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
-            this.columnNames.add("DataSchemaVersion");
-            this.columnNames.add("UseDefaultCounty");
-            this.columnNames.add("DefaultCountryId");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("ApplicationName");
+            this.columnNames.add("ColourTheme");
         }
 
         return this.columnNames;
@@ -341,22 +341,22 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.copyright);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.dataschemaversion);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.defaultcountryid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.defaultcountyid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usedefaultcountry ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingvisualnotification ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingaudionotification ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -366,42 +366,32 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usedefaultcountry ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usedefaultcounty ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usingaudionotification ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(usinglognotification ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.colourtheme);
+        recordStringBuffer.append(usingvisualnotification ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.copyright);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.applicationname);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -416,22 +406,32 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.dataschemaversion);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usedefaultcounty ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.defaultcountryid.toString().replace("-", ""));
+        recordStringBuffer.append(deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.applicationname);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.colourtheme);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

@@ -19,29 +19,29 @@ public class Locations implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private Boolean usecustomorgname;
-    private UUID id;
-    private Boolean deleted;
-    private UUID orgaddressid;
-    private UUID regionid;
-    private String customorgname;
-    private UUID addressid;
-    private Boolean useforcontactdetails;
     private String displaystring;
-    private UUID contactdetailsid;
-    private Long version;
-    private UUID modifiedby;
-    private Boolean usecustomaddress;
-    private UUID opportunitylocationid;
     private Boolean isactive;
-    private Timestamp created;
     private String locationtype;
-    private UUID createdby;
+    private UUID countyid;
+    private String publiccontactdetailssource;
+    private UUID addressid;
+    private Boolean usecustomorgname;
+    private UUID orgaddressid;
+    private Boolean usecustomaddress;
+    private UUID regionid;
+    private Boolean useforcontactdetails;
+    private UUID contactdetailsid;
+    private UUID opportunitylocationid;
     private UUID publiccontactdetailsid;
     private String discriminator;
-    private String publiccontactdetailssource;
+    private UUID id;
+    private Timestamp created;
+    private UUID createdby;
+    private Boolean deleted;
     private Timestamp modified;
-    private UUID countyid;
+    private UUID modifiedby;
+    private Long version;
+    private String customorgname;
 
     public Locations() {
     }
@@ -56,17 +56,11 @@ public class Locations implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.usecustomorgname = fields[0].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.displaystring = fields[0].replace(String.valueOf(this.enclosure), "");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
+        this.isactive = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.deleted = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.locationtype = fields[2].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
@@ -74,29 +68,29 @@ public class Locations implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.orgaddressid = UUID.fromString(uuidStringBuffer.toString());
+        this.countyid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.publiccontactdetailssource = fields[4].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.regionid = UUID.fromString(uuidStringBuffer.toString());
-
-        this.customorgname = fields[5].replace(String.valueOf(this.enclosure), "");
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[5].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.addressid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.useforcontactdetails = fields[7].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.usecustomorgname = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.displaystring = fields[8].replace(String.valueOf(this.enclosure), "");
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.orgaddressid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.usecustomaddress = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
@@ -104,9 +98,9 @@ public class Locations implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.contactdetailsid = UUID.fromString(uuidStringBuffer.toString());
+        this.regionid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.version = Long.valueOf(fields[10].replace(String.valueOf(this.enclosure), ""));
+        this.useforcontactdetails = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[11].replace(String.valueOf(this.enclosure), ""));
@@ -114,21 +108,33 @@ public class Locations implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
-
-        this.usecustomaddress = fields[12].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.isactive = fields[13].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.contactdetailsid = UUID.fromString(uuidStringBuffer.toString());
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[14].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.opportunitylocationid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.locationtype = fields[15].replace(String.valueOf(this.enclosure), "");
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[13].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.publiccontactdetailsid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.discriminator = fields[14].replace(String.valueOf(this.enclosure), "");
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.id = UUID.fromString(uuidStringBuffer.toString());
 
         try {
             this.created = new Timestamp(simpleDateFormat.parse(fields[16].replace(String.valueOf(this.enclosure), "")).getTime());
@@ -144,98 +150,28 @@ public class Locations implements CSVable {
         uuidStringBuffer.insert(23, '-');
         this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[18].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.publiccontactdetailsid = UUID.fromString(uuidStringBuffer.toString());
-
-        this.publiccontactdetailssource = fields[19].replace(String.valueOf(this.enclosure), "");
-
-        this.discriminator = fields[20].replace(String.valueOf(this.enclosure), "");
+        this.deleted = fields[18].replace(String.valueOf(this.enclosure), "").equals("1");
 
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[21].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[19].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[21].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp modified " + fields[19].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[22].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[20].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.countyid = UUID.fromString(uuidStringBuffer.toString());
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[21].replace(String.valueOf(this.enclosure), ""));
+
+        this.customorgname = fields[22].replace(String.valueOf(this.enclosure), "");
 
     }
 
-
-    public Boolean getUseCustomOrgName() {
-        return this.usecustomorgname;
-    }
-
-    public void setUseCustomOrgName(Boolean usecustomorgname) {
-        this.usecustomorgname = usecustomorgname;
-    }
-
-    public UUID getId() {
-        return this.id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public UUID getOrgAddressId() {
-        return this.orgaddressid;
-    }
-
-    public void setOrgAddressId(UUID orgaddressid) {
-        this.orgaddressid = orgaddressid;
-    }
-
-    public UUID getRegionId() {
-        return this.regionid;
-    }
-
-    public void setRegionId(UUID regionid) {
-        this.regionid = regionid;
-    }
-
-    public String getCustomOrgName() {
-        return this.customorgname;
-    }
-
-    public void setCustomOrgName(String customorgname) {
-        this.customorgname = customorgname;
-    }
-
-    public UUID getAddressId() {
-        return this.addressid;
-    }
-
-    public void setAddressId(UUID addressid) {
-        this.addressid = addressid;
-    }
-
-    public Boolean getUseForContactDetails() {
-        return this.useforcontactdetails;
-    }
-
-    public void setUseForContactDetails(Boolean useforcontactdetails) {
-        this.useforcontactdetails = useforcontactdetails;
-    }
 
     public String getDisplayString() {
         return this.displaystring;
@@ -243,46 +179,6 @@ public class Locations implements CSVable {
 
     public void setDisplayString(String displaystring) {
         this.displaystring = displaystring;
-    }
-
-    public UUID getContactDetailsId() {
-        return this.contactdetailsid;
-    }
-
-    public void setContactDetailsId(UUID contactdetailsid) {
-        this.contactdetailsid = contactdetailsid;
-    }
-
-    public Long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
-    }
-
-    public Boolean getUseCustomAddress() {
-        return this.usecustomaddress;
-    }
-
-    public void setUseCustomAddress(Boolean usecustomaddress) {
-        this.usecustomaddress = usecustomaddress;
-    }
-
-    public UUID getOpportunityLocationId() {
-        return this.opportunitylocationid;
-    }
-
-    public void setOpportunityLocationId(UUID opportunitylocationid) {
-        this.opportunitylocationid = opportunitylocationid;
     }
 
     public Boolean getIsActive() {
@@ -293,14 +189,6 @@ public class Locations implements CSVable {
         this.isactive = isactive;
     }
 
-    public Timestamp getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
     public String getLocationType() {
         return this.locationtype;
     }
@@ -309,12 +197,84 @@ public class Locations implements CSVable {
         this.locationtype = locationtype;
     }
 
-    public UUID getCreatedBy() {
-        return this.createdby;
+    public UUID getCountyId() {
+        return this.countyid;
     }
 
-    public void setCreatedBy(UUID createdby) {
-        this.createdby = createdby;
+    public void setCountyId(UUID countyid) {
+        this.countyid = countyid;
+    }
+
+    public String getPublicContactDetailsSource() {
+        return this.publiccontactdetailssource;
+    }
+
+    public void setPublicContactDetailsSource(String publiccontactdetailssource) {
+        this.publiccontactdetailssource = publiccontactdetailssource;
+    }
+
+    public UUID getAddressId() {
+        return this.addressid;
+    }
+
+    public void setAddressId(UUID addressid) {
+        this.addressid = addressid;
+    }
+
+    public Boolean getUseCustomOrgName() {
+        return this.usecustomorgname;
+    }
+
+    public void setUseCustomOrgName(Boolean usecustomorgname) {
+        this.usecustomorgname = usecustomorgname;
+    }
+
+    public UUID getOrgAddressId() {
+        return this.orgaddressid;
+    }
+
+    public void setOrgAddressId(UUID orgaddressid) {
+        this.orgaddressid = orgaddressid;
+    }
+
+    public Boolean getUseCustomAddress() {
+        return this.usecustomaddress;
+    }
+
+    public void setUseCustomAddress(Boolean usecustomaddress) {
+        this.usecustomaddress = usecustomaddress;
+    }
+
+    public UUID getRegionId() {
+        return this.regionid;
+    }
+
+    public void setRegionId(UUID regionid) {
+        this.regionid = regionid;
+    }
+
+    public Boolean getUseForContactDetails() {
+        return this.useforcontactdetails;
+    }
+
+    public void setUseForContactDetails(Boolean useforcontactdetails) {
+        this.useforcontactdetails = useforcontactdetails;
+    }
+
+    public UUID getContactDetailsId() {
+        return this.contactdetailsid;
+    }
+
+    public void setContactDetailsId(UUID contactdetailsid) {
+        this.contactdetailsid = contactdetailsid;
+    }
+
+    public UUID getOpportunityLocationId() {
+        return this.opportunitylocationid;
+    }
+
+    public void setOpportunityLocationId(UUID opportunitylocationid) {
+        this.opportunitylocationid = opportunitylocationid;
     }
 
     public UUID getPublicContactDetailsId() {
@@ -333,12 +293,36 @@ public class Locations implements CSVable {
         this.discriminator = discriminator;
     }
 
-    public String getPublicContactDetailsSource() {
-        return this.publiccontactdetailssource;
+    public UUID getId() {
+        return this.id;
     }
 
-    public void setPublicContactDetailsSource(String publiccontactdetailssource) {
-        this.publiccontactdetailssource = publiccontactdetailssource;
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Timestamp getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public UUID getCreatedBy() {
+        return this.createdby;
+    }
+
+    public void setCreatedBy(UUID createdby) {
+        this.createdby = createdby;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getModified() {
@@ -349,12 +333,28 @@ public class Locations implements CSVable {
         this.modified = modified;
     }
 
-    public UUID getCountyId() {
-        return this.countyid;
+    public UUID getModifiedBy() {
+        return this.modifiedby;
     }
 
-    public void setCountyId(UUID countyid) {
-        this.countyid = countyid;
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getCustomOrgName() {
+        return this.customorgname;
+    }
+
+    public void setCustomOrgName(String customorgname) {
+        this.customorgname = customorgname;
     }
 
 
@@ -381,29 +381,29 @@ public class Locations implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("UseCustomOrgName");
-            this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("OrgAddressId");
-            this.columnNames.add("RegionId");
-            this.columnNames.add("CustomOrgName");
-            this.columnNames.add("AddressId");
-            this.columnNames.add("UseForContactDetails");
             this.columnNames.add("DisplayString");
-            this.columnNames.add("ContactDetailsId");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("UseCustomAddress");
             this.columnNames.add("IsActive");
-            this.columnNames.add("OpportunityLocationId");
             this.columnNames.add("LocationType");
+            this.columnNames.add("CountyId");
+            this.columnNames.add("PublicContactDetailsSource");
+            this.columnNames.add("AddressId");
+            this.columnNames.add("UseCustomOrgName");
+            this.columnNames.add("OrgAddressId");
+            this.columnNames.add("UseCustomAddress");
+            this.columnNames.add("RegionId");
+            this.columnNames.add("UseForContactDetails");
+            this.columnNames.add("ContactDetailsId");
+            this.columnNames.add("OpportunityLocationId");
+            this.columnNames.add("PublicContactDetailsId");
+            this.columnNames.add("Discriminator");
+            this.columnNames.add("Id");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
-            this.columnNames.add("PublicContactDetailsId");
-            this.columnNames.add("PublicContactDetailsSource");
-            this.columnNames.add("Discriminator");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
-            this.columnNames.add("CountyId");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("CustomOrgName");
         }
 
         return this.columnNames;
@@ -413,67 +413,7 @@ public class Locations implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomorgname ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.orgaddressid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.regionid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.customorgname);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(useforcontactdetails ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.displaystring);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.contactdetailsid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomaddress ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -483,12 +423,72 @@ public class Locations implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.locationtype);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.countyid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.publiccontactdetailssource);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usecustomorgname ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.orgaddressid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usecustomaddress ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.regionid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(useforcontactdetails ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.contactdetailsid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.opportunitylocationid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.locationtype);
+        recordStringBuffer.append(this.publiccontactdetailsid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.discriminator);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -503,17 +503,7 @@ public class Locations implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.publiccontactdetailsid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.publiccontactdetailssource);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.discriminator);
+        recordStringBuffer.append(deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -523,7 +513,17 @@ public class Locations implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.countyid.toString().replace("-", ""));
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.customorgname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

@@ -19,17 +19,17 @@ public class Roles implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID id;
-    private Boolean deleted;
-    private Long vbase2id;
     private UUID userid;
-    private String name;
-    private Long version;
-    private UUID modifiedby;
+    private Long vbase2id;
+    private UUID id;
     private Timestamp created;
     private UUID createdby;
-    private String description;
+    private Boolean deleted;
     private Timestamp modified;
+    private UUID modifiedby;
+    private Long version;
+    private String description;
+    private String name;
 
     public Roles() {
     }
@@ -50,71 +50,63 @@ public class Roles implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
-
-        this.deleted = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.vbase2id = Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
         this.userid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.name = fields[4].replace(String.valueOf(this.enclosure), "");
-
-        this.version = Long.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
+        this.vbase2id = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+        this.id = UUID.fromString(uuidStringBuffer.toString());
 
         try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[7].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.created = new Timestamp(simpleDateFormat.parse(fields[3].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[7].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp created " + fields[3].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[8].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
-        this.description = fields[9].replace(String.valueOf(this.enclosure), "");
+        this.deleted = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
 
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[10].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[6].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[10].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp modified " + fields[6].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[8].replace(String.valueOf(this.enclosure), ""));
+
+        this.description = fields[9].replace(String.valueOf(this.enclosure), "");
+
+        this.name = fields[10].replace(String.valueOf(this.enclosure), "");
+
     }
 
 
-    public UUID getId() {
-        return this.id;
+    public UUID getUserId() {
+        return this.userid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setUserId(UUID userid) {
+        this.userid = userid;
     }
 
     public Long getVbase2Id() {
@@ -125,36 +117,12 @@ public class Roles implements CSVable {
         this.vbase2id = vbase2id;
     }
 
-    public UUID getUserId() {
-        return this.userid;
+    public UUID getId() {
+        return this.id;
     }
 
-    public void setUserId(UUID userid) {
-        this.userid = userid;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Timestamp getCreated() {
@@ -173,12 +141,12 @@ public class Roles implements CSVable {
         this.createdby = createdby;
     }
 
-    public String getDescription() {
-        return this.description;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getModified() {
@@ -187,6 +155,38 @@ public class Roles implements CSVable {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -213,17 +213,17 @@ public class Roles implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Vbase2Id");
             this.columnNames.add("UserId");
-            this.columnNames.add("Name");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Vbase2Id");
+            this.columnNames.add("Id");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
-            this.columnNames.add("Description");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("Description");
+            this.columnNames.add("Name");
         }
 
         return this.columnNames;
@@ -233,12 +233,7 @@ public class Roles implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(this.userid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -248,22 +243,7 @@ public class Roles implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.userid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.name);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -278,12 +258,32 @@ public class Roles implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.description);
+        recordStringBuffer.append(deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.description);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.name);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

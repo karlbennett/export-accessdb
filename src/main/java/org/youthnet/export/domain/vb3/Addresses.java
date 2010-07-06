@@ -19,22 +19,22 @@ public class Addresses implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private String town;
-    private String directions;
-    private UUID id;
-    private Boolean deleted;
-    private Long vbase2id;
-    private String address1;
-    private String address2;
-    private String postcode;
     private String address3;
-    private Long version;
-    private UUID modifiedby;
+    private String directions;
+    private String postcode;
+    private String town;
+    private Long vbase2id;
     private UUID countryid;
+    private UUID countyid;
+    private UUID id;
     private Timestamp created;
     private UUID createdby;
+    private Boolean deleted;
     private Timestamp modified;
-    private UUID countyid;
+    private UUID modifiedby;
+    private Long version;
+    private String address1;
+    private String address2;
 
     public Addresses() {
     }
@@ -49,85 +49,85 @@ public class Addresses implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.town = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.address3 = fields[0].replace(String.valueOf(this.enclosure), "");
 
         this.directions = fields[1].replace(String.valueOf(this.enclosure), "");
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
+        this.postcode = fields[2].replace(String.valueOf(this.enclosure), "");
 
-        this.deleted = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.town = fields[3].replace(String.valueOf(this.enclosure), "");
 
         this.vbase2id = Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
 
-        this.address1 = fields[5].replace(String.valueOf(this.enclosure), "");
-
-        this.address2 = fields[6].replace(String.valueOf(this.enclosure), "");
-
-        this.address3 = fields[7].replace(String.valueOf(this.enclosure), "");
-
-        this.postcode = fields[8].replace(String.valueOf(this.enclosure), "");
-
-        this.version = Long.valueOf(fields[9].replace(String.valueOf(this.enclosure), ""));
-
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[10].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[11].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[5].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.countryid = UUID.fromString(uuidStringBuffer.toString());
 
-        try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[12].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[12].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[13].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.createdby = UUID.fromString(uuidStringBuffer.toString());
-
-        try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[14].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[14].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.countyid = UUID.fromString(uuidStringBuffer.toString());
 
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.id = UUID.fromString(uuidStringBuffer.toString());
+
+        try {
+            this.created = new Timestamp(simpleDateFormat.parse(fields[8].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp created " + fields[8].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.deleted = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        try {
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[11].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp modified " + fields[11].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[13].replace(String.valueOf(this.enclosure), ""));
+
+        this.address1 = fields[14].replace(String.valueOf(this.enclosure), "");
+
+        this.address2 = fields[15].replace(String.valueOf(this.enclosure), "");
+
     }
 
 
-    public String getTown() {
-        return this.town;
+    public String getAddress3() {
+        return this.address3;
     }
 
-    public void setTown(String town) {
-        this.town = town;
+    public void setAddress3(String address3) {
+        this.address3 = address3;
     }
 
     public String getDirections() {
@@ -138,20 +138,20 @@ public class Addresses implements CSVable {
         this.directions = directions;
     }
 
-    public UUID getId() {
-        return this.id;
+    public String getPostCode() {
+        return this.postcode;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setPostCode(String postcode) {
+        this.postcode = postcode;
     }
 
-    public Boolean getDeleted() {
-        return this.deleted;
+    public String getTown() {
+        return this.town;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setTown(String town) {
+        this.town = town;
     }
 
     public Long getVbase2Id() {
@@ -162,60 +162,28 @@ public class Addresses implements CSVable {
         this.vbase2id = vbase2id;
     }
 
-    public String getAddress1() {
-        return this.address1;
-    }
-
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return this.address2;
-    }
-
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
-
-    public String getPostCode() {
-        return this.postcode;
-    }
-
-    public void setPostCode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getAddress3() {
-        return this.address3;
-    }
-
-    public void setAddress3(String address3) {
-        this.address3 = address3;
-    }
-
-    public Long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
-    }
-
     public UUID getCountryId() {
         return this.countryid;
     }
 
     public void setCountryId(UUID countryid) {
         this.countryid = countryid;
+    }
+
+    public UUID getCountyId() {
+        return this.countyid;
+    }
+
+    public void setCountyId(UUID countyid) {
+        this.countyid = countyid;
+    }
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Timestamp getCreated() {
@@ -234,6 +202,14 @@ public class Addresses implements CSVable {
         this.createdby = createdby;
     }
 
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Timestamp getModified() {
         return this.modified;
     }
@@ -242,12 +218,36 @@ public class Addresses implements CSVable {
         this.modified = modified;
     }
 
-    public UUID getCountyId() {
-        return this.countyid;
+    public UUID getModifiedBy() {
+        return this.modifiedby;
     }
 
-    public void setCountyId(UUID countyid) {
-        this.countyid = countyid;
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getAddress1() {
+        return this.address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return this.address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 
 
@@ -274,22 +274,22 @@ public class Addresses implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Town");
-            this.columnNames.add("Directions");
-            this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("Address1");
-            this.columnNames.add("Address2");
             this.columnNames.add("Address3");
+            this.columnNames.add("Directions");
             this.columnNames.add("PostCode");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Town");
+            this.columnNames.add("Vbase2Id");
             this.columnNames.add("CountryId");
+            this.columnNames.add("CountyId");
+            this.columnNames.add("Id");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
-            this.columnNames.add("CountyId");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("Address1");
+            this.columnNames.add("Address2");
         }
 
         return this.columnNames;
@@ -299,7 +299,7 @@ public class Addresses implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.town);
+        recordStringBuffer.append(this.address3);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -309,12 +309,12 @@ public class Addresses implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
+        recordStringBuffer.append(this.postcode);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(this.town);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -324,37 +324,17 @@ public class Addresses implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.address1);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.address2);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.address3);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.postcode);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.countryid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.countyid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -369,12 +349,32 @@ public class Addresses implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.modified);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.countyid.toString().replace("-", ""));
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.address1);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.address2);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

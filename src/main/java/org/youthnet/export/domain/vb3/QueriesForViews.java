@@ -20,16 +20,16 @@ public class QueriesForViews implements CSVable {
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String sqlquery;
-    private UUID id;
-    private Boolean deleted;
-    private String hqlquery;
     private Long vbase2id;
-    private Long version;
-    private UUID modifiedby;
-    private String queryname;
+    private UUID id;
     private Timestamp created;
     private UUID createdby;
+    private Boolean deleted;
     private Timestamp modified;
+    private UUID modifiedby;
+    private Long version;
+    private String hqlquery;
+    private String queryname;
 
     public QueriesForViews() {
     }
@@ -46,51 +46,51 @@ public class QueriesForViews implements CSVable {
 
         this.sqlquery = fields[0].replace(String.valueOf(this.enclosure), "");
 
+        this.vbase2id = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.id = UUID.fromString(uuidStringBuffer.toString());
 
-        this.deleted = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.hqlquery = fields[3].replace(String.valueOf(this.enclosure), "");
-
-        this.vbase2id = Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
-
-        this.version = Long.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
-
-        this.queryname = fields[7].replace(String.valueOf(this.enclosure), "");
-
         try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[8].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.created = new Timestamp(simpleDateFormat.parse(fields[3].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[8].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp created " + fields[3].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
+        this.deleted = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[10].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[6].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[10].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp modified " + fields[6].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[8].replace(String.valueOf(this.enclosure), ""));
+
+        this.hqlquery = fields[9].replace(String.valueOf(this.enclosure), "");
+
+        this.queryname = fields[10].replace(String.valueOf(this.enclosure), "");
 
     }
 
@@ -103,30 +103,6 @@ public class QueriesForViews implements CSVable {
         this.sqlquery = sqlquery;
     }
 
-    public UUID getId() {
-        return this.id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getHqlQuery() {
-        return this.hqlquery;
-    }
-
-    public void setHqlQuery(String hqlquery) {
-        this.hqlquery = hqlquery;
-    }
-
     public Long getVbase2Id() {
         return this.vbase2id;
     }
@@ -135,28 +111,12 @@ public class QueriesForViews implements CSVable {
         this.vbase2id = vbase2id;
     }
 
-    public Long getVersion() {
-        return this.version;
+    public UUID getId() {
+        return this.id;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
-    }
-
-    public String getQueryName() {
-        return this.queryname;
-    }
-
-    public void setQueryName(String queryname) {
-        this.queryname = queryname;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Timestamp getCreated() {
@@ -175,12 +135,52 @@ public class QueriesForViews implements CSVable {
         this.createdby = createdby;
     }
 
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Timestamp getModified() {
         return this.modified;
     }
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getHqlQuery() {
+        return this.hqlquery;
+    }
+
+    public void setHqlQuery(String hqlquery) {
+        this.hqlquery = hqlquery;
+    }
+
+    public String getQueryName() {
+        return this.queryname;
+    }
+
+    public void setQueryName(String queryname) {
+        this.queryname = queryname;
     }
 
 
@@ -208,16 +208,16 @@ public class QueriesForViews implements CSVable {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
             this.columnNames.add("SqlQuery");
-            this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("HqlQuery");
             this.columnNames.add("Vbase2Id");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("QueryName");
+            this.columnNames.add("Id");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("HqlQuery");
+            this.columnNames.add("QueryName");
         }
 
         return this.columnNames;
@@ -232,37 +232,12 @@ public class QueriesForViews implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.hqlquery);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.vbase2id);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.queryname);
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -277,7 +252,32 @@ public class QueriesForViews implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(deleted ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.hqlquery);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.queryname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

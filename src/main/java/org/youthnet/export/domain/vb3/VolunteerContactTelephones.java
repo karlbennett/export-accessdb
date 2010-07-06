@@ -17,10 +17,10 @@ public class VolunteerContactTelephones implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID volunteercontactinfoid;
-    private UUID telephonetypeid;
     private String tel_number;
+    private UUID volunteercontactinfoid;
     private UUID volunteerid;
+    private UUID telephonetypeid;
 
     public VolunteerContactTelephones() {
     }
@@ -35,13 +35,7 @@ public class VolunteerContactTelephones implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[0].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.volunteercontactinfoid = UUID.fromString(uuidStringBuffer.toString());
+        this.tel_number = fields[0].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
@@ -49,9 +43,15 @@ public class VolunteerContactTelephones implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.telephonetypeid = UUID.fromString(uuidStringBuffer.toString());
+        this.volunteercontactinfoid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.tel_number = fields[2].replace(String.valueOf(this.enclosure), "");
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.volunteerid = UUID.fromString(uuidStringBuffer.toString());
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
@@ -59,26 +59,10 @@ public class VolunteerContactTelephones implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.volunteerid = UUID.fromString(uuidStringBuffer.toString());
+        this.telephonetypeid = UUID.fromString(uuidStringBuffer.toString());
 
     }
 
-
-    public UUID getVolunteerContactInfoId() {
-        return this.volunteercontactinfoid;
-    }
-
-    public void setVolunteerContactInfoId(UUID volunteercontactinfoid) {
-        this.volunteercontactinfoid = volunteercontactinfoid;
-    }
-
-    public UUID getTelephoneTypeId() {
-        return this.telephonetypeid;
-    }
-
-    public void setTelephoneTypeId(UUID telephonetypeid) {
-        this.telephonetypeid = telephonetypeid;
-    }
 
     public String getTel_number() {
         return this.tel_number;
@@ -88,12 +72,28 @@ public class VolunteerContactTelephones implements CSVable {
         this.tel_number = tel_number;
     }
 
+    public UUID getVolunteerContactInfoId() {
+        return this.volunteercontactinfoid;
+    }
+
+    public void setVolunteerContactInfoId(UUID volunteercontactinfoid) {
+        this.volunteercontactinfoid = volunteercontactinfoid;
+    }
+
     public UUID getVolunteerId() {
         return this.volunteerid;
     }
 
     public void setVolunteerId(UUID volunteerid) {
         this.volunteerid = volunteerid;
+    }
+
+    public UUID getTelephoneTypeId() {
+        return this.telephonetypeid;
+    }
+
+    public void setTelephoneTypeId(UUID telephonetypeid) {
+        this.telephonetypeid = telephonetypeid;
     }
 
 
@@ -120,10 +120,10 @@ public class VolunteerContactTelephones implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("VolunteerContactInfoId");
-            this.columnNames.add("TelephoneTypeId");
             this.columnNames.add("Tel_number");
+            this.columnNames.add("VolunteerContactInfoId");
             this.columnNames.add("VolunteerId");
+            this.columnNames.add("TelephoneTypeId");
         }
 
         return this.columnNames;
@@ -133,22 +133,22 @@ public class VolunteerContactTelephones implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.volunteercontactinfoid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.telephonetypeid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.tel_number);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.volunteercontactinfoid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.volunteerid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.telephonetypeid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

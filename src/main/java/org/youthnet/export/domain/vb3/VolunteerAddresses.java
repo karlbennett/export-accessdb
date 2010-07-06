@@ -17,10 +17,10 @@ public class VolunteerAddresses implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID addressid;
-    private String name;
-    private Boolean isdefaultaddress;
     private Boolean isactive;
+    private Boolean isdefaultaddress;
+    private String name;
+    private UUID addressid;
     private UUID volunteerid;
 
     public VolunteerAddresses() {
@@ -36,19 +36,19 @@ public class VolunteerAddresses implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
+        this.isactive = fields[0].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.isdefaultaddress = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.name = fields[2].replace(String.valueOf(this.enclosure), "");
+
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[0].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.addressid = UUID.fromString(uuidStringBuffer.toString());
-
-        this.name = fields[1].replace(String.valueOf(this.enclosure), "");
-
-        this.isdefaultaddress = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.isactive = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
@@ -61,20 +61,12 @@ public class VolunteerAddresses implements CSVable {
     }
 
 
-    public UUID getAddressId() {
-        return this.addressid;
+    public Boolean getIsActive() {
+        return this.isactive;
     }
 
-    public void setAddressId(UUID addressid) {
-        this.addressid = addressid;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setIsActive(Boolean isactive) {
+        this.isactive = isactive;
     }
 
     public Boolean getIsDefaultAddress() {
@@ -85,12 +77,20 @@ public class VolunteerAddresses implements CSVable {
         this.isdefaultaddress = isdefaultaddress;
     }
 
-    public Boolean getIsActive() {
-        return this.isactive;
+    public String getName() {
+        return this.name;
     }
 
-    public void setIsActive(Boolean isactive) {
-        this.isactive = isactive;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UUID getAddressId() {
+        return this.addressid;
+    }
+
+    public void setAddressId(UUID addressid) {
+        this.addressid = addressid;
     }
 
     public UUID getVolunteerId() {
@@ -125,10 +125,10 @@ public class VolunteerAddresses implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("AddressId");
-            this.columnNames.add("Name");
-            this.columnNames.add("IsDefaultAddress");
             this.columnNames.add("IsActive");
+            this.columnNames.add("IsDefaultAddress");
+            this.columnNames.add("Name");
+            this.columnNames.add("AddressId");
             this.columnNames.add("VolunteerId");
         }
 
@@ -139,12 +139,7 @@ public class VolunteerAddresses implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.name);
+        recordStringBuffer.append(isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -154,7 +149,12 @@ public class VolunteerAddresses implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive ? 1 : 0);
+        recordStringBuffer.append(this.name);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

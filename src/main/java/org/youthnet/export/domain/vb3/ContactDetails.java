@@ -19,30 +19,30 @@ public class ContactDetails implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private Boolean usecustomorgname;
-    private String customtelephone;
-    private UUID organisationaddressid;
-    private String customemail;
-    private UUID id;
-    private Boolean deleted;
     private String customorgname;
+    private String customtelephone;
+    private String customwebaddress;
+    private String webaddresssource;
+    private String emailsource;
     private UUID addressid;
+    private String faxsource;
     private UUID contactid;
-    private Boolean usevuodetails;
-    private Long version;
-    private Boolean usecustomperson;
-    private UUID modifiedby;
+    private String telephonesource;
+    private UUID organisationaddressid;
     private Boolean usecustomaddress;
+    private UUID orgcontactid;
+    private Boolean usecustomorgname;
+    private Boolean usecustomperson;
+    private Boolean usevuodetails;
+    private UUID id;
     private Timestamp created;
     private UUID createdby;
-    private String telephonesource;
-    private String customfax;
-    private String emailsource;
-    private String webaddresssource;
-    private String customwebaddress;
+    private Boolean deleted;
     private Timestamp modified;
-    private UUID orgcontactid;
-    private String faxsource;
+    private UUID modifiedby;
+    private Long version;
+    private String customemail;
+    private String customfax;
 
     public ContactDetails() {
     }
@@ -57,31 +57,25 @@ public class ContactDetails implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.customtelephone = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.customorgname = fields[0].replace(String.valueOf(this.enclosure), "");
 
-        this.usecustomorgname = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.customtelephone = fields[1].replace(String.valueOf(this.enclosure), "");
+
+        this.customwebaddress = fields[2].replace(String.valueOf(this.enclosure), "");
+
+        this.webaddresssource = fields[3].replace(String.valueOf(this.enclosure), "");
+
+        this.emailsource = fields[4].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[5].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.organisationaddressid = UUID.fromString(uuidStringBuffer.toString());
+        this.addressid = UUID.fromString(uuidStringBuffer.toString());
 
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[3].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
-
-        this.customemail = fields[4].replace(String.valueOf(this.enclosure), "");
-
-        this.deleted = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.customorgname = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.faxsource = fields[6].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
@@ -89,37 +83,33 @@ public class ContactDetails implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.addressid = UUID.fromString(uuidStringBuffer.toString());
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[8].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
         this.contactid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.usevuodetails = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.usecustomperson = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
-
-        this.version = Long.valueOf(fields[11].replace(String.valueOf(this.enclosure), ""));
+        this.telephonesource = fields[8].replace(String.valueOf(this.enclosure), "");
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[12].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[9].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+        this.organisationaddressid = UUID.fromString(uuidStringBuffer.toString());
 
-        this.usecustomaddress = fields[13].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.usecustomaddress = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[14].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[14].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[11].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.orgcontactid = UUID.fromString(uuidStringBuffer.toString());
+
+        this.usecustomorgname = fields[12].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.usecustomperson = fields[13].replace(String.valueOf(this.enclosure), "").equals("1");
+
+        this.usevuodetails = fields[14].replace(String.valueOf(this.enclosure), "").equals("1");
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[15].replace(String.valueOf(this.enclosure), ""));
@@ -127,43 +117,53 @@ public class ContactDetails implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+        this.id = UUID.fromString(uuidStringBuffer.toString());
 
-        this.telephonesource = fields[16].replace(String.valueOf(this.enclosure), "");
-
-        this.customfax = fields[17].replace(String.valueOf(this.enclosure), "");
-
-        this.customwebaddress = fields[18].replace(String.valueOf(this.enclosure), "");
-
-        this.webaddresssource = fields[19].replace(String.valueOf(this.enclosure), "");
-
-        this.emailsource = fields[20].replace(String.valueOf(this.enclosure), "");
+        try {
+            this.created = new Timestamp(simpleDateFormat.parse(fields[16].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp created " + fields[16].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[21].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[17].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.orgcontactid = UUID.fromString(uuidStringBuffer.toString());
+        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.deleted = fields[18].replace(String.valueOf(this.enclosure), "").equals("1");
 
         try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[22].replace(String.valueOf(this.enclosure), "")).getTime());
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[19].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[22].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+            System.out.println("Could not pars Timestamp modified " + fields[19].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        this.faxsource = fields[23].replace(String.valueOf(this.enclosure), "");
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[20].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
+        this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
+
+        this.version = Long.valueOf(fields[21].replace(String.valueOf(this.enclosure), ""));
+
+        this.customemail = fields[22].replace(String.valueOf(this.enclosure), "");
+
+        this.customfax = fields[23].replace(String.valueOf(this.enclosure), "");
 
     }
 
 
-    public Boolean getUseCustomOrgName() {
-        return this.usecustomorgname;
+    public String getCustomOrgName() {
+        return this.customorgname;
     }
 
-    public void setUseCustomOrgName(Boolean usecustomorgname) {
-        this.usecustomorgname = usecustomorgname;
+    public void setCustomOrgName(String customorgname) {
+        this.customorgname = customorgname;
     }
 
     public String getCustomTelephone() {
@@ -174,44 +174,28 @@ public class ContactDetails implements CSVable {
         this.customtelephone = customtelephone;
     }
 
-    public UUID getOrganisationAddressId() {
-        return this.organisationaddressid;
+    public String getCustomWebAddress() {
+        return this.customwebaddress;
     }
 
-    public void setOrganisationAddressId(UUID organisationaddressid) {
-        this.organisationaddressid = organisationaddressid;
+    public void setCustomWebAddress(String customwebaddress) {
+        this.customwebaddress = customwebaddress;
     }
 
-    public String getCustomEmail() {
-        return this.customemail;
+    public String getWebAddressSource() {
+        return this.webaddresssource;
     }
 
-    public void setCustomEmail(String customemail) {
-        this.customemail = customemail;
+    public void setWebAddressSource(String webaddresssource) {
+        this.webaddresssource = webaddresssource;
     }
 
-    public UUID getId() {
-        return this.id;
+    public String getEmailSource() {
+        return this.emailsource;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getCustomOrgName() {
-        return this.customorgname;
-    }
-
-    public void setCustomOrgName(String customorgname) {
-        this.customorgname = customorgname;
+    public void setEmailSource(String emailsource) {
+        this.emailsource = emailsource;
     }
 
     public UUID getAddressId() {
@@ -222,6 +206,14 @@ public class ContactDetails implements CSVable {
         this.addressid = addressid;
     }
 
+    public String getFaxSource() {
+        return this.faxsource;
+    }
+
+    public void setFaxSource(String faxsource) {
+        this.faxsource = faxsource;
+    }
+
     public UUID getContactId() {
         return this.contactid;
     }
@@ -230,20 +222,44 @@ public class ContactDetails implements CSVable {
         this.contactid = contactid;
     }
 
-    public Boolean getUseVuoDetails() {
-        return this.usevuodetails;
+    public String getTelephoneSource() {
+        return this.telephonesource;
     }
 
-    public void setUseVuoDetails(Boolean usevuodetails) {
-        this.usevuodetails = usevuodetails;
+    public void setTelephoneSource(String telephonesource) {
+        this.telephonesource = telephonesource;
     }
 
-    public Long getVersion() {
-        return this.version;
+    public UUID getOrganisationAddressId() {
+        return this.organisationaddressid;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setOrganisationAddressId(UUID organisationaddressid) {
+        this.organisationaddressid = organisationaddressid;
+    }
+
+    public Boolean getUseCustomAddress() {
+        return this.usecustomaddress;
+    }
+
+    public void setUseCustomAddress(Boolean usecustomaddress) {
+        this.usecustomaddress = usecustomaddress;
+    }
+
+    public UUID getOrgContactId() {
+        return this.orgcontactid;
+    }
+
+    public void setOrgContactId(UUID orgcontactid) {
+        this.orgcontactid = orgcontactid;
+    }
+
+    public Boolean getUseCustomOrgName() {
+        return this.usecustomorgname;
+    }
+
+    public void setUseCustomOrgName(Boolean usecustomorgname) {
+        this.usecustomorgname = usecustomorgname;
     }
 
     public Boolean getUseCustomPerson() {
@@ -254,20 +270,20 @@ public class ContactDetails implements CSVable {
         this.usecustomperson = usecustomperson;
     }
 
-    public UUID getModifiedBy() {
-        return this.modifiedby;
+    public Boolean getUseVuoDetails() {
+        return this.usevuodetails;
     }
 
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
+    public void setUseVuoDetails(Boolean usevuodetails) {
+        this.usevuodetails = usevuodetails;
     }
 
-    public Boolean getUseCustomAddress() {
-        return this.usecustomaddress;
+    public UUID getId() {
+        return this.id;
     }
 
-    public void setUseCustomAddress(Boolean usecustomaddress) {
-        this.usecustomaddress = usecustomaddress;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Timestamp getCreated() {
@@ -286,44 +302,12 @@ public class ContactDetails implements CSVable {
         this.createdby = createdby;
     }
 
-    public String getTelephoneSource() {
-        return this.telephonesource;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-    public void setTelephoneSource(String telephonesource) {
-        this.telephonesource = telephonesource;
-    }
-
-    public String getCustomFax() {
-        return this.customfax;
-    }
-
-    public void setCustomFax(String customfax) {
-        this.customfax = customfax;
-    }
-
-    public String getEmailSource() {
-        return this.emailsource;
-    }
-
-    public void setEmailSource(String emailsource) {
-        this.emailsource = emailsource;
-    }
-
-    public String getWebAddressSource() {
-        return this.webaddresssource;
-    }
-
-    public void setWebAddressSource(String webaddresssource) {
-        this.webaddresssource = webaddresssource;
-    }
-
-    public String getCustomWebAddress() {
-        return this.customwebaddress;
-    }
-
-    public void setCustomWebAddress(String customwebaddress) {
-        this.customwebaddress = customwebaddress;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getModified() {
@@ -334,20 +318,36 @@ public class ContactDetails implements CSVable {
         this.modified = modified;
     }
 
-    public UUID getOrgContactId() {
-        return this.orgcontactid;
+    public UUID getModifiedBy() {
+        return this.modifiedby;
     }
 
-    public void setOrgContactId(UUID orgcontactid) {
-        this.orgcontactid = orgcontactid;
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
     }
 
-    public String getFaxSource() {
-        return this.faxsource;
+    public Long getVersion() {
+        return this.version;
     }
 
-    public void setFaxSource(String faxsource) {
-        this.faxsource = faxsource;
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getCustomEmail() {
+        return this.customemail;
+    }
+
+    public void setCustomEmail(String customemail) {
+        this.customemail = customemail;
+    }
+
+    public String getCustomFax() {
+        return this.customfax;
+    }
+
+    public void setCustomFax(String customfax) {
+        this.customfax = customfax;
     }
 
 
@@ -374,30 +374,30 @@ public class ContactDetails implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("CustomTelephone");
-            this.columnNames.add("UseCustomOrgName");
-            this.columnNames.add("OrganisationAddressId");
-            this.columnNames.add("Id");
-            this.columnNames.add("CustomEmail");
-            this.columnNames.add("Deleted");
             this.columnNames.add("CustomOrgName");
-            this.columnNames.add("AddressId");
-            this.columnNames.add("ContactId");
-            this.columnNames.add("UseVuoDetails");
-            this.columnNames.add("UseCustomPerson");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("UseCustomAddress");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("TelephoneSource");
-            this.columnNames.add("CustomFax");
+            this.columnNames.add("CustomTelephone");
             this.columnNames.add("CustomWebAddress");
             this.columnNames.add("WebAddressSource");
             this.columnNames.add("EmailSource");
-            this.columnNames.add("OrgContactId");
-            this.columnNames.add("Modified");
+            this.columnNames.add("AddressId");
             this.columnNames.add("FaxSource");
+            this.columnNames.add("ContactId");
+            this.columnNames.add("TelephoneSource");
+            this.columnNames.add("OrganisationAddressId");
+            this.columnNames.add("UseCustomAddress");
+            this.columnNames.add("OrgContactId");
+            this.columnNames.add("UseCustomOrgName");
+            this.columnNames.add("UseCustomPerson");
+            this.columnNames.add("UseVuoDetails");
+            this.columnNames.add("Id");
+            this.columnNames.add("Created");
+            this.columnNames.add("CreatedBy");
+            this.columnNames.add("Deleted");
+            this.columnNames.add("Modified");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("CustomEmail");
+            this.columnNames.add("CustomFax");
         }
 
         return this.columnNames;
@@ -407,92 +407,12 @@ public class ContactDetails implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.customtelephone);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomorgname ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.organisationaddressid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.customemail);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.customorgname);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.contactid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usevuodetails ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomperson ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomaddress ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.created);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.createdby.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.telephonesource);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.customfax);
+        recordStringBuffer.append(this.customtelephone);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -512,7 +432,72 @@ public class ContactDetails implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.addressid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.faxsource);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.contactid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.telephonesource);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.organisationaddressid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usecustomaddress ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.orgcontactid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usecustomorgname ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usecustomperson ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(usevuodetails ? 1 : 0);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.id.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.created);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.createdby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -522,7 +507,22 @@ public class ContactDetails implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.faxsource);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.customemail);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.customfax);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

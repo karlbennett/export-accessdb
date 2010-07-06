@@ -17,9 +17,9 @@ public class OrganisationContacts implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID organisationaddressid;
-    private UUID organisationid;
     private UUID contactid;
+    private UUID organisationid;
+    private UUID organisationaddressid;
 
     public OrganisationContacts() {
     }
@@ -40,7 +40,7 @@ public class OrganisationContacts implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.organisationaddressid = UUID.fromString(uuidStringBuffer.toString());
+        this.contactid = UUID.fromString(uuidStringBuffer.toString());
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
@@ -48,7 +48,7 @@ public class OrganisationContacts implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.contactid = UUID.fromString(uuidStringBuffer.toString());
+        this.organisationid = UUID.fromString(uuidStringBuffer.toString());
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
@@ -56,17 +56,17 @@ public class OrganisationContacts implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.organisationid = UUID.fromString(uuidStringBuffer.toString());
+        this.organisationaddressid = UUID.fromString(uuidStringBuffer.toString());
 
     }
 
 
-    public UUID getOrganisationAddressId() {
-        return this.organisationaddressid;
+    public UUID getContactId() {
+        return this.contactid;
     }
 
-    public void setOrganisationAddressId(UUID organisationaddressid) {
-        this.organisationaddressid = organisationaddressid;
+    public void setContactId(UUID contactid) {
+        this.contactid = contactid;
     }
 
     public UUID getOrganisationId() {
@@ -77,12 +77,12 @@ public class OrganisationContacts implements CSVable {
         this.organisationid = organisationid;
     }
 
-    public UUID getContactId() {
-        return this.contactid;
+    public UUID getOrganisationAddressId() {
+        return this.organisationaddressid;
     }
 
-    public void setContactId(UUID contactid) {
-        this.contactid = contactid;
+    public void setOrganisationAddressId(UUID organisationaddressid) {
+        this.organisationaddressid = organisationaddressid;
     }
 
 
@@ -109,9 +109,9 @@ public class OrganisationContacts implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("OrganisationAddressId");
             this.columnNames.add("ContactId");
             this.columnNames.add("OrganisationId");
+            this.columnNames.add("OrganisationAddressId");
         }
 
         return this.columnNames;
@@ -121,17 +121,17 @@ public class OrganisationContacts implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.organisationaddressid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.contactid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.organisationid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.organisationaddressid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

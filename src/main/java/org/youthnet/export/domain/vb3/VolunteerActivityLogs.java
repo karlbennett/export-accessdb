@@ -19,15 +19,15 @@ public class VolunteerActivityLogs implements CSVable {
     private List<String> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
-    private UUID activitylogid;
     private UUID id;
-    private Boolean deleted;
-    private Long version;
-    private UUID modifiedby;
     private Timestamp created;
     private UUID createdby;
-    private UUID volunteerid;
+    private Boolean deleted;
     private Timestamp modified;
+    private UUID modifiedby;
+    private Long version;
+    private UUID activitylogid;
+    private UUID volunteerid;
 
     public VolunteerActivityLogs() {
     }
@@ -48,41 +48,39 @@ public class VolunteerActivityLogs implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.activitylogid = UUID.fromString(uuidStringBuffer.toString());
+        this.id = UUID.fromString(uuidStringBuffer.toString());
+
+        try {
+            this.created = new Timestamp(simpleDateFormat.parse(fields[1].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp created " + fields[1].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[1].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[2].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
-        this.id = UUID.fromString(uuidStringBuffer.toString());
+        this.createdby = UUID.fromString(uuidStringBuffer.toString());
 
-        this.deleted = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.deleted = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.version = Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        try {
+            this.modified = new Timestamp(simpleDateFormat.parse(fields[4].replace(String.valueOf(this.enclosure), "")).getTime());
+        } catch (ParseException e) {
+            System.out.println("Could not pars Timestamp modified " + fields[4].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
+        }
 
         uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[4].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.append(fields[5].replace(String.valueOf(this.enclosure), ""));
         uuidStringBuffer.insert(8, '-');
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
         this.modifiedby = UUID.fromString(uuidStringBuffer.toString());
 
-        try {
-            this.created = new Timestamp(simpleDateFormat.parse(fields[5].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp created " + fields[5].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-
-        uuidStringBuffer.setLength(0);
-        uuidStringBuffer.append(fields[6].replace(String.valueOf(this.enclosure), ""));
-        uuidStringBuffer.insert(8, '-');
-        uuidStringBuffer.insert(13, '-');
-        uuidStringBuffer.insert(18, '-');
-        uuidStringBuffer.insert(23, '-');
-        this.createdby = UUID.fromString(uuidStringBuffer.toString());
+        this.version = Long.valueOf(fields[6].replace(String.valueOf(this.enclosure), ""));
 
         uuidStringBuffer.setLength(0);
         uuidStringBuffer.append(fields[7].replace(String.valueOf(this.enclosure), ""));
@@ -90,24 +88,18 @@ public class VolunteerActivityLogs implements CSVable {
         uuidStringBuffer.insert(13, '-');
         uuidStringBuffer.insert(18, '-');
         uuidStringBuffer.insert(23, '-');
+        this.activitylogid = UUID.fromString(uuidStringBuffer.toString());
+
+        uuidStringBuffer.setLength(0);
+        uuidStringBuffer.append(fields[8].replace(String.valueOf(this.enclosure), ""));
+        uuidStringBuffer.insert(8, '-');
+        uuidStringBuffer.insert(13, '-');
+        uuidStringBuffer.insert(18, '-');
+        uuidStringBuffer.insert(23, '-');
         this.volunteerid = UUID.fromString(uuidStringBuffer.toString());
 
-        try {
-            this.modified = new Timestamp(simpleDateFormat.parse(fields[8].replace(String.valueOf(this.enclosure), "")).getTime());
-        } catch (ParseException e) {
-            System.out.println("Could not pars Timestamp modified " + fields[8].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
-        }
-
     }
 
-
-    public UUID getActivityLogId() {
-        return this.activitylogid;
-    }
-
-    public void setActivityLogId(UUID activitylogid) {
-        this.activitylogid = activitylogid;
-    }
 
     public UUID getId() {
         return this.id;
@@ -115,30 +107,6 @@ public class VolunteerActivityLogs implements CSVable {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public UUID getModifiedBy() {
-        return this.modifiedby;
-    }
-
-    public void setModifiedBy(UUID modifiedby) {
-        this.modifiedby = modifiedby;
     }
 
     public Timestamp getCreated() {
@@ -157,12 +125,12 @@ public class VolunteerActivityLogs implements CSVable {
         this.createdby = createdby;
     }
 
-    public UUID getVolunteerId() {
-        return this.volunteerid;
+    public Boolean getDeleted() {
+        return this.deleted;
     }
 
-    public void setVolunteerId(UUID volunteerid) {
-        this.volunteerid = volunteerid;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getModified() {
@@ -171,6 +139,38 @@ public class VolunteerActivityLogs implements CSVable {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+    public UUID getModifiedBy() {
+        return this.modifiedby;
+    }
+
+    public void setModifiedBy(UUID modifiedby) {
+        this.modifiedby = modifiedby;
+    }
+
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public UUID getActivityLogId() {
+        return this.activitylogid;
+    }
+
+    public void setActivityLogId(UUID activitylogid) {
+        this.activitylogid = activitylogid;
+    }
+
+    public UUID getVolunteerId() {
+        return this.volunteerid;
+    }
+
+    public void setVolunteerId(UUID volunteerid) {
+        this.volunteerid = volunteerid;
     }
 
 
@@ -197,15 +197,15 @@ public class VolunteerActivityLogs implements CSVable {
     public List<String> getColumnNames() {
         if (this.columnNames == null) {
             this.columnNames = new ArrayList<String>();
-            this.columnNames.add("ActivityLogId");
             this.columnNames.add("Id");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Version");
-            this.columnNames.add("ModifiedBy");
             this.columnNames.add("Created");
             this.columnNames.add("CreatedBy");
-            this.columnNames.add("VolunteerId");
+            this.columnNames.add("Deleted");
             this.columnNames.add("Modified");
+            this.columnNames.add("ModifiedBy");
+            this.columnNames.add("Version");
+            this.columnNames.add("ActivityLogId");
+            this.columnNames.add("VolunteerId");
         }
 
         return this.columnNames;
@@ -215,27 +215,7 @@ public class VolunteerActivityLogs implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.activitylogid.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.id.toString().replace("-", ""));
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted ? 1 : 0);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.version);
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.delimiter);
-
-        recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -250,12 +230,32 @@ public class VolunteerActivityLogs implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.volunteerid.toString().replace("-", ""));
+        recordStringBuffer.append(deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.modified);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.modifiedby.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.version);
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.activitylogid.toString().replace("-", ""));
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.delimiter);
+
+        recordStringBuffer.append(this.enclosure);
+        recordStringBuffer.append(this.volunteerid.toString().replace("-", ""));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
