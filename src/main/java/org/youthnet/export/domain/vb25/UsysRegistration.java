@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UsysRegistration implements CSVable {
@@ -36,6 +36,9 @@ public class UsysRegistration implements CSVable {
     private String lastupdatedby;
 
 
+    public UsysRegistration() {
+    }
+
     public UsysRegistration(String record) {
         init(record);
     }
@@ -56,14 +59,14 @@ public class UsysRegistration implements CSVable {
         this.www = fields[9].replace(String.valueOf(this.enclosure), "");
         this.defaultorg = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
         try {
-            this.datefirstentered = new Timestamp(
+            this.datefirstentered = (fields[11].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[11].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datefirstentered Timestamp " + fields[11].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.shortname + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.datelastupdated = new Timestamp(
+            this.datelastupdated = (fields[12].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[12].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datelastupdated Timestamp " + fields[12].replace(String.valueOf(this.enclosure), "")

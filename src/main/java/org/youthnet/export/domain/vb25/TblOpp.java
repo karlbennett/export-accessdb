@@ -2,12 +2,12 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TblOpp implements CSVable {
@@ -58,6 +58,9 @@ public class TblOpp implements CSVable {
     private Boolean demodata;
 
 
+    public TblOpp() {
+    }
+
     public TblOpp(String record) {
         init(record);
     }
@@ -66,8 +69,8 @@ public class TblOpp implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.oid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.orgid = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.orgid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.oppenteredid = fields[2].replace(String.valueOf(this.enclosure), "");
         this.title = fields[3].replace(String.valueOf(this.enclosure), "");
         this.contact = fields[4].replace(String.valueOf(this.enclosure), "");
@@ -81,7 +84,7 @@ public class TblOpp implements CSVable {
         this.email = fields[12].replace(String.valueOf(this.enclosure), "");
         this.geographicalarea = fields[13].replace(String.valueOf(this.enclosure), "");
         try {
-            this.monetaryvalue = new BigDecimal(fields[14].replace(String.valueOf(this.enclosure), ""));
+            this.monetaryvalue = (fields[14].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new BigDecimal(fields[14].replace(String.valueOf(this.enclosure), ""));
         } catch (NumberFormatException e) {
             System.out.println("Could not pars monetaryvalue BigDecimal " + fields[14].substring(1, fields[14].length() - 1)
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
@@ -91,14 +94,14 @@ public class TblOpp implements CSVable {
         this.oneoff = fields[17].replace(String.valueOf(this.enclosure), "").equals("1");
         this.includevbaddress = fields[18].replace(String.valueOf(this.enclosure), "").equals("1");
         try {
-            this.oppstartdate = new Timestamp(
+            this.oppstartdate = (fields[19].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[19].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars oppstartdate Timestamp " + fields[19].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.oppenddate = new Timestamp(
+            this.oppenddate = (fields[20].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[20].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars oppenddate Timestamp " + fields[20].replace(String.valueOf(this.enclosure), "")
@@ -108,14 +111,14 @@ public class TblOpp implements CSVable {
         this.skillsqualifications = fields[22].replace(String.valueOf(this.enclosure), "");
         this.directions = fields[23].replace(String.valueOf(this.enclosure), "");
         try {
-            this.datefirstentered = new Timestamp(
+            this.datefirstentered = (fields[24].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[24].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datefirstentered Timestamp " + fields[24].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.datelastupdated = new Timestamp(
+            this.datelastupdated = (fields[25].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[25].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datelastupdated Timestamp " + fields[25].replace(String.valueOf(this.enclosure), "")
@@ -127,14 +130,14 @@ public class TblOpp implements CSVable {
         this.virtualvol = fields[29].replace(String.valueOf(this.enclosure), "").equals("1");
         this.residential = fields[30].replace(String.valueOf(this.enclosure), "").equals("1");
         try {
-            this.specificstartdate = new Timestamp(
+            this.specificstartdate = (fields[31].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[31].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars specificstartdate Timestamp " + fields[31].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.oid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.specificenddate = new Timestamp(
+            this.specificenddate = (fields[32].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[32].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars specificenddate Timestamp " + fields[32].replace(String.valueOf(this.enclosure), "")

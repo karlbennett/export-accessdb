@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TblOppArrangements implements CSVable {
@@ -23,6 +23,9 @@ public class TblOppArrangements implements CSVable {
     private String details;
 
 
+    public TblOppArrangements() {
+    }
+
     public TblOppArrangements(String record) {
         init(record);
     }
@@ -31,8 +34,8 @@ public class TblOppArrangements implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.aid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.oid = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.aid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.opparrangements = fields[2].replace(String.valueOf(this.enclosure), "");
         this.details = fields[3].replace(String.valueOf(this.enclosure), "");
     }

@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysDemoData implements CSVable {
@@ -19,6 +19,9 @@ public class UsysDemoData implements CSVable {
 
     private Boolean demodata;
 
+
+    public UsysDemoData() {
+    }
 
     public UsysDemoData(String record) {
         init(record);

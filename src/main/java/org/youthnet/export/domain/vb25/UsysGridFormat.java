@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysGridFormat implements CSVable {
@@ -20,6 +20,9 @@ public class UsysGridFormat implements CSVable {
     private String user;
     private String selected;
 
+
+    public UsysGridFormat() {
+    }
 
     public UsysGridFormat(String record) {
         init(record);

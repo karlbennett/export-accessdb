@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TblVol implements CSVable {
@@ -58,6 +58,9 @@ public class TblVol implements CSVable {
     private Boolean demodata;
 
 
+    public TblVol() {
+    }
+
     public TblVol(String record) {
         init(record);
     }
@@ -66,7 +69,7 @@ public class TblVol implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.vid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.vid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.firstname = fields[1].replace(String.valueOf(this.enclosure), "");
         this.lastname = fields[2].replace(String.valueOf(this.enclosure), "");
         this.title = fields[3].replace(String.valueOf(this.enclosure), "");
@@ -85,7 +88,7 @@ public class TblVol implements CSVable {
         this.previouswork = fields[16].replace(String.valueOf(this.enclosure), "");
         this.status = fields[17].replace(String.valueOf(this.enclosure), "");
         try {
-            this.dob = new Timestamp(
+            this.dob = (fields[18].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[18].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars dob Timestamp " + fields[18].replace(String.valueOf(this.enclosure), "")
@@ -101,14 +104,14 @@ public class TblVol implements CSVable {
         this.driving = fields[26].replace(String.valueOf(this.enclosure), "");
         this.typeofdrivinglicence = fields[27].replace(String.valueOf(this.enclosure), "");
         try {
-            this.datefirstentered = new Timestamp(
+            this.datefirstentered = (fields[28].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[28].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datefirstentered Timestamp " + fields[28].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.vid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.datelastupdated = new Timestamp(
+            this.datelastupdated = (fields[29].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[29].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datelastupdated Timestamp " + fields[29].replace(String.valueOf(this.enclosure), "")

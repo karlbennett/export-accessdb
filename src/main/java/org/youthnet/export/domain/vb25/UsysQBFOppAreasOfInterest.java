@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysQBFOppAreasOfInterest implements CSVable {
@@ -20,6 +20,9 @@ public class UsysQBFOppAreasOfInterest implements CSVable {
     private String user;
     private String areasofinterest;
 
+
+    public UsysQBFOppAreasOfInterest() {
+    }
 
     public UsysQBFOppAreasOfInterest(String record) {
         init(record);

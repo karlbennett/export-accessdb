@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluCorrespondence implements CSVable {
@@ -23,6 +23,9 @@ public class TbluCorrespondence implements CSVable {
     private String templatepath;
     private Boolean demodata;
 
+
+    public TbluCorrespondence() {
+    }
 
     public TbluCorrespondence(String record) {
         init(record);

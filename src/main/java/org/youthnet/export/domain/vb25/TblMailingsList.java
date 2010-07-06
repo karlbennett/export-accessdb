@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TblMailingsList implements CSVable {
@@ -25,6 +25,9 @@ public class TblMailingsList implements CSVable {
     private Boolean emailpreference;
 
 
+    public TblMailingsList() {
+    }
+
     public TblMailingsList(String record) {
         init(record);
     }
@@ -33,11 +36,11 @@ public class TblMailingsList implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.mid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.mid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.mailing = fields[1].replace(String.valueOf(this.enclosure), "");
-        this.vid = Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
-        this.oid = Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
-        this.orgid = Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+        this.vid = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.orgid = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
         this.emailpreference = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
     }
 

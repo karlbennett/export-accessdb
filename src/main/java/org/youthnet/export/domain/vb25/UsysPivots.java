@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysPivots implements CSVable {
@@ -28,6 +28,9 @@ public class UsysPivots implements CSVable {
     private String actsql;
 
 
+    public UsysPivots() {
+    }
+
     public UsysPivots(String record) {
         init(record);
     }
@@ -36,7 +39,7 @@ public class UsysPivots implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.id = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.id = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.pivot = fields[1].replace(String.valueOf(this.enclosure), "");
         this.row = fields[2].replace(String.valueOf(this.enclosure), "");
         this.column = fields[3].replace(String.valueOf(this.enclosure), "");

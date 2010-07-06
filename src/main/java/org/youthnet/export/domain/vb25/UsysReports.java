@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysReports implements CSVable {
@@ -34,6 +34,9 @@ public class UsysReports implements CSVable {
     private Boolean usespecial;
 
 
+    public UsysReports() {
+    }
+
     public UsysReports(String record) {
         init(record);
     }
@@ -43,10 +46,10 @@ public class UsysReports implements CSVable {
 
 
         this.report = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.order = Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.order = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.sql = fields[2].replace(String.valueOf(this.enclosure), "");
-        this.orientation = Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
-        this.bottommargin = Short.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+        this.orientation = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.bottommargin = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
         this.activereport = fields[5].replace(String.valueOf(this.enclosure), "");
         this.select = fields[6].replace(String.valueOf(this.enclosure), "");
         this.entsql = fields[7].replace(String.valueOf(this.enclosure), "");

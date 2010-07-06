@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysFieldList implements CSVable {
@@ -22,6 +22,9 @@ public class UsysFieldList implements CSVable {
     private Short order;
 
 
+    public UsysFieldList() {
+    }
+
     public UsysFieldList(String record) {
         init(record);
     }
@@ -32,7 +35,7 @@ public class UsysFieldList implements CSVable {
 
         this.field = fields[0].replace(String.valueOf(this.enclosure), "");
         this.area = fields[1].replace(String.valueOf(this.enclosure), "");
-        this.order = Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.order = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
     }
 
     public String getField() {

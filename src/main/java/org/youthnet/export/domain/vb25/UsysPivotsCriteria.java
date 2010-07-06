@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UsysPivotsCriteria implements CSVable {
@@ -28,6 +28,9 @@ public class UsysPivotsCriteria implements CSVable {
     private String sql;
 
 
+    public UsysPivotsCriteria() {
+    }
+
     public UsysPivotsCriteria(String record) {
         init(record);
     }
@@ -36,17 +39,17 @@ public class UsysPivotsCriteria implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.pivot = Short.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.pivot = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.user = fields[1].replace(String.valueOf(this.enclosure), "");
         try {
-            this.startdate = new Timestamp(
+            this.startdate = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[2].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars startdate Timestamp " + fields[2].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.pivot + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.enddate = new Timestamp(
+            this.enddate = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[3].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars enddate Timestamp " + fields[3].replace(String.valueOf(this.enclosure), "")

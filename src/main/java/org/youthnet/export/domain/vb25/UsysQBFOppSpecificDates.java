@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UsysQBFOppSpecificDates implements CSVable {
@@ -25,6 +25,9 @@ public class UsysQBFOppSpecificDates implements CSVable {
     private Timestamp specificenddate;
 
 
+    public UsysQBFOppSpecificDates() {
+    }
+
     public UsysQBFOppSpecificDates(String record) {
         init(record);
     }
@@ -35,14 +38,14 @@ public class UsysQBFOppSpecificDates implements CSVable {
 
         this.user = fields[0].replace(String.valueOf(this.enclosure), "");
         try {
-            this.specificstartdate = new Timestamp(
+            this.specificstartdate = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[1].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars specificstartdate Timestamp " + fields[1].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.user + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.specificenddate = new Timestamp(
+            this.specificenddate = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[2].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars specificenddate Timestamp " + fields[2].replace(String.valueOf(this.enclosure), "")

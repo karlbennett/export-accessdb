@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UsysBackup implements CSVable {
@@ -25,6 +25,9 @@ public class UsysBackup implements CSVable {
     private Boolean includedate;
 
 
+    public UsysBackup() {
+    }
+
     public UsysBackup(String record) {
         init(record);
     }
@@ -34,7 +37,7 @@ public class UsysBackup implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
         try {
-            this.lastdate = new Timestamp(
+            this.lastdate = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[0].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars lastdate Timestamp " + fields[0].replace(String.valueOf(this.enclosure), "")

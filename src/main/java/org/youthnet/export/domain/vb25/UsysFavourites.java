@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysFavourites implements CSVable {
@@ -22,6 +22,9 @@ public class UsysFavourites implements CSVable {
     private Long id;
 
 
+    public UsysFavourites() {
+    }
+
     public UsysFavourites(String record) {
         init(record);
     }
@@ -31,8 +34,8 @@ public class UsysFavourites implements CSVable {
 
 
         this.user = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.type = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
-        this.id = Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.type = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.id = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
     }
 
     public String getUser() {

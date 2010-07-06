@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluSuitability implements CSVable {
@@ -23,6 +23,9 @@ public class TbluSuitability implements CSVable {
     private Boolean demodata;
 
 
+    public TbluSuitability() {
+    }
+
     public TbluSuitability(String record) {
         init(record);
     }
@@ -33,7 +36,7 @@ public class TbluSuitability implements CSVable {
 
         this.suitability = fields[0].replace(String.valueOf(this.enclosure), "");
         this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.id = Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.id = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
         this.demodata = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
     }
 

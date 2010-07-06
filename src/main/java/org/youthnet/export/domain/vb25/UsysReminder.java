@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysReminder implements CSVable {
@@ -26,6 +26,9 @@ public class UsysReminder implements CSVable {
     private Boolean active;
 
 
+    public UsysReminder() {
+    }
+
     public UsysReminder(String record) {
         init(record);
     }
@@ -36,8 +39,8 @@ public class UsysReminder implements CSVable {
 
         this.reminder = fields[0].replace(String.valueOf(this.enclosure), "");
         this.period = fields[1].replace(String.valueOf(this.enclosure), "");
-        this.no = Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
-        this.order = Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.no = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+        this.order = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
         this.promptfortime = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
         this.alarmtime = fields[5].replace(String.valueOf(this.enclosure), "");
         this.active = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");

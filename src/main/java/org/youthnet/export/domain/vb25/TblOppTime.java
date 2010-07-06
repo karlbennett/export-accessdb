@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TblOppTime implements CSVable {
@@ -23,6 +23,9 @@ public class TblOppTime implements CSVable {
     private String timeslot;
 
 
+    public TblOppTime() {
+    }
+
     public TblOppTime(String record) {
         init(record);
     }
@@ -31,8 +34,8 @@ public class TblOppTime implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.tid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.oid = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.tid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.day = fields[2].replace(String.valueOf(this.enclosure), "");
         this.timeslot = fields[3].replace(String.valueOf(this.enclosure), "");
     }

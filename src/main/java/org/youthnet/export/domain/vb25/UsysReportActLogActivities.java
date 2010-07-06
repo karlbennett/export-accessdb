@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysReportActLogActivities implements CSVable {
@@ -20,6 +20,9 @@ public class UsysReportActLogActivities implements CSVable {
     private String activity;
     private String user;
 
+
+    public UsysReportActLogActivities() {
+    }
 
     public UsysReportActLogActivities(String record) {
         init(record);

@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysUserLicence implements CSVable {
@@ -20,6 +20,9 @@ public class UsysUserLicence implements CSVable {
     private Short licence;
 
 
+    public UsysUserLicence() {
+    }
+
     public UsysUserLicence(String record) {
         init(record);
     }
@@ -28,7 +31,7 @@ public class UsysUserLicence implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.licence = Short.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.licence = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
     }
 
     public Short getLicence() {

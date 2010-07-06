@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysCharts implements CSVable {
@@ -25,6 +25,9 @@ public class UsysCharts implements CSVable {
     private Short order;
 
 
+    public UsysCharts() {
+    }
+
     public UsysCharts(String record) {
         init(record);
     }
@@ -38,7 +41,7 @@ public class UsysCharts implements CSVable {
         this.selectwhere = fields[2].replace(String.valueOf(this.enclosure), "");
         this.groupby = fields[3].replace(String.valueOf(this.enclosure), "");
         this.table = fields[4].replace(String.valueOf(this.enclosure), "");
-        this.order = Short.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
+        this.order = (fields[5].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
     }
 
     public String getChart() {

@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysChartTitles implements CSVable {
@@ -24,6 +24,9 @@ public class UsysChartTitles implements CSVable {
     private String right;
     private String bottom;
 
+
+    public UsysChartTitles() {
+    }
 
     public UsysChartTitles(String record) {
         init(record);

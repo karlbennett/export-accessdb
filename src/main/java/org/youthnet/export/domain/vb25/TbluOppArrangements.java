@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluOppArrangements implements CSVable {
@@ -21,6 +21,9 @@ public class TbluOppArrangements implements CSVable {
     private Boolean active;
     private Boolean demodata;
 
+
+    public TbluOppArrangements() {
+    }
 
     public TbluOppArrangements(String record) {
         init(record);

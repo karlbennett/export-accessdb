@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysPreviousMenu implements CSVable {
@@ -23,6 +23,9 @@ public class UsysPreviousMenu implements CSVable {
     private Short type;
 
 
+    public UsysPreviousMenu() {
+    }
+
     public UsysPreviousMenu(String record) {
         init(record);
     }
@@ -31,10 +34,10 @@ public class UsysPreviousMenu implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.id = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.id = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.user = fields[1].replace(String.valueOf(this.enclosure), "");
         this.name = fields[2].replace(String.valueOf(this.enclosure), "");
-        this.type = Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.type = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
     }
 
     public Long getId() {

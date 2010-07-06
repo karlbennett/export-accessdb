@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TblMailings implements CSVable {
@@ -32,6 +32,9 @@ public class TblMailings implements CSVable {
     private String lastupdatedby;
 
 
+    public TblMailings() {
+    }
+
     public TblMailings(String record) {
         init(record);
     }
@@ -41,21 +44,21 @@ public class TblMailings implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
         this.mailing = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.no = Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.no = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.description = fields[2].replace(String.valueOf(this.enclosure), "");
         this.fields = fields[3].replace(String.valueOf(this.enclosure), "");
-        this.icon = Short.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+        this.icon = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
         this.email = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
         this.owner = fields[6].replace(String.valueOf(this.enclosure), "");
         try {
-            this.datefirstentered = new Timestamp(
+            this.datefirstentered = (fields[7].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[7].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datefirstentered Timestamp " + fields[7].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.mailing + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.datelastupdated = new Timestamp(
+            this.datelastupdated = (fields[8].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[8].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datelastupdated Timestamp " + fields[8].replace(String.valueOf(this.enclosure), "")

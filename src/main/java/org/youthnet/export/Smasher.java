@@ -434,7 +434,9 @@ public class Smasher {
             if (attributes[i][1].equals("Short")) {
                 initAttributesStringBuffer.append("\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Short.valueOf(fields[");
+                initAttributesStringBuffer.append(" = (fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : Short.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
@@ -442,7 +444,9 @@ public class Smasher {
             if (attributes[i][1].equals("Integer")) {
                 initAttributesStringBuffer.append("\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Integer.valueOf(fields[");
+                initAttributesStringBuffer.append(" = (fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : Integer.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
@@ -450,7 +454,9 @@ public class Smasher {
             if (attributes[i][1].equals("Long")) {
                 initAttributesStringBuffer.append("\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = Long.valueOf(fields[");
+                initAttributesStringBuffer.append(" = (fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : Long.valueOf(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n");
             }
@@ -458,7 +464,9 @@ public class Smasher {
             if (attributes[i][1].equals("BigDecimal")) {
                 initAttributesStringBuffer.append("\t\ttry{\n\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = new BigDecimal(fields[");
+                initAttributesStringBuffer.append(" = (fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : new BigDecimal(fields[");
                 initAttributesStringBuffer.append(i);
                 initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\"));\n\t\t} catch (NumberFormatException e) {\n\t\t\t");
                 initAttributesStringBuffer.append("System.out.println(\"Could not pars ");
@@ -494,7 +502,9 @@ public class Smasher {
                     || attributes[i][1].equals("Timestamp")) {
                 initAttributesStringBuffer.append("\t\ttry {\n\t\t\tthis.");
                 initAttributesStringBuffer.append(attributes[i][0]);
-                initAttributesStringBuffer.append(" = new ");
+                initAttributesStringBuffer.append(" = (fields[");
+                initAttributesStringBuffer.append(i);
+                initAttributesStringBuffer.append("].replace(String.valueOf(this.enclosure), \"\").equals(\"\")) ? null : new ");
                 initAttributesStringBuffer.append(attributes[i][1]);
                 initAttributesStringBuffer.append("(\n\t\t\t\tsimpleDateFormat.parse(fields[");
                 initAttributesStringBuffer.append(i);
@@ -513,7 +523,10 @@ public class Smasher {
         }
         classStringBuffer.append("\n\n");
 
-        // Add the constructor.
+        // Add the constructors.
+        classStringBuffer.append("\tpublic ");
+        classStringBuffer.append(className);
+        classStringBuffer.append("() {}\n\n");
         classStringBuffer.append("\tpublic ");
         classStringBuffer.append(className);
         classStringBuffer.append("(String record) {\n\t\tinit(record);\n\t}\n\n");

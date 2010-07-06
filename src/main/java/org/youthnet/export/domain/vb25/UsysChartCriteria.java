@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysChartCriteria implements CSVable {
@@ -24,6 +24,9 @@ public class UsysChartCriteria implements CSVable {
     private String criteria;
     private String altwhereclause;
 
+
+    public UsysChartCriteria() {
+    }
 
     public UsysChartCriteria(String record) {
         init(record);

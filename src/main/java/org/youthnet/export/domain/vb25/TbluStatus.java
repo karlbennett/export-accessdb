@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluStatus implements CSVable {
@@ -22,6 +22,9 @@ public class TbluStatus implements CSVable {
     private Boolean _default;
     private Boolean demodata;
 
+
+    public TbluStatus() {
+    }
 
     public TbluStatus(String record) {
         init(record);

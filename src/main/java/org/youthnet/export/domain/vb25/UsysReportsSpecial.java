@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysReportsSpecial implements CSVable {
@@ -27,6 +27,9 @@ public class UsysReportsSpecial implements CSVable {
     private String subactsql;
 
 
+    public UsysReportsSpecial() {
+    }
+
     public UsysReportsSpecial(String record) {
         init(record);
     }
@@ -36,7 +39,7 @@ public class UsysReportsSpecial implements CSVable {
 
 
         this.report = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.type = Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.type = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.sql = fields[2].replace(String.valueOf(this.enclosure), "");
         this.entsql = fields[3].replace(String.valueOf(this.enclosure), "");
         this.actsql = fields[4].replace(String.valueOf(this.enclosure), "");

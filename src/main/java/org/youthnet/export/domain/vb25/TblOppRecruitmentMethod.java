@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TblOppRecruitmentMethod implements CSVable {
@@ -22,6 +22,9 @@ public class TblOppRecruitmentMethod implements CSVable {
     private String recruitmentmethod;
 
 
+    public TblOppRecruitmentMethod() {
+    }
+
     public TblOppRecruitmentMethod(String record) {
         init(record);
     }
@@ -30,8 +33,8 @@ public class TblOppRecruitmentMethod implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.rid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.oid = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.rid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.recruitmentmethod = fields[2].replace(String.valueOf(this.enclosure), "");
     }
 

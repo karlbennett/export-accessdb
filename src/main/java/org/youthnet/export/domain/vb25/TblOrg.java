@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TblOrg implements CSVable {
@@ -57,6 +57,9 @@ public class TblOrg implements CSVable {
     private Boolean demodata;
 
 
+    public TblOrg() {
+    }
+
     public TblOrg(String record) {
         init(record);
     }
@@ -65,7 +68,7 @@ public class TblOrg implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.orgid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.orgid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.orgenteredid = fields[1].replace(String.valueOf(this.enclosure), "");
         this.name = fields[2].replace(String.valueOf(this.enclosure), "");
         this.address1 = fields[3].replace(String.valueOf(this.enclosure), "");
@@ -91,14 +94,14 @@ public class TblOrg implements CSVable {
         this.mission = fields[23].replace(String.valueOf(this.enclosure), "");
         this.activities = fields[24].replace(String.valueOf(this.enclosure), "");
         try {
-            this.datefirstentered = new Timestamp(
+            this.datefirstentered = (fields[25].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[25].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datefirstentered Timestamp " + fields[25].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.orgid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.datelastupdated = new Timestamp(
+            this.datelastupdated = (fields[26].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[26].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datelastupdated Timestamp " + fields[26].replace(String.valueOf(this.enclosure), "")

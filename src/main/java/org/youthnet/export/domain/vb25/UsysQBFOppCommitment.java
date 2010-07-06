@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysQBFOppCommitment implements CSVable {
@@ -22,6 +22,9 @@ public class UsysQBFOppCommitment implements CSVable {
     private String commitment;
 
 
+    public UsysQBFOppCommitment() {
+    }
+
     public UsysQBFOppCommitment(String record) {
         init(record);
     }
@@ -31,7 +34,7 @@ public class UsysQBFOppCommitment implements CSVable {
 
 
         this.user = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.id = Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.id = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
         this.commitment = fields[2].replace(String.valueOf(this.enclosure), "");
     }
 

@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysMailMerge implements CSVable {
@@ -22,6 +22,9 @@ public class UsysMailMerge implements CSVable {
     private String fields;
 
 
+    public UsysMailMerge() {
+    }
+
     public UsysMailMerge(String record) {
         init(record);
     }
@@ -30,7 +33,7 @@ public class UsysMailMerge implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
 
-        this.no = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.no = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.option = fields[1].replace(String.valueOf(this.enclosure), "");
         this.fields = fields[2].replace(String.valueOf(this.enclosure), "");
     }

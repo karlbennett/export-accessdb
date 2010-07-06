@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UsysFTPHistory implements CSVable {
@@ -25,6 +25,9 @@ public class UsysFTPHistory implements CSVable {
     private String otherinfo;
 
 
+    public UsysFTPHistory() {
+    }
+
     public UsysFTPHistory(String record) {
         init(record);
     }
@@ -33,9 +36,9 @@ public class UsysFTPHistory implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.hid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.hid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         try {
-            this.posteddate = new Timestamp(
+            this.posteddate = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[1].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars posteddate Timestamp " + fields[1].replace(String.valueOf(this.enclosure), "")

@@ -2,8 +2,8 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluGender implements CSVable {
@@ -21,6 +21,9 @@ public class TbluGender implements CSVable {
     private Boolean active;
     private Boolean demodata;
 
+
+    public TbluGender() {
+    }
 
     public TbluGender(String record) {
         init(record);

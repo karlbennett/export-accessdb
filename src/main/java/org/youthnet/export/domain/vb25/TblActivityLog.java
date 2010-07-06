@@ -3,10 +3,10 @@ package org.youthnet.export.domain.vb25;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TblActivityLog implements CSVable {
@@ -47,6 +47,9 @@ public class TblActivityLog implements CSVable {
     private String lastupdatedby;
 
 
+    public TblActivityLog() {
+    }
+
     public TblActivityLog(String record) {
         init(record);
     }
@@ -55,24 +58,24 @@ public class TblActivityLog implements CSVable {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-        this.lid = Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.lid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
         this.activity = fields[1].replace(String.valueOf(this.enclosure), "");
         this.type = fields[2].replace(String.valueOf(this.enclosure), "");
-        this.vid = Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
-        this.oid = Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
-        this.orgid = Long.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
-        this.linkedoid = Long.valueOf(fields[6].replace(String.valueOf(this.enclosure), ""));
+        this.vid = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+        this.orgid = (fields[5].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
+        this.linkedoid = (fields[6].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[6].replace(String.valueOf(this.enclosure), ""));
         this.subject = fields[7].replace(String.valueOf(this.enclosure), "");
         this.owner = fields[8].replace(String.valueOf(this.enclosure), "");
         try {
-            this.starttime = new Timestamp(
+            this.starttime = (fields[9].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[9].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars starttime Timestamp " + fields[9].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.endtime = new Timestamp(
+            this.endtime = (fields[10].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[10].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars endtime Timestamp " + fields[10].replace(String.valueOf(this.enclosure), "")
@@ -80,7 +83,7 @@ public class TblActivityLog implements CSVable {
         }
         this.alarm = fields[11].replace(String.valueOf(this.enclosure), "").equals("1");
         try {
-            this.alarmstarttime = new Timestamp(
+            this.alarmstarttime = (fields[12].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[12].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars alarmstarttime Timestamp " + fields[12].replace(String.valueOf(this.enclosure), "")
@@ -90,26 +93,26 @@ public class TblActivityLog implements CSVable {
         this.alldayevent = fields[14].replace(String.valueOf(this.enclosure), "").equals("1");
         this.correspondence = fields[15].replace(String.valueOf(this.enclosure), "");
         try {
-            this.datecorrsent = new Timestamp(
+            this.datecorrsent = (fields[16].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[16].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datecorrsent Timestamp " + fields[16].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
-        this.linkedlid = Long.valueOf(fields[17].replace(String.valueOf(this.enclosure), ""));
-        this.backlid = Long.valueOf(fields[18].replace(String.valueOf(this.enclosure), ""));
+        this.linkedlid = (fields[17].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[17].replace(String.valueOf(this.enclosure), ""));
+        this.backlid = (fields[18].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[18].replace(String.valueOf(this.enclosure), ""));
         this.showincalendar = fields[19].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.esttotalhours = Short.valueOf(fields[20].replace(String.valueOf(this.enclosure), ""));
+        this.esttotalhours = (fields[20].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[20].replace(String.valueOf(this.enclosure), ""));
         this.notes = fields[21].replace(String.valueOf(this.enclosure), "");
         try {
-            this.datefirstentered = new Timestamp(
+            this.datefirstentered = (fields[22].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[22].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datefirstentered Timestamp " + fields[22].replace(String.valueOf(this.enclosure), "")
                     + " in row " + this.lid + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
         try {
-            this.datelastupdated = new Timestamp(
+            this.datelastupdated = (fields[23].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(
                     simpleDateFormat.parse(fields[23].replace(String.valueOf(this.enclosure), "")).getTime());
         } catch (ParseException e) {
             System.out.println("Could not pars datelastupdated Timestamp " + fields[23].replace(String.valueOf(this.enclosure), "")
