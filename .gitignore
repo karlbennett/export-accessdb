@@ -5,4 +5,4 @@ target/
 output/
 *.csv
 smashed/
-test/
+./test/
