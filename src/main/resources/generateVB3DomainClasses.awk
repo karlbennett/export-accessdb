@@ -86,7 +86,7 @@ print "\t}" >> tableName ".java";
 print "" >> tableName ".java";
 
 print "\tpublic void init(String record) {" >> tableName ".java";
-print "\t\tString[] fields = record.split(String.valueOf(this.delimiter));" >> tableName ".java";
+print "\t\tString[] fields = record.split(\"\\\\\" + String.valueOf(this.delimiter));" >> tableName ".java";
 print "\t\tStringBuffer uuidStringBuffer = new StringBuffer();" >> tableName ".java";
 if ("Timestamp" in types) print "\t\tSimpleDateFormat simpleDateFormat = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss.S\");" >> tableName ".java";
 print "" >> tableName ".java";

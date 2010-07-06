@@ -32,8 +32,27 @@ public class ActivityLogsTest {
     private static final Timestamp MODIFIED = new Timestamp(new Date().getTime());
     private static final String NOTES = "Test String.";
 
+    private String testRecord = "¬" + ENDDATE + "¬" + "|"
+                + "¬" + 1 + "¬" + "|"
+                + "¬" + STARTDATE + "¬" + "|"
+                + "¬" + ID.toString().replace("-", "") + "¬" + "|"
+                + "¬" + 1 + "¬" + "|"
+                + "¬" + VBASE2ID + "¬" + "|"
+                + "¬" + ENDTIME + "¬" + "|"
+                + "¬" + STARTTIME + "¬" + "|"
+                + "¬" + VERSION + "¬" + "|"
+                + "¬" + MODIFIEDBY.toString().replace("-", "") + "¬" + "|"
+                + "¬" + SUBJECT + "¬" + "|"
+                + "¬" + 1 + "¬" + "|"
+                + "¬" + PERSONHEREID.toString().replace("-", "") + "¬" + "|"
+                + "¬" + CREATED + "¬" + "|"
+                + "¬" + CREATEDBY.toString().replace("-", "") + "¬" + "|"
+                + "¬" + ACTIVITYTYPEID.toString().replace("-", "") + "¬" + "|"
+                + "¬" + MODIFIED + "¬" + "|"
+                + "¬" + NOTES + "¬" + "|";
+
     @Test
-    public void testActivityLog() {
+    public void testBuildActivityLog() {
         ActivityLogs activityLogs = new ActivityLogs();
 
         activityLogs.setEndDate(ENDDATE);
@@ -57,25 +76,19 @@ public class ActivityLogsTest {
 
         System.out.println(activityLogs.getRecord());
 
-        String testRecord = "¬" + ENDDATE + "¬" + "|"
-                + "¬" + 1 + "¬" + "|"
-                + "¬" + STARTDATE + "¬" + "|"
-                + "¬" + ID.toString().replace("-", "") + "¬" + "|"
-                + "¬" + 1 + "¬" + "|"
-                + "¬" + VBASE2ID + "¬" + "|"
-                + "¬" + ENDTIME + "¬" + "|"
-                + "¬" + STARTTIME + "¬" + "|"
-                + "¬" + VERSION + "¬" + "|"
-                + "¬" + MODIFIEDBY.toString().replace("-", "") + "¬" + "|"
-                + "¬" + SUBJECT + "¬" + "|"
-                + "¬" + 1 + "¬" + "|"
-                + "¬" + PERSONHEREID.toString().replace("-", "") + "¬" + "|"
-                + "¬" + CREATED + "¬" + "|"
-                + "¬" + CREATEDBY.toString().replace("-", "") + "¬" + "|"
-                + "¬" + ACTIVITYTYPEID.toString().replace("-", "") + "¬" + "|"
-                + "¬" + MODIFIED + "¬" + "|"
-                + "¬" + NOTES + "¬" + "|";
+
 
         assertEquals("record equal", testRecord, activityLogs.getRecord());
+    }
+
+    @Test
+    public void testInitActivityLog() throws Exception {
+        ActivityLogs activityLogs = new ActivityLogs(testRecord);
+
+        assertEquals("record equal", testRecord, activityLogs.getRecord());
+
+        ActivityLogs newActivityLogs = new ActivityLogs(activityLogs.getRecord());
+
+        assertEquals("new record equal", testRecord, newActivityLogs.getRecord());
     }
 }

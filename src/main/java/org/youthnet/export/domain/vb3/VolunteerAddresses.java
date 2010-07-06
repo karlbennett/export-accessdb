@@ -31,7 +31,7 @@ public class VolunteerAddresses implements CSVable {
     }
 
     public void init(String record) {
-        String[] fields = record.split(String.valueOf(this.delimiter));
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
         StringBuffer uuidStringBuffer = new StringBuffer();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
