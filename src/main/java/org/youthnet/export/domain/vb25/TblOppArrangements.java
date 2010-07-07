@@ -2,110 +2,112 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TblOppArrangements implements CSVable, ContainsOid {
 
-	private char delimiter = '|';
-	private char enclosure = '¬';
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
-	public static final int COLUMN_NUM = 4;
+    public static final int COLUMN_NUM = 4;
 
-	private List<String> columnNames = null;
+    private List<String> columnNames = null;
 
-	private StringBuffer record = new StringBuffer();
+    private StringBuffer record = new StringBuffer();
 
-	private Long aid;
-	private Long oid;
-	private String opparrangements;
-	private String details;
-
-
-	public TblOppArrangements() {}
-
-	public TblOppArrangements(String record) {
-		init(record);
-	}
-
-	public void init(String record) {
-		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+    private Long aid;
+    private Long oid;
+    private String opparrangements;
+    private String details;
 
 
-		this.aid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-		this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
-		this.opparrangements = fields[2].replace(String.valueOf(this.enclosure), "");
-		this.details = fields[3].replace(String.valueOf(this.enclosure), "");
-	}
+    public TblOppArrangements() {
+    }
 
-	public Long getAid() {
-		return this.aid;
-	}
+    public TblOppArrangements(String record) {
+        init(record);
+    }
 
-	public Long getOid() {
-		return this.oid;
-	}
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-	public String getOpparrangements() {
-		return this.opparrangements;
-	}
 
-	public String getDetails() {
-		return this.details;
-	}
+        this.aid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+        this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.opparrangements = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.details = fields[3].replace(String.valueOf(this.enclosure), "");
+    }
 
-	public char getDelimiter() {
-		return this.delimiter;
-	}
+    public Long getAid() {
+        return this.aid;
+    }
 
-	public void setDelimiter(char delimiter) {
-		this.delimiter = delimiter;
-	}
+    public Long getOid() {
+        return this.oid;
+    }
 
-	public char getEnclosure() {
-		return this.enclosure;
-	}
+    public String getOpparrangements() {
+        return this.opparrangements;
+    }
 
-	public void setEnclosure(char enclosure) {
-		this.enclosure = enclosure;
-	}
+    public String getDetails() {
+        return this.details;
+    }
 
-	public Integer getColumnNumber() {
-		return COLUMN_NUM;
-	}
+    public char getDelimiter() {
+        return this.delimiter;
+    }
 
-	public List<String> getColumnNames() {
-		if (this.columnNames == null) {
-			columnNames = new ArrayList<String>();
-			columnNames.add("AID");
-			columnNames.add("OID");
-			columnNames.add("OppArrangements");
-			columnNames.add("Details");
-		}
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
 
-		return columnNames;	}
+    public char getEnclosure() {
+        return this.enclosure;
+    }
 
-	public String getRecord() {
-		record.setLength(0);
+    public void setEnclosure(char enclosure) {
+        this.enclosure = enclosure;
+    }
 
-		record.append(this.enclosure);
-		record.append(this.aid == null ? "" : this.aid);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.oid == null ? "" : this.oid);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.opparrangements == null ? "" : this.opparrangements);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.details == null ? "" : this.details);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
 
-		return record.toString();
-	}
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("AID");
+            columnNames.add("OID");
+            columnNames.add("OppArrangements");
+            columnNames.add("Details");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.aid == null ? "" : this.aid);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.oid == null ? "" : this.oid);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.opparrangements == null ? "" : this.opparrangements);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.details == null ? "" : this.details);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

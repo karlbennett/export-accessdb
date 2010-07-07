@@ -2,88 +2,90 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TbluType implements CSVable {
 
-	private char delimiter = '|';
-	private char enclosure = '¬';
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
-	public static final int COLUMN_NUM = 2;
+    public static final int COLUMN_NUM = 2;
 
-	private List<String> columnNames = null;
+    private List<String> columnNames = null;
 
-	private StringBuffer record = new StringBuffer();
+    private StringBuffer record = new StringBuffer();
 
-	private String type;
-	private Boolean demodata;
-
-
-	public TbluType() {}
-
-	public TbluType(String record) {
-		init(record);
-	}
-
-	public void init(String record) {
-		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+    private String type;
+    private Boolean demodata;
 
 
-		this.type = fields[0].replace(String.valueOf(this.enclosure), "");
-		this.demodata = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-	}
+    public TbluType() {
+    }
 
-	public String getType() {
-		return this.type;
-	}
+    public TbluType(String record) {
+        init(record);
+    }
 
-	public Boolean getDemodata() {
-		return this.demodata;
-	}
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-	public char getDelimiter() {
-		return this.delimiter;
-	}
 
-	public void setDelimiter(char delimiter) {
-		this.delimiter = delimiter;
-	}
+        this.type = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.demodata = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+    }
 
-	public char getEnclosure() {
-		return this.enclosure;
-	}
+    public String getType() {
+        return this.type;
+    }
 
-	public void setEnclosure(char enclosure) {
-		this.enclosure = enclosure;
-	}
+    public Boolean getDemodata() {
+        return this.demodata;
+    }
 
-	public Integer getColumnNumber() {
-		return COLUMN_NUM;
-	}
+    public char getDelimiter() {
+        return this.delimiter;
+    }
 
-	public List<String> getColumnNames() {
-		if (this.columnNames == null) {
-			columnNames = new ArrayList<String>();
-			columnNames.add("Type");
-			columnNames.add("DemoData");
-		}
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
 
-		return columnNames;	}
+    public char getEnclosure() {
+        return this.enclosure;
+    }
 
-	public String getRecord() {
-		record.setLength(0);
+    public void setEnclosure(char enclosure) {
+        this.enclosure = enclosure;
+    }
 
-		record.append(this.enclosure);
-		record.append(this.type == null ? "" : this.type);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.demodata != null && demodata ? 1 : 0);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
 
-		return record.toString();
-	}
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Type");
+            columnNames.add("DemoData");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.type == null ? "" : this.type);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.demodata != null && demodata ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

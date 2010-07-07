@@ -2,121 +2,123 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TbluCorrespondence implements CSVable {
 
-	private char delimiter = '|';
-	private char enclosure = '¬';
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
-	public static final int COLUMN_NUM = 5;
+    public static final int COLUMN_NUM = 5;
 
-	private List<String> columnNames = null;
+    private List<String> columnNames = null;
 
-	private StringBuffer record = new StringBuffer();
+    private StringBuffer record = new StringBuffer();
 
-	private String correspondence;
-	private Boolean active;
-	private Boolean followupletter;
-	private String templatepath;
-	private Boolean demodata;
-
-
-	public TbluCorrespondence() {}
-
-	public TbluCorrespondence(String record) {
-		init(record);
-	}
-
-	public void init(String record) {
-		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+    private String correspondence;
+    private Boolean active;
+    private Boolean followupletter;
+    private String templatepath;
+    private Boolean demodata;
 
 
-		this.correspondence = fields[0].replace(String.valueOf(this.enclosure), "");
-		this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-		this.followupletter = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-		this.templatepath = fields[3].replace(String.valueOf(this.enclosure), "");
-		this.demodata = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
-	}
+    public TbluCorrespondence() {
+    }
 
-	public String getCorrespondence() {
-		return this.correspondence;
-	}
+    public TbluCorrespondence(String record) {
+        init(record);
+    }
 
-	public Boolean getActive() {
-		return this.active;
-	}
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-	public Boolean getFollowupletter() {
-		return this.followupletter;
-	}
 
-	public String getTemplatepath() {
-		return this.templatepath;
-	}
+        this.correspondence = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.followupletter = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.templatepath = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.demodata = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
+    }
 
-	public Boolean getDemodata() {
-		return this.demodata;
-	}
+    public String getCorrespondence() {
+        return this.correspondence;
+    }
 
-	public char getDelimiter() {
-		return this.delimiter;
-	}
+    public Boolean getActive() {
+        return this.active;
+    }
 
-	public void setDelimiter(char delimiter) {
-		this.delimiter = delimiter;
-	}
+    public Boolean getFollowupletter() {
+        return this.followupletter;
+    }
 
-	public char getEnclosure() {
-		return this.enclosure;
-	}
+    public String getTemplatepath() {
+        return this.templatepath;
+    }
 
-	public void setEnclosure(char enclosure) {
-		this.enclosure = enclosure;
-	}
+    public Boolean getDemodata() {
+        return this.demodata;
+    }
 
-	public Integer getColumnNumber() {
-		return COLUMN_NUM;
-	}
+    public char getDelimiter() {
+        return this.delimiter;
+    }
 
-	public List<String> getColumnNames() {
-		if (this.columnNames == null) {
-			columnNames = new ArrayList<String>();
-			columnNames.add("Correspondence");
-			columnNames.add("Active");
-			columnNames.add("FollowupLetter");
-			columnNames.add("TemplatePath");
-			columnNames.add("DemoData");
-		}
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
 
-		return columnNames;	}
+    public char getEnclosure() {
+        return this.enclosure;
+    }
 
-	public String getRecord() {
-		record.setLength(0);
+    public void setEnclosure(char enclosure) {
+        this.enclosure = enclosure;
+    }
 
-		record.append(this.enclosure);
-		record.append(this.correspondence == null ? "" : this.correspondence);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.active != null && active ? 1 : 0);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.followupletter != null && followupletter ? 1 : 0);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.templatepath == null ? "" : this.templatepath);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.demodata != null && demodata ? 1 : 0);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
 
-		return record.toString();
-	}
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Correspondence");
+            columnNames.add("Active");
+            columnNames.add("FollowupLetter");
+            columnNames.add("TemplatePath");
+            columnNames.add("DemoData");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.correspondence == null ? "" : this.correspondence);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.active != null && active ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.followupletter != null && followupletter ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.templatepath == null ? "" : this.templatepath);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.demodata != null && demodata ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

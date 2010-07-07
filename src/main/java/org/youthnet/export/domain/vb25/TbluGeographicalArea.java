@@ -2,99 +2,101 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TbluGeographicalArea implements CSVable {
 
-	private char delimiter = '|';
-	private char enclosure = '¬';
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
-	public static final int COLUMN_NUM = 3;
+    public static final int COLUMN_NUM = 3;
 
-	private List<String> columnNames = null;
+    private List<String> columnNames = null;
 
-	private StringBuffer record = new StringBuffer();
+    private StringBuffer record = new StringBuffer();
 
-	private String geographicalarea;
-	private Boolean active;
-	private Boolean demodata;
-
-
-	public TbluGeographicalArea() {}
-
-	public TbluGeographicalArea(String record) {
-		init(record);
-	}
-
-	public void init(String record) {
-		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+    private String geographicalarea;
+    private Boolean active;
+    private Boolean demodata;
 
 
-		this.geographicalarea = fields[0].replace(String.valueOf(this.enclosure), "");
-		this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-		this.demodata = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-	}
+    public TbluGeographicalArea() {
+    }
 
-	public String getGeographicalarea() {
-		return this.geographicalarea;
-	}
+    public TbluGeographicalArea(String record) {
+        init(record);
+    }
 
-	public Boolean getActive() {
-		return this.active;
-	}
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-	public Boolean getDemodata() {
-		return this.demodata;
-	}
 
-	public char getDelimiter() {
-		return this.delimiter;
-	}
+        this.geographicalarea = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+        this.demodata = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+    }
 
-	public void setDelimiter(char delimiter) {
-		this.delimiter = delimiter;
-	}
+    public String getGeographicalarea() {
+        return this.geographicalarea;
+    }
 
-	public char getEnclosure() {
-		return this.enclosure;
-	}
+    public Boolean getActive() {
+        return this.active;
+    }
 
-	public void setEnclosure(char enclosure) {
-		this.enclosure = enclosure;
-	}
+    public Boolean getDemodata() {
+        return this.demodata;
+    }
 
-	public Integer getColumnNumber() {
-		return COLUMN_NUM;
-	}
+    public char getDelimiter() {
+        return this.delimiter;
+    }
 
-	public List<String> getColumnNames() {
-		if (this.columnNames == null) {
-			columnNames = new ArrayList<String>();
-			columnNames.add("GeographicalArea");
-			columnNames.add("Active");
-			columnNames.add("DemoData");
-		}
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
 
-		return columnNames;	}
+    public char getEnclosure() {
+        return this.enclosure;
+    }
 
-	public String getRecord() {
-		record.setLength(0);
+    public void setEnclosure(char enclosure) {
+        this.enclosure = enclosure;
+    }
 
-		record.append(this.enclosure);
-		record.append(this.geographicalarea == null ? "" : this.geographicalarea);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.active != null && active ? 1 : 0);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.demodata != null && demodata ? 1 : 0);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
 
-		return record.toString();
-	}
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("GeographicalArea");
+            columnNames.add("Active");
+            columnNames.add("DemoData");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.geographicalarea == null ? "" : this.geographicalarea);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.active != null && active ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.demodata != null && demodata ? 1 : 0);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

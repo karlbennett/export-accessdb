@@ -2,99 +2,101 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysQBFOppCommitment implements CSVable {
 
-	private char delimiter = '|';
-	private char enclosure = '¬';
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
-	public static final int COLUMN_NUM = 3;
+    public static final int COLUMN_NUM = 3;
 
-	private List<String> columnNames = null;
+    private List<String> columnNames = null;
 
-	private StringBuffer record = new StringBuffer();
+    private StringBuffer record = new StringBuffer();
 
-	private String user;
-	private Long id;
-	private String commitment;
-
-
-	public UsysQBFOppCommitment() {}
-
-	public UsysQBFOppCommitment(String record) {
-		init(record);
-	}
-
-	public void init(String record) {
-		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+    private String user;
+    private Long id;
+    private String commitment;
 
 
-		this.user = fields[0].replace(String.valueOf(this.enclosure), "");
-		this.id = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
-		this.commitment = fields[2].replace(String.valueOf(this.enclosure), "");
-	}
+    public UsysQBFOppCommitment() {
+    }
 
-	public String getUser() {
-		return this.user;
-	}
+    public UsysQBFOppCommitment(String record) {
+        init(record);
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-	public String getCommitment() {
-		return this.commitment;
-	}
 
-	public char getDelimiter() {
-		return this.delimiter;
-	}
+        this.user = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.id = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+        this.commitment = fields[2].replace(String.valueOf(this.enclosure), "");
+    }
 
-	public void setDelimiter(char delimiter) {
-		this.delimiter = delimiter;
-	}
+    public String getUser() {
+        return this.user;
+    }
 
-	public char getEnclosure() {
-		return this.enclosure;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setEnclosure(char enclosure) {
-		this.enclosure = enclosure;
-	}
+    public String getCommitment() {
+        return this.commitment;
+    }
 
-	public Integer getColumnNumber() {
-		return COLUMN_NUM;
-	}
+    public char getDelimiter() {
+        return this.delimiter;
+    }
 
-	public List<String> getColumnNames() {
-		if (this.columnNames == null) {
-			columnNames = new ArrayList<String>();
-			columnNames.add("User");
-			columnNames.add("ID");
-			columnNames.add("Commitment");
-		}
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
 
-		return columnNames;	}
+    public char getEnclosure() {
+        return this.enclosure;
+    }
 
-	public String getRecord() {
-		record.setLength(0);
+    public void setEnclosure(char enclosure) {
+        this.enclosure = enclosure;
+    }
 
-		record.append(this.enclosure);
-		record.append(this.user == null ? "" : this.user);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.id == null ? "" : this.id);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.commitment == null ? "" : this.commitment);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
 
-		return record.toString();
-	}
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("User");
+            columnNames.add("ID");
+            columnNames.add("Commitment");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.user == null ? "" : this.user);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.id == null ? "" : this.id);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.commitment == null ? "" : this.commitment);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }

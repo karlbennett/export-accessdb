@@ -2,132 +2,134 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UsysChartTitles implements CSVable {
 
-	private char delimiter = '|';
-	private char enclosure = '¬';
+    private char delimiter = '|';
+    private char enclosure = '¬';
 
-	public static final int COLUMN_NUM = 6;
+    public static final int COLUMN_NUM = 6;
 
-	private List<String> columnNames = null;
+    private List<String> columnNames = null;
 
-	private StringBuffer record = new StringBuffer();
+    private StringBuffer record = new StringBuffer();
 
-	private String chart;
-	private String user;
-	private String top;
-	private String left;
-	private String right;
-	private String bottom;
-
-
-	public UsysChartTitles() {}
-
-	public UsysChartTitles(String record) {
-		init(record);
-	}
-
-	public void init(String record) {
-		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+    private String chart;
+    private String user;
+    private String top;
+    private String left;
+    private String right;
+    private String bottom;
 
 
-		this.chart = fields[0].replace(String.valueOf(this.enclosure), "");
-		this.user = fields[1].replace(String.valueOf(this.enclosure), "");
-		this.top = fields[2].replace(String.valueOf(this.enclosure), "");
-		this.left = fields[3].replace(String.valueOf(this.enclosure), "");
-		this.right = fields[4].replace(String.valueOf(this.enclosure), "");
-		this.bottom = fields[5].replace(String.valueOf(this.enclosure), "");
-	}
+    public UsysChartTitles() {
+    }
 
-	public String getChart() {
-		return this.chart;
-	}
+    public UsysChartTitles(String record) {
+        init(record);
+    }
 
-	public String getUser() {
-		return this.user;
-	}
+    public void init(String record) {
+        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-	public String getTop() {
-		return this.top;
-	}
 
-	public String getLeft() {
-		return this.left;
-	}
+        this.chart = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.user = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.top = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.left = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.right = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.bottom = fields[5].replace(String.valueOf(this.enclosure), "");
+    }
 
-	public String getRight() {
-		return this.right;
-	}
+    public String getChart() {
+        return this.chart;
+    }
 
-	public String getBottom() {
-		return this.bottom;
-	}
+    public String getUser() {
+        return this.user;
+    }
 
-	public char getDelimiter() {
-		return this.delimiter;
-	}
+    public String getTop() {
+        return this.top;
+    }
 
-	public void setDelimiter(char delimiter) {
-		this.delimiter = delimiter;
-	}
+    public String getLeft() {
+        return this.left;
+    }
 
-	public char getEnclosure() {
-		return this.enclosure;
-	}
+    public String getRight() {
+        return this.right;
+    }
 
-	public void setEnclosure(char enclosure) {
-		this.enclosure = enclosure;
-	}
+    public String getBottom() {
+        return this.bottom;
+    }
 
-	public Integer getColumnNumber() {
-		return COLUMN_NUM;
-	}
+    public char getDelimiter() {
+        return this.delimiter;
+    }
 
-	public List<String> getColumnNames() {
-		if (this.columnNames == null) {
-			columnNames = new ArrayList<String>();
-			columnNames.add("Chart");
-			columnNames.add("User");
-			columnNames.add("Top");
-			columnNames.add("Left");
-			columnNames.add("Right");
-			columnNames.add("Bottom");
-		}
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
 
-		return columnNames;	}
+    public char getEnclosure() {
+        return this.enclosure;
+    }
 
-	public String getRecord() {
-		record.setLength(0);
+    public void setEnclosure(char enclosure) {
+        this.enclosure = enclosure;
+    }
 
-		record.append(this.enclosure);
-		record.append(this.chart == null ? "" : this.chart);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.user == null ? "" : this.user);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.top == null ? "" : this.top);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.left == null ? "" : this.left);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.right == null ? "" : this.right);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
-		record.append(this.enclosure);
-		record.append(this.bottom == null ? "" : this.bottom);
-		record.append(this.enclosure);
-		record.append(this.delimiter);
+    public Integer getColumnNumber() {
+        return COLUMN_NUM;
+    }
 
-		return record.toString();
-	}
+    public List<String> getColumnNames() {
+        if (this.columnNames == null) {
+            columnNames = new ArrayList<String>();
+            columnNames.add("Chart");
+            columnNames.add("User");
+            columnNames.add("Top");
+            columnNames.add("Left");
+            columnNames.add("Right");
+            columnNames.add("Bottom");
+        }
+
+        return columnNames;
+    }
+
+    public String getRecord() {
+        record.setLength(0);
+
+        record.append(this.enclosure);
+        record.append(this.chart == null ? "" : this.chart);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.user == null ? "" : this.user);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.top == null ? "" : this.top);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.left == null ? "" : this.left);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.right == null ? "" : this.right);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+        record.append(this.enclosure);
+        record.append(this.bottom == null ? "" : this.bottom);
+        record.append(this.enclosure);
+        record.append(this.delimiter);
+
+        return record.toString();
+    }
 }
