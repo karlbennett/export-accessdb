@@ -4,6 +4,7 @@ import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.Table;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.youthnet.export.migration.*;
 import org.youthnet.export.util.JavaCodeUtil;
 import org.youthnet.export.util.SQLCodeUtil;
 
@@ -29,6 +30,7 @@ public class Smasher {
     public static final String SQL_POST = "post";
     public static final String LOGS_DIR = "logs";
     public static final String JAVA_DIR = "java";
+    public static final String MIGRATED_DIR = "migrated";
     public static final char CSV_ENCLOSURE = '¬';
     public static final char CSV_DELIMITER = '|';
 
@@ -37,6 +39,9 @@ public class Smasher {
         if (args.length > 0) {
             File accessDBFile = new File(args[0]);
             BufferedWriter fileOutWriter = null;
+
+            Migratable migratable = null;
+
             try {
                 Database accessDatabase = Database.open(accessDBFile);
                 Set<String> tableNames = accessDatabase.getTableNames();
@@ -60,6 +65,9 @@ public class Smasher {
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
                 outputDir = new File(OUTPUT_DIR + "/" + JAVA_DIR);
+                if (!outputDir.isDirectory()) outputDir.mkdir();
+
+                outputDir = new File(OUTPUT_DIR + "/" + MIGRATED_DIR);
                 if (!outputDir.isDirectory()) outputDir.mkdir();
 
                 System.out.println("Tables:");
@@ -87,7 +95,7 @@ public class Smasher {
                     fileOutWriter.flush();
                     fileOutWriter.close();
 
-                    fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + CSV_DIR + "/"  + tableName
+                    fileOutWriter = new BufferedWriter(new FileWriter(OUTPUT_DIR + "/" + CSV_DIR + "/" + tableName
                             + ".csv"));
                     outputRowCSVString(table, fileOutWriter);
                     fileOutWriter.flush();
@@ -116,6 +124,27 @@ public class Smasher {
                 fileOutWriter.write(generateSQLLoaderRunScript(accessDatabase));
                 fileOutWriter.flush();
                 fileOutWriter.close();
+
+                System.out.println("Migrating activity logs.");
+                migratable = new ActivityLogsMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
+                System.out.println("Migrating lookups.");
+                migratable = new LookupsMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
+                System.out.println("Migrating opportunities.");
+                migratable = new OpportunitiesMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
+                System.out.println("Migrating organisation.");
+                migratable = new OrganisationsMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
+                System.out.println("Migrating volunteers.");
+                migratable = new VolunteersMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
             } catch (IOException e) {
                 System.out.println("Error processing the ms access file.\n Error: " + e.getMessage());
             } finally {
@@ -538,11 +567,11 @@ public class Smasher {
         } else classStringBuffer.append("\n\n");
 
         // Add the initialisation code string.
-        classStringBuffer.append(initAttributesStringBuffer);        
+        classStringBuffer.append(initAttributesStringBuffer);
         classStringBuffer.append("\t}\n\n");
 
         // Add getter methods.
-        for(String[] attribute : attributes) {
+        for (String[] attribute : attributes) {
             classStringBuffer.append("\tpublic ");
             classStringBuffer.append(attribute[1]);
             classStringBuffer.append(" get");
@@ -566,9 +595,9 @@ public class Smasher {
         // Add column name getter.
         classStringBuffer.append("\tpublic List<String> getColumnNames() {\n\t\tif (this.columnNames == null) {\n\t\t\tcolumnNames = new ArrayList<String>();\n");
         for (Column column : columns) {
-             classStringBuffer.append("\t\t\tcolumnNames.add(\"");
-             classStringBuffer.append(column.getName());
-             classStringBuffer.append("\");\n");        
+            classStringBuffer.append("\t\t\tcolumnNames.add(\"");
+            classStringBuffer.append(column.getName());
+            classStringBuffer.append("\");\n");
         }
         classStringBuffer.append("\t\t}\n\n");
         classStringBuffer.append("\t\treturn columnNames;");

@@ -56,13 +56,13 @@ public class ActivityLogsMigration implements Migratable {
             }
 
         } catch (IOException e) {
-            System.out.println("Error while migrating volunteers. Error:" + e.getMessage());
+            System.out.println("Error while migrating activity logs. Error:" + e.getMessage());
         } finally {
             try {
                 if (csvFileReader != null) csvFileReader.close();
                 if (activityLogsWriter != null) activityLogsWriter.close();
             } catch (IOException e) {
-                System.out.println("Error closing streams. Error:" + e.getMessage());
+                System.out.println("Error closing activity logs streams. Error:" + e.getMessage());
             }
 
         }

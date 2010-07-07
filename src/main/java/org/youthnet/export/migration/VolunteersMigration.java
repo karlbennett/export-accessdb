@@ -68,7 +68,7 @@ public class VolunteersMigration implements Migratable {
                 if (volunteerAddressesWriter != null) volunteerAddressesWriter.close();
                 if (addressesWriter != null) addressesWriter.close();
             } catch (IOException e) {
-                System.out.println("Error closing streams. Error:" + e.getMessage());
+                System.out.println("Error closing volunteers streams. Error:" + e.getMessage());
             }
 
         }

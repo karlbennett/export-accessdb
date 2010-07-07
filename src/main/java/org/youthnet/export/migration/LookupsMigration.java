@@ -206,7 +206,7 @@ public class LookupsMigration implements Migratable {
                 if (csvFileReader != null) csvFileReader.close();
                 if (bufferedWriter != null) bufferedWriter.close();
             } catch (IOException e) {
-                System.out.println("Error closing streams. Error:" + e.getMessage());
+                System.out.println("Error closing lookups streams. Error:" + e.getMessage());
             }
 
         }
