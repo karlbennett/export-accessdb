@@ -60,6 +60,7 @@ public class OrganisationsMigration implements Migratable {
                 organisations.setOpeningHours(null);
                 organisations.setVbase2Id(tblOrg.getOrgid());
 
+                organisationsWriter.write(organisations.getRecord() + "\n");
             }
         } catch (IOException e) {
             System.out.println("Error while migrating organisations. Error:" + e.getMessage());

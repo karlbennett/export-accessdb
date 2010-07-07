@@ -35,12 +35,12 @@ public class VolunteersMigration implements Migratable {
 
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Address.csv"));
 
-            List<TblVolTime> tblVolTimes = CSVUtil.createDomainList(csvDir + "tblVolTimes.csv", TblVolTime.class);
+            List<TblVolTime> tblVolTimes = CSVUtil.createDomainList(csvDir + "tblVolTime.csv", TblVolTime.class);
             List<TblVolAreasOfInterest> tblVolAreasOfInterests =
-                    CSVUtil.createDomainList(csvDir + "tblVolAreasOfInterests.csv", TblVolAreasOfInterest.class);
+                    CSVUtil.createDomainList(csvDir + "tblVolAreasOfInterest.csv", TblVolAreasOfInterest.class);
             List<TblVolTypeOfActivity> tblVolTypeOfActivities =
-                    CSVUtil.createDomainList(csvDir + "TblVolTypeOfActivity.csv", TblVolTypeOfActivity.class);
-            List<TblVolSpecial> tblVolSpecials = CSVUtil.createDomainList(csvDir + "TblVolSpecial", TblVolSpecial.class);
+                    CSVUtil.createDomainList(csvDir + "tblVolTypeOfActivity.csv", TblVolTypeOfActivity.class);
+            List<TblVolSpecial> tblVolSpecials = CSVUtil.createDomainList(csvDir + "tblVolSpecial.csv", TblVolSpecial.class);
 
             TblVol tblVol = null;
             Volunteers volunteers = null;
@@ -55,6 +55,8 @@ public class VolunteersMigration implements Migratable {
                 volunteers.setIsActive(true);
                 volunteers.setFirstName(tblVol.getFirstname());
                 volunteers.setLastName(tblVol.getLastname());
+
+                volunteersWriter.write(volunteers.getRecord() + "\n");
             }
 
         } catch (IOException e) {

@@ -129,7 +129,7 @@ public class OpportunitiesTest {
     }
 
     @Test
-    public void testInitActivityLog() throws Exception {
+    public void testInitOpportunities() throws Exception {
         Opportunities opportunities = new Opportunities(testRecord);
 
         assertEquals("record equal", testRecord, opportunities.getRecord());

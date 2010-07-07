@@ -7,6 +7,7 @@ import org.youthnet.export.util.CSVUtil;
 
 import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -22,22 +23,22 @@ public class OpportunitiesMigration implements Migratable {
         BufferedWriter opportunitiesWriter = null;
 
         try {
-            csvFileReader = new CSVFileReader(new FileReader(csvDir + "tblVol.csv"));
+            csvFileReader = new CSVFileReader(new FileReader(csvDir + "tblOpp.csv"));
+            opportunitiesWriter = new BufferedWriter(new FileWriter(outputDir + "Opprotunities.csv"));
 
-            List<TblOpp> tblOpps = CSVUtil.createDomainList(csvDir + "tblOpps.csv", TblOpp.class);
-            List<TblOppTime> tblOppTimes = CSVUtil.createDomainList(csvDir + "tblOppTimes.csv", TblOppTime.class);
+            List<TblOppTime> tblOppTimes = CSVUtil.createDomainList(csvDir + "tblOppTime.csv", TblOppTime.class);
             List<TblOppSpecial> tblOppSpecials =
-                    CSVUtil.createDomainList(csvDir + "tblOppSpecials.csv", TblOppSpecial.class);
+                    CSVUtil.createDomainList(csvDir + "tblOppSpecial.csv", TblOppSpecial.class);
             List<TblOppTypeOfActivity> tblOppTypeOfActivities =
-                    CSVUtil.createDomainList(csvDir + "tblOppTypeOfActivities.csv", TblOppTypeOfActivity.class);
+                    CSVUtil.createDomainList(csvDir + "tblOppTypeOfActivity.csv", TblOppTypeOfActivity.class);
             List<TblOppAreasOfInterest> tblOppAreasOfInterests =
-                    CSVUtil.createDomainList(csvDir + "tblOppAreasOfInterests.csv", TblOppAreasOfInterest.class);
+                    CSVUtil.createDomainList(csvDir + "tblOppAreasOfInterest.csv", TblOppAreasOfInterest.class);
             List<TblOppArrangements> tblOppArrangementses =
-                    CSVUtil.createDomainList(csvDir + "tblOppArrangementses.csv", TblOppArrangements.class);
+                    CSVUtil.createDomainList(csvDir + "tblOppArrangements.csv", TblOppArrangements.class);
             List<TblOppRecruitmentMethod> tblOppRecruitmentMethods =
-                    CSVUtil.createDomainList(csvDir + "tblOppRecruitmentMethods.csv", TblOppRecruitmentMethod.class);
+                    CSVUtil.createDomainList(csvDir + "tblOppRecruitmentMethod.csv", TblOppRecruitmentMethod.class);
             List<UsysRegistration> usysRegistrations =
-                    CSVUtil.createDomainList(csvDir + "usysRegistrations.csv", UsysRegistration.class);
+                    CSVUtil.createDomainList(csvDir + "UsysRegistration.csv", UsysRegistration.class);
 
             TblOpp tblOpp = null;
             Opportunities opportunities = null;
@@ -51,6 +52,7 @@ public class OpportunitiesMigration implements Migratable {
                 opportunities.setTitle(tblOpp.getTitle());
                 opportunities.setOwnId(tblOpp.getOppenteredid());
 
+                opportunitiesWriter.write(opportunities.getRecord() + "\n");
             }
 
         } catch (IOException e) {

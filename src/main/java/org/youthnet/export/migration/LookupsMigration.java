@@ -47,7 +47,7 @@ public class LookupsMigration implements Migratable {
 
                 // Make sure not to add duplicate lookups
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -68,7 +68,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -89,7 +89,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -110,7 +110,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -131,7 +131,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -152,7 +152,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -173,7 +173,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
@@ -194,7 +194,7 @@ public class LookupsMigration implements Migratable {
                 lookups.setSortOrder(0L);
 
                 if (duplicateMap.get(lookups.getValue().toLowerCase()) == null) {
-                    bufferedWriter.write(lookups.getRecord());
+                    bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
                 }
             }
