@@ -387,6 +387,9 @@ public class Smasher {
         String tableName = table.getName();
         Set<String> imports = new HashSet<String>(); // Set to hold any imports that might be needed.
         boolean hasDates = false; // Flag to be set if the class contains date types.
+        boolean hasVid = false; // Flag to be set if the class contains a vid attribute.
+        boolean hasOid = false; // Flag to be set if the class contains a vid attribute.
+        boolean hasOrgid = false; // Flag to be set if the class contains a vid attribute.
         // Get the name for the new java class. This will be the tale name with the first letter capitalised.
         String className = JavaCodeUtil.toUpperFirst(tableName);
         List<Column> columns = table.getColumns(); // List to contain the tables columns.
@@ -403,15 +406,17 @@ public class Smasher {
         for (int i = 0; i < attributeNum; i++) {
             // Record the column name lower cased fo the attribute name.
             name = columns.get(i).getName().toLowerCase();
-            if (JavaCodeUtil.isKeyword(name)) {
-                name = "_" + name;
-            }
+            if (name.equals("vid") && !hasVid) hasVid = true; // Record if this class contains a vid.
+            if (name.equals("oid") && !hasOid) hasOid = true; // Record if this class contains an oid.
+            if (name.equals("orgid") && !hasOrgid) hasOrgid = true; // Record if this class contains an orgid.
+            // If the attribute represents a java keyword append an '_' to the start.
+            if (JavaCodeUtil.isKeyword(name)) name = "_" + name;
             attributes[i][0] = name;
             try {
                 type = JavaCodeUtil.javaTypeForSQLType(columns.get(i).getSQLType()); // Record the java type of the attribute.
                 if (!type.getName().contains("lang")) { // If the attribute type is not a default Java type...
                     imports.add("import " + type.getName() + ";");
-                    if (type.getSuperclass().getSimpleName().equals("Date")) hasDates = true;
+                    if (type.getSuperclass().getSimpleName().equals("Date") && !hasDates) hasDates = true;
                 }
                 attributes[i][1] = type.getSimpleName();
             } catch (SQLException e) {
@@ -439,7 +444,11 @@ public class Smasher {
         // Add the class name and constants.
         classStringBuffer.append("public class ");
         classStringBuffer.append(className);
-        classStringBuffer.append(" implements CSVable {\n\n\tprivate char delimiter = '");
+        classStringBuffer.append(" implements CSVable");
+        if (hasVid) classStringBuffer.append(", ContainsVid"); // If this class contains a vid implement the supporting interface.
+        if (hasOid) classStringBuffer.append(", ContainsOid"); // If this class contains an Oid implement the supporting interface.
+        if (hasOrgid) classStringBuffer.append(", ContainsOrgid"); // If this class contains an Orgid implement the supporting interface.
+        classStringBuffer.append(" {\n\n\tprivate char delimiter = '");
         classStringBuffer.append(CSV_DELIMITER);
         classStringBuffer.append("';\n");
         classStringBuffer.append("\tprivate char enclosure = '");

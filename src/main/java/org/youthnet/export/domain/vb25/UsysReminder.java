@@ -2,145 +2,143 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysReminder implements CSVable {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 7;
+	public static final int COLUMN_NUM = 7;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private String reminder;
-    private String period;
-    private Short no;
-    private Short order;
-    private Boolean promptfortime;
-    private String alarmtime;
-    private Boolean active;
-
-
-    public UsysReminder() {
-    }
-
-    public UsysReminder(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private String reminder;
+	private String period;
+	private Short no;
+	private Short order;
+	private Boolean promptfortime;
+	private String alarmtime;
+	private Boolean active;
 
 
-        this.reminder = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.period = fields[1].replace(String.valueOf(this.enclosure), "");
-        this.no = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
-        this.order = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
-        this.promptfortime = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.alarmtime = fields[5].replace(String.valueOf(this.enclosure), "");
-        this.active = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
-    }
+	public UsysReminder() {}
 
-    public String getReminder() {
-        return this.reminder;
-    }
+	public UsysReminder(String record) {
+		init(record);
+	}
 
-    public String getPeriod() {
-        return this.period;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public Short getNo() {
-        return this.no;
-    }
 
-    public Short getOrder() {
-        return this.order;
-    }
+		this.reminder = fields[0].replace(String.valueOf(this.enclosure), "");
+		this.period = fields[1].replace(String.valueOf(this.enclosure), "");
+		this.no = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+		this.order = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+		this.promptfortime = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.alarmtime = fields[5].replace(String.valueOf(this.enclosure), "");
+		this.active = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
+	}
 
-    public Boolean getPromptfortime() {
-        return this.promptfortime;
-    }
+	public String getReminder() {
+		return this.reminder;
+	}
 
-    public String getAlarmtime() {
-        return this.alarmtime;
-    }
+	public String getPeriod() {
+		return this.period;
+	}
 
-    public Boolean getActive() {
-        return this.active;
-    }
+	public Short getNo() {
+		return this.no;
+	}
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+	public Short getOrder() {
+		return this.order;
+	}
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
+	public Boolean getPromptfortime() {
+		return this.promptfortime;
+	}
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+	public String getAlarmtime() {
+		return this.alarmtime;
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public Boolean getActive() {
+		return this.active;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Reminder");
-            columnNames.add("Period");
-            columnNames.add("No");
-            columnNames.add("Order");
-            columnNames.add("PromptForTime");
-            columnNames.add("AlarmTime");
-            columnNames.add("Active");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.reminder == null ? "" : this.reminder);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.period == null ? "" : this.period);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.no == null ? "" : this.no);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.order == null ? "" : this.order);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.promptfortime ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.alarmtime == null ? "" : this.alarmtime);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.active ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("Reminder");
+			columnNames.add("Period");
+			columnNames.add("No");
+			columnNames.add("Order");
+			columnNames.add("PromptForTime");
+			columnNames.add("AlarmTime");
+			columnNames.add("Active");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.reminder == null ? "" : this.reminder);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.period == null ? "" : this.period);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.no == null ? "" : this.no);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.order == null ? "" : this.order);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.promptfortime != null && promptfortime ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.alarmtime == null ? "" : this.alarmtime);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.active != null && active ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }

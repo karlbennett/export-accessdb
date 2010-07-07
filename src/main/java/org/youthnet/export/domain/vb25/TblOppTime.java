@@ -2,112 +2,110 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
-public class TblOppTime implements CSVable {
+public class TblOppTime implements CSVable, ContainsOid {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 4;
+	public static final int COLUMN_NUM = 4;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private Long tid;
-    private Long oid;
-    private String day;
-    private String timeslot;
-
-
-    public TblOppTime() {
-    }
-
-    public TblOppTime(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private Long tid;
+	private Long oid;
+	private String day;
+	private String timeslot;
 
 
-        this.tid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
-        this.day = fields[2].replace(String.valueOf(this.enclosure), "");
-        this.timeslot = fields[3].replace(String.valueOf(this.enclosure), "");
-    }
+	public TblOppTime() {}
 
-    public Long getTid() {
-        return this.tid;
-    }
+	public TblOppTime(String record) {
+		init(record);
+	}
 
-    public Long getOid() {
-        return this.oid;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public String getDay() {
-        return this.day;
-    }
 
-    public String getTimeslot() {
-        return this.timeslot;
-    }
+		this.tid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+		this.oid = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
+		this.day = fields[2].replace(String.valueOf(this.enclosure), "");
+		this.timeslot = fields[3].replace(String.valueOf(this.enclosure), "");
+	}
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+	public Long getTid() {
+		return this.tid;
+	}
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
+	public Long getOid() {
+		return this.oid;
+	}
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+	public String getDay() {
+		return this.day;
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public String getTimeslot() {
+		return this.timeslot;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("TID");
-            columnNames.add("OID");
-            columnNames.add("Day");
-            columnNames.add("Timeslot");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.tid == null ? "" : this.tid);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.oid == null ? "" : this.oid);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.day == null ? "" : this.day);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.timeslot == null ? "" : this.timeslot);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("TID");
+			columnNames.add("OID");
+			columnNames.add("Day");
+			columnNames.add("Timeslot");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.tid == null ? "" : this.tid);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.oid == null ? "" : this.oid);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.day == null ? "" : this.day);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.timeslot == null ? "" : this.timeslot);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }

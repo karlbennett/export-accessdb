@@ -2,134 +2,132 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
-public class TblMailingsList implements CSVable {
+public class TblMailingsList implements CSVable, ContainsVid, ContainsOid, ContainsOrgid {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 6;
+	public static final int COLUMN_NUM = 6;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private Long mid;
-    private String mailing;
-    private Long vid;
-    private Long oid;
-    private Long orgid;
-    private Boolean emailpreference;
-
-
-    public TblMailingsList() {
-    }
-
-    public TblMailingsList(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private Long mid;
+	private String mailing;
+	private Long vid;
+	private Long oid;
+	private Long orgid;
+	private Boolean emailpreference;
 
 
-        this.mid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.mailing = fields[1].replace(String.valueOf(this.enclosure), "");
-        this.vid = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
-        this.oid = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
-        this.orgid = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
-        this.emailpreference = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
-    }
+	public TblMailingsList() {}
 
-    public Long getMid() {
-        return this.mid;
-    }
+	public TblMailingsList(String record) {
+		init(record);
+	}
 
-    public String getMailing() {
-        return this.mailing;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public Long getVid() {
-        return this.vid;
-    }
 
-    public Long getOid() {
-        return this.oid;
-    }
+		this.mid = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+		this.mailing = fields[1].replace(String.valueOf(this.enclosure), "");
+		this.vid = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+		this.oid = (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[3].replace(String.valueOf(this.enclosure), ""));
+		this.orgid = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
+		this.emailpreference = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+	}
 
-    public Long getOrgid() {
-        return this.orgid;
-    }
+	public Long getMid() {
+		return this.mid;
+	}
 
-    public Boolean getEmailpreference() {
-        return this.emailpreference;
-    }
+	public String getMailing() {
+		return this.mailing;
+	}
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+	public Long getVid() {
+		return this.vid;
+	}
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
+	public Long getOid() {
+		return this.oid;
+	}
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+	public Long getOrgid() {
+		return this.orgid;
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public Boolean getEmailpreference() {
+		return this.emailpreference;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("MID");
-            columnNames.add("Mailing");
-            columnNames.add("VID");
-            columnNames.add("OID");
-            columnNames.add("OrgID");
-            columnNames.add("EmailPreference");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.mid == null ? "" : this.mid);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.mailing == null ? "" : this.mailing);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.vid == null ? "" : this.vid);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.oid == null ? "" : this.oid);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.orgid == null ? "" : this.orgid);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.emailpreference ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("MID");
+			columnNames.add("Mailing");
+			columnNames.add("VID");
+			columnNames.add("OID");
+			columnNames.add("OrgID");
+			columnNames.add("EmailPreference");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.mid == null ? "" : this.mid);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.mailing == null ? "" : this.mailing);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.vid == null ? "" : this.vid);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.oid == null ? "" : this.oid);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.orgid == null ? "" : this.orgid);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.emailpreference != null && emailpreference ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }

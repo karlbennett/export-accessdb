@@ -2,79 +2,77 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysUserLicence implements CSVable {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 1;
+	public static final int COLUMN_NUM = 1;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private Short licence;
-
-
-    public UsysUserLicence() {
-    }
-
-    public UsysUserLicence(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private Short licence;
 
 
-        this.licence = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-    }
+	public UsysUserLicence() {}
 
-    public Short getLicence() {
-        return this.licence;
-    }
+	public UsysUserLicence(String record) {
+		init(record);
+	}
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+		this.licence = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Short.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public Short getLicence() {
+		return this.licence;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Licence");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.licence == null ? "" : this.licence);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("Licence");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.licence == null ? "" : this.licence);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }

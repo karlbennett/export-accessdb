@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -35,12 +36,13 @@ public class VolunteersMigration implements Migratable {
 
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Address.csv"));
 
-            List<TblVolTime> tblVolTimes = CSVUtil.createDomainList(csvDir + "tblVolTime.csv", TblVolTime.class);
-            List<TblVolAreasOfInterest> tblVolAreasOfInterests =
-                    CSVUtil.createDomainList(csvDir + "tblVolAreasOfInterest.csv", TblVolAreasOfInterest.class);
-            List<TblVolTypeOfActivity> tblVolTypeOfActivities =
-                    CSVUtil.createDomainList(csvDir + "tblVolTypeOfActivity.csv", TblVolTypeOfActivity.class);
-            List<TblVolSpecial> tblVolSpecials = CSVUtil.createDomainList(csvDir + "tblVolSpecial.csv", TblVolSpecial.class);
+            Map<Long, List<TblVolTime>> tblVolTimes = CSVUtil.createVidMap(csvDir + "tblVolTime.csv", TblVolTime.class);
+            Map<Long, List<TblVolAreasOfInterest>> tblVolAreasOfInterests =
+                    CSVUtil.createVidMap(csvDir + "tblVolAreasOfInterest.csv", TblVolAreasOfInterest.class);
+            Map<Long, List<TblVolTypeOfActivity>> tblVolTypeOfActivities =
+                    CSVUtil.createVidMap(csvDir + "tblVolTypeOfActivity.csv", TblVolTypeOfActivity.class);
+            Map<Long, List<TblVolSpecial>> tblVolSpecials =
+                    CSVUtil.createVidMap(csvDir + "tblVolSpecial.csv", TblVolSpecial.class);
 
             TblVol tblVol = null;
             Volunteers volunteers = null;

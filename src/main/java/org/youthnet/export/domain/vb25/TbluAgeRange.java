@@ -2,112 +2,110 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluAgeRange implements CSVable {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 4;
+	public static final int COLUMN_NUM = 4;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private String agerange;
-    private Boolean active;
-    private Long order;
-    private Boolean demodata;
-
-
-    public TbluAgeRange() {
-    }
-
-    public TbluAgeRange(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private String agerange;
+	private Boolean active;
+	private Long order;
+	private Boolean demodata;
 
 
-        this.agerange = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.order = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
-        this.demodata = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
-    }
+	public TbluAgeRange() {}
 
-    public String getAgerange() {
-        return this.agerange;
-    }
+	public TbluAgeRange(String record) {
+		init(record);
+	}
 
-    public Boolean getActive() {
-        return this.active;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public Long getOrder() {
-        return this.order;
-    }
 
-    public Boolean getDemodata() {
-        return this.demodata;
-    }
+		this.agerange = fields[0].replace(String.valueOf(this.enclosure), "");
+		this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.order = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
+		this.demodata = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
+	}
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+	public String getAgerange() {
+		return this.agerange;
+	}
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
+	public Boolean getActive() {
+		return this.active;
+	}
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+	public Long getOrder() {
+		return this.order;
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public Boolean getDemodata() {
+		return this.demodata;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("AgeRange");
-            columnNames.add("Active");
-            columnNames.add("Order");
-            columnNames.add("DemoData");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.agerange == null ? "" : this.agerange);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.active ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.order == null ? "" : this.order);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.demodata ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("AgeRange");
+			columnNames.add("Active");
+			columnNames.add("Order");
+			columnNames.add("DemoData");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.agerange == null ? "" : this.agerange);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.active != null && active ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.order == null ? "" : this.order);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.demodata != null && demodata ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }

@@ -2,200 +2,198 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TbluActivity implements CSVable {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 12;
+	public static final int COLUMN_NUM = 12;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private String activity;
-    private Boolean active;
-    private Boolean showincalendar;
-    private Boolean showopplink;
-    private Boolean showhoursworked;
-    private Boolean alldayevent;
-    private String type;
-    private Boolean uselink;
-    private String linkcaption;
-    private Boolean caldefault;
-    private Boolean keep;
-    private Boolean demodata;
-
-
-    public TbluActivity() {
-    }
-
-    public TbluActivity(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private String activity;
+	private Boolean active;
+	private Boolean showincalendar;
+	private Boolean showopplink;
+	private Boolean showhoursworked;
+	private Boolean alldayevent;
+	private String type;
+	private Boolean uselink;
+	private String linkcaption;
+	private Boolean caldefault;
+	private Boolean keep;
+	private Boolean demodata;
 
 
-        this.activity = fields[0].replace(String.valueOf(this.enclosure), "");
-        this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.showincalendar = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.showopplink = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.showhoursworked = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.alldayevent = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.type = fields[6].replace(String.valueOf(this.enclosure), "");
-        this.uselink = fields[7].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.linkcaption = fields[8].replace(String.valueOf(this.enclosure), "");
-        this.caldefault = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.keep = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
-        this.demodata = fields[11].replace(String.valueOf(this.enclosure), "").equals("1");
-    }
+	public TbluActivity() {}
 
-    public String getActivity() {
-        return this.activity;
-    }
+	public TbluActivity(String record) {
+		init(record);
+	}
 
-    public Boolean getActive() {
-        return this.active;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public Boolean getShowincalendar() {
-        return this.showincalendar;
-    }
 
-    public Boolean getShowopplink() {
-        return this.showopplink;
-    }
+		this.activity = fields[0].replace(String.valueOf(this.enclosure), "");
+		this.active = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.showincalendar = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.showopplink = fields[3].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.showhoursworked = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.alldayevent = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.type = fields[6].replace(String.valueOf(this.enclosure), "");
+		this.uselink = fields[7].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.linkcaption = fields[8].replace(String.valueOf(this.enclosure), "");
+		this.caldefault = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.keep = fields[10].replace(String.valueOf(this.enclosure), "").equals("1");
+		this.demodata = fields[11].replace(String.valueOf(this.enclosure), "").equals("1");
+	}
 
-    public Boolean getShowhoursworked() {
-        return this.showhoursworked;
-    }
+	public String getActivity() {
+		return this.activity;
+	}
 
-    public Boolean getAlldayevent() {
-        return this.alldayevent;
-    }
+	public Boolean getActive() {
+		return this.active;
+	}
 
-    public String getType() {
-        return this.type;
-    }
+	public Boolean getShowincalendar() {
+		return this.showincalendar;
+	}
 
-    public Boolean getUselink() {
-        return this.uselink;
-    }
+	public Boolean getShowopplink() {
+		return this.showopplink;
+	}
 
-    public String getLinkcaption() {
-        return this.linkcaption;
-    }
+	public Boolean getShowhoursworked() {
+		return this.showhoursworked;
+	}
 
-    public Boolean getCaldefault() {
-        return this.caldefault;
-    }
+	public Boolean getAlldayevent() {
+		return this.alldayevent;
+	}
 
-    public Boolean getKeep() {
-        return this.keep;
-    }
+	public String getType() {
+		return this.type;
+	}
 
-    public Boolean getDemodata() {
-        return this.demodata;
-    }
+	public Boolean getUselink() {
+		return this.uselink;
+	}
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+	public String getLinkcaption() {
+		return this.linkcaption;
+	}
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
+	public Boolean getCaldefault() {
+		return this.caldefault;
+	}
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+	public Boolean getKeep() {
+		return this.keep;
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public Boolean getDemodata() {
+		return this.demodata;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Activity");
-            columnNames.add("Active");
-            columnNames.add("ShowInCalendar");
-            columnNames.add("ShowOppLink");
-            columnNames.add("ShowHoursWorked");
-            columnNames.add("AllDayEvent");
-            columnNames.add("Type");
-            columnNames.add("UseLink");
-            columnNames.add("LinkCaption");
-            columnNames.add("CalDefault");
-            columnNames.add("Keep");
-            columnNames.add("DemoData");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.activity == null ? "" : this.activity);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.active ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.showincalendar ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.showopplink ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.showhoursworked ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.alldayevent ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.type == null ? "" : this.type);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.uselink ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.linkcaption == null ? "" : this.linkcaption);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.caldefault ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.keep ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.demodata ? 1 : 0);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("Activity");
+			columnNames.add("Active");
+			columnNames.add("ShowInCalendar");
+			columnNames.add("ShowOppLink");
+			columnNames.add("ShowHoursWorked");
+			columnNames.add("AllDayEvent");
+			columnNames.add("Type");
+			columnNames.add("UseLink");
+			columnNames.add("LinkCaption");
+			columnNames.add("CalDefault");
+			columnNames.add("Keep");
+			columnNames.add("DemoData");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.activity == null ? "" : this.activity);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.active != null && active ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.showincalendar != null && showincalendar ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.showopplink != null && showopplink ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.showhoursworked != null && showhoursworked ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.alldayevent != null && alldayevent ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.type == null ? "" : this.type);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.uselink != null && uselink ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.linkcaption == null ? "" : this.linkcaption);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.caldefault != null && caldefault ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.keep != null && keep ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.demodata != null && demodata ? 1 : 0);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }

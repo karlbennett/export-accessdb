@@ -2,101 +2,99 @@ package org.youthnet.export.domain.vb25;
 
 import org.youthnet.export.domain.CSVable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class UsysMailMerge implements CSVable {
 
-    private char delimiter = '|';
-    private char enclosure = '¬';
+	private char delimiter = '|';
+	private char enclosure = '¬';
 
-    public static final int COLUMN_NUM = 3;
+	public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+	private List<String> columnNames = null;
 
-    private StringBuffer record = new StringBuffer();
+	private StringBuffer record = new StringBuffer();
 
-    private Long no;
-    private String option;
-    private String fields;
-
-
-    public UsysMailMerge() {
-    }
-
-    public UsysMailMerge(String record) {
-        init(record);
-    }
-
-    public void init(String record) {
-        String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+	private Long no;
+	private String option;
+	private String fields;
 
 
-        this.no = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
-        this.option = fields[1].replace(String.valueOf(this.enclosure), "");
-        this.fields = fields[2].replace(String.valueOf(this.enclosure), "");
-    }
+	public UsysMailMerge() {}
 
-    public Long getNo() {
-        return this.no;
-    }
+	public UsysMailMerge(String record) {
+		init(record);
+	}
 
-    public String getOption() {
-        return this.option;
-    }
+	public void init(String record) {
+		String[] fields = record.split("\\" + String.valueOf(this.delimiter));
 
-    public String getFields() {
-        return this.fields;
-    }
 
-    public char getDelimiter() {
-        return this.delimiter;
-    }
+		this.no = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[0].replace(String.valueOf(this.enclosure), ""));
+		this.option = fields[1].replace(String.valueOf(this.enclosure), "");
+		this.fields = fields[2].replace(String.valueOf(this.enclosure), "");
+	}
 
-    public void setDelimiter(char delimiter) {
-        this.delimiter = delimiter;
-    }
+	public Long getNo() {
+		return this.no;
+	}
 
-    public char getEnclosure() {
-        return this.enclosure;
-    }
+	public String getOption() {
+		return this.option;
+	}
 
-    public void setEnclosure(char enclosure) {
-        this.enclosure = enclosure;
-    }
+	public String getFields() {
+		return this.fields;
+	}
 
-    public Integer getColumnNumber() {
-        return COLUMN_NUM;
-    }
+	public char getDelimiter() {
+		return this.delimiter;
+	}
 
-    public List<String> getColumnNames() {
-        if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("No");
-            columnNames.add("Option");
-            columnNames.add("Fields");
-        }
+	public void setDelimiter(char delimiter) {
+		this.delimiter = delimiter;
+	}
 
-        return columnNames;
-    }
+	public char getEnclosure() {
+		return this.enclosure;
+	}
 
-    public String getRecord() {
-        record.setLength(0);
+	public void setEnclosure(char enclosure) {
+		this.enclosure = enclosure;
+	}
 
-        record.append(this.enclosure);
-        record.append(this.no == null ? "" : this.no);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.option == null ? "" : this.option);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
-        record.append(this.enclosure);
-        record.append(this.fields == null ? "" : this.fields);
-        record.append(this.enclosure);
-        record.append(this.delimiter);
+	public Integer getColumnNumber() {
+		return COLUMN_NUM;
+	}
 
-        return record.toString();
-    }
+	public List<String> getColumnNames() {
+		if (this.columnNames == null) {
+			columnNames = new ArrayList<String>();
+			columnNames.add("No");
+			columnNames.add("Option");
+			columnNames.add("Fields");
+		}
+
+		return columnNames;	}
+
+	public String getRecord() {
+		record.setLength(0);
+
+		record.append(this.enclosure);
+		record.append(this.no == null ? "" : this.no);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.option == null ? "" : this.option);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+		record.append(this.enclosure);
+		record.append(this.fields == null ? "" : this.fields);
+		record.append(this.enclosure);
+		record.append(this.delimiter);
+
+		return record.toString();
+	}
 }
