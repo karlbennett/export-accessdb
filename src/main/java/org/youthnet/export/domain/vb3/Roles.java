@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class Roles implements CSVable {
+public class Roles implements CSVable, ContainsVb2id {
 
     private char delimiter = '|';
     private char enclosure = '¬';

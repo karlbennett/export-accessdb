@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,17 +27,17 @@ public class OpportunitiesMigration implements Migratable {
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tblOpp.csv"));
             opportunitiesWriter = new BufferedWriter(new FileWriter(outputDir + "Opprotunities.csv"));
 
-            List<TblOppTime> tblOppTimes = CSVUtil.createDomainList(csvDir + "tblOppTime.csv", TblOppTime.class);
-            List<TblOppSpecial> tblOppSpecials =
-                    CSVUtil.createDomainList(csvDir + "tblOppSpecial.csv", TblOppSpecial.class);
-            List<TblOppTypeOfActivity> tblOppTypeOfActivities =
-                    CSVUtil.createDomainList(csvDir + "tblOppTypeOfActivity.csv", TblOppTypeOfActivity.class);
-            List<TblOppAreasOfInterest> tblOppAreasOfInterests =
-                    CSVUtil.createDomainList(csvDir + "tblOppAreasOfInterest.csv", TblOppAreasOfInterest.class);
-            List<TblOppArrangements> tblOppArrangementses =
-                    CSVUtil.createDomainList(csvDir + "tblOppArrangements.csv", TblOppArrangements.class);
-            List<TblOppRecruitmentMethod> tblOppRecruitmentMethods =
-                    CSVUtil.createDomainList(csvDir + "tblOppRecruitmentMethod.csv", TblOppRecruitmentMethod.class);
+            Map<Long, List<TblOppTime>> tblOppTimes = CSVUtil.createOidMap(csvDir + "tblOppTime.csv", TblOppTime.class);
+            Map<Long, List<TblOppSpecial>> tblOppSpecials =
+                    CSVUtil.createOidMap(csvDir + "tblOppSpecial.csv", TblOppSpecial.class);
+            Map<Long, List<TblOppTypeOfActivity>> tblOppTypeOfActivities =
+                    CSVUtil.createOidMap(csvDir + "tblOppTypeOfActivity.csv", TblOppTypeOfActivity.class);
+            Map<Long, List<TblOppAreasOfInterest>> tblOppAreasOfInterests =
+                    CSVUtil.createOidMap(csvDir + "tblOppAreasOfInterest.csv", TblOppAreasOfInterest.class);
+            Map<Long, List<TblOppArrangements>> tblOppArrangementses =
+                    CSVUtil.createOidMap(csvDir + "tblOppArrangements.csv", TblOppArrangements.class);
+            Map<Long, List<TblOppRecruitmentMethod>> tblOppRecruitmentMethods =
+                    CSVUtil.createOidMap(csvDir + "tblOppRecruitmentMethod.csv", TblOppRecruitmentMethod.class);
             List<UsysRegistration> usysRegistrations =
                     CSVUtil.createDomainList(csvDir + "UsysRegistration.csv", UsysRegistration.class);
 

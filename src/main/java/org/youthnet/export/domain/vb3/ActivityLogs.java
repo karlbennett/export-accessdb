@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class ActivityLogs implements CSVable {
+public class ActivityLogs implements CSVable, ContainsVb2id {
 
     private char delimiter = '|';
     private char enclosure = '¬';
