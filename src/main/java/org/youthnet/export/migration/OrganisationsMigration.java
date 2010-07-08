@@ -52,15 +52,22 @@ public class OrganisationsMigration implements Migratable {
                 organisationContacts = new OrganisationContacts();
                 contacts = new Contacts();
 
+                addresses = null;
+                organisationAddresses = null;
+
+                contactAddresses = null;
+                contactOrganisationAddresses = null;
+                contactOrganisationContacts = null;
+
                 // -- Migrate the organisations root  data --
                 organisations.setId(UUID.randomUUID()); // Create an ID for the new organisation.
+                organisations.setVbase2Id(tblOrg.getOrgid()); // Migrate field.
                 organisations.setIsActive(true); // Make it active.
                 organisations.setDescription(tblOrg.getActivities()); // Migrate field.
                 organisations.setHowHeardDetails(null); // There is no migration mapping for this.
                 organisations.setMissionStatement(tblOrg.getMission()); // Migrate field.
                 organisations.setName(tblOrg.getName()); // Migrate field.
                 organisations.setOpeningHours(null); // There is no migration mapping for this.
-                organisations.setVbase2Id(tblOrg.getOrgid()); // Migrate field.
 
                 // -- Migrate the organisations generic address data --
                 // If the organisation has an address, migrate it.
@@ -130,11 +137,11 @@ public class OrganisationsMigration implements Migratable {
                 contacts.setMobile(null);
                 contacts.setNotes(null);
 
-                // If the contact has supplied there
+                // If the contact has supplied there first name set it as the preferred name.
                 if (tblOrg.getFirstname() != null) contacts.setPreferredName(tblOrg.getFirstname());
-                else if (tblOrg.getLastname() != null)
-                    contacts.setPreferredName(tblOrg.getTitle() + tblOrg.getLastname());
-                else contacts.setPreferredName(tblOrg.getTitle());
+                else if (tblOrg.getLastname() != null) // Else set it to their title plus there last name.
+                    contacts.setPreferredName(tblOrg.getTitle() + tblOrg.getLastname()); // TODO: Use lookup title here instead 
+                else contacts.setPreferredName(tblOrg.getTitle()); // If all else failes just use there title.
 
                 contacts.setUseAsMainContact(true);  // Only one in V-Base 2.5
                 // If the contact fax is empty use the one from the related address.
@@ -197,27 +204,44 @@ public class OrganisationsMigration implements Migratable {
                 // -- Write the new records to their files --
                 organisationsWriter.write(organisations.getRecord() + "\n");
 
-                addressesWriter.write(addresses.getRecord() + "\n");
-                addressesWriter.write(contactAddresses.getRecord() + "\n");
+                if(addresses != null) addressesWriter.write(addresses.getRecord() + "\n");
+                if(contactAddresses != null) addressesWriter.write(contactAddresses.getRecord() + "\n");
 
-                organisationAddressWriter.write(organisationAddresses.getRecord() + "\n");
-                organisationAddressWriter.write(contactOrganisationAddresses.getRecord() + "\n");
+                if(organisationAddresses != null) organisationAddressWriter.write(organisationAddresses.getRecord() + "\n");
+                if(contactOrganisationAddresses != null) organisationAddressWriter.write(contactOrganisationAddresses.getRecord() + "\n");
 
                 contactsWriter.write(contacts.getRecord() + "\n");
 
                 organisationContactWriter.write(organisationContacts.getRecord() + "\n");
-                organisationContactWriter.write(contactOrganisationContacts.getRecord() + "\n");
+                if(contactOrganisationContacts != null) organisationContactWriter.write(contactOrganisationContacts.getRecord() + "\n");
             }
         } catch (IOException e) {
             System.out.println("Error while migrating organisations. Error:" + e.getMessage());
         } finally {
             try {
-                if (csvFileReader != null) csvFileReader.close();
-                if (organisationsWriter != null) organisationsWriter.close();
-                if (organisationAddressWriter != null) organisationAddressWriter.close();
-                if (organisationContactWriter != null) organisationContactWriter.close();
-                if (addressesWriter != null) addressesWriter.close();
-                if (contactsWriter != null) contactsWriter.close();
+                if (csvFileReader != null) {
+                    csvFileReader.close();
+                }
+                if (organisationsWriter != null) {
+                    organisationsWriter.flush();
+                    organisationsWriter.close();
+                }
+                if (organisationAddressWriter != null) {
+                    organisationAddressWriter.flush();
+                    organisationAddressWriter.close();
+                }
+                if (organisationContactWriter != null) {
+                    organisationContactWriter.flush();
+                    organisationContactWriter.close();
+                }
+                if (addressesWriter != null) {
+                    addressesWriter.flush();
+                    addressesWriter.close();
+                }
+                if (contactsWriter != null) {
+                    contactsWriter.flush();
+                    contactsWriter.close();
+                }
             } catch (IOException e) {
                 System.out.println("Error closing organisations streams. Error:" + e.getMessage());
             }
