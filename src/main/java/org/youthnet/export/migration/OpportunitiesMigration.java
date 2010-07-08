@@ -96,8 +96,6 @@ public class OpportunitiesMigration implements Migratable {
                     CSVUtil.createOidMap(csvDir + "tblOppAreasOfInterest.csv", TblOppAreasOfInterest.class);
             Map<Long, List<TblOppRecruitmentMethod>> tblOppRecruitmentMethods =
                     CSVUtil.createOidMap(csvDir + "tblOppRecruitmentMethod.csv", TblOppRecruitmentMethod.class);
-            List<UsysRegistration> usysRegistrations =
-                    CSVUtil.createDomainList(csvDir + "UsysRegistration.csv", UsysRegistration.class);
 
             TblOpp tblOpp = null;
             Opportunities opportunities = null;
