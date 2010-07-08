@@ -3,11 +3,13 @@ package org.youthnet.export.migration;
 import org.youthnet.export.domain.vb25.TblOrg;
 import org.youthnet.export.domain.vb3.*;
 import org.youthnet.export.io.CSVFileReader;
+import org.youthnet.export.util.CSVUtil;
 
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -35,6 +37,9 @@ public class OrganisationsMigration implements Migratable {
 
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv"));
             contactsWriter = new BufferedWriter(new FileWriter(outputDir + "Contacts.csv"));
+
+            Map<String, Map<String, Lookups>> lookupsMap =
+                    CSVUtil.createDiscriminatorValueMap(outputDir + "Lookups.csv", Lookups.class); 
 
             TblOrg tblOrg = null;
             Organisations organisations = null;
@@ -84,8 +89,12 @@ public class OrganisationsMigration implements Migratable {
                         addresses.setAddress2(tblOrg.getAddress2());
                     }
                     addresses.setAddress3(null); // There is no migration mapping for this.
-                    addresses.setCountryId(null); // TODO: Set the organisation address country lookup
-                    addresses.setCountyId(null); // TODO: Set the organisation address county lookup
+                    addresses.setCountryId(lookupsMap.get("country") != null &&
+                            lookupsMap.get("country").get("uk") != null ?
+                            lookupsMap.get("country").get("uk").getId() : null);
+                    addresses.setCountyId(lookupsMap.get("county") != null &&
+                            lookupsMap.get("county").get(tblOrg.getCounty().toLowerCase()) != null ?
+                            lookupsMap.get("country").get(tblOrg.getCounty().toLowerCase()).getId() : null);
                     addresses.setPostCode(tblOrg.getPostcode()); // Migrate field.
                     addresses.setTown(tblOrg.getTown()); // Migrate field.
                     addresses.setDirections(tblOrg.getDirections()); // Migrate field.
@@ -133,7 +142,9 @@ public class OrganisationsMigration implements Migratable {
 
                 contacts.setFirstName(tblOrg.getFirstname());
                 contacts.setSurname(tblOrg.getLastname());
-                contacts.setTitleId(null); // TODO: Set the organisation contact title lookup
+                contacts.setTitleId(lookupsMap.get("title") != null &&
+                            lookupsMap.get("title").get(tblOrg.getTitle().toLowerCase()) != null ?
+                            lookupsMap.get("title").get(tblOrg.getTitle().toLowerCase()).getId() : null);
                 contacts.setIsActive(true);
                 contacts.setJobTitle(tblOrg.getJobtitle());
                 contacts.setMobile(null);
@@ -142,7 +153,7 @@ public class OrganisationsMigration implements Migratable {
                 // If the contact has supplied there first name set it as the preferred name.
                 if (tblOrg.getFirstname() != null) contacts.setPreferredName(tblOrg.getFirstname());
                 else if (tblOrg.getLastname() != null) // Else set it to their title plus there last name.
-                    contacts.setPreferredName(tblOrg.getTitle() + tblOrg.getLastname()); // TODO: Use lookup title here instead 
+                    contacts.setPreferredName(tblOrg.getTitle() + tblOrg.getLastname()); 
                 else contacts.setPreferredName(tblOrg.getTitle()); // If all else failes just use there title.
 
                 contacts.setUseAsMainContact(true);  // Only one in V-Base 2.5
@@ -173,8 +184,12 @@ public class OrganisationsMigration implements Migratable {
                         contactAddresses.setAddress2(tblOrg.getContactaddress2());
                     }
                     contactAddresses.setAddress3(null); // There is no migration mapping for this.
-                    contactAddresses.setCountryId(null); // TODO: Set the organisation contact address country lookup
-                    contactAddresses.setCountyId(null); // TODO: Set the organisation contact address county lookup
+                    contactAddresses.setCountryId(lookupsMap.get("country") != null &&
+                            lookupsMap.get("country").get("uk") != null ?
+                            lookupsMap.get("country").get("uk").getId() : null);
+                    contactAddresses.setCountyId(lookupsMap.get("county") != null &&
+                            lookupsMap.get("county").get(tblOrg.getContactcounty().toLowerCase()) != null ?
+                            lookupsMap.get("country").get(tblOrg.getContactcounty().toLowerCase()).getId() : null);
                     contactAddresses.setPostCode(tblOrg.getContactpostcode()); // Migrate field.
                     contactAddresses.setTown(tblOrg.getContacttown()); // Migrate field.
                     contactAddresses.setVbase2Id(organisations.getVbase2Id()); // Migrate field.
