@@ -125,24 +125,28 @@ public class Smasher {
                 fileOutWriter.flush();
                 fileOutWriter.close();
 
-                System.out.println("Migrating activity logs.");
-                migratable = new ActivityLogsMigration();
-                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
-
                 System.out.println("Migrating lookups.");
                 migratable = new LookupsMigration();
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
-                System.out.println("Migrating opportunities.");
-                migratable = new OpportunitiesMigration();
+                System.out.println("Migrating volunteers.");
+                migratable = new VolunteersMigration();
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
                 System.out.println("Migrating organisation.");
                 migratable = new OrganisationsMigration();
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
-                System.out.println("Migrating volunteers.");
-                migratable = new VolunteersMigration();
+                System.out.println("Migrating organisation.");
+                migratable = new OrganisationVuoMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
+                System.out.println("Migrating opportunities.");
+                migratable = new OpportunitiesMigration();
+                migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
+
+                System.out.println("Migrating activity logs.");
+                migratable = new ActivityLogsMigration();
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
             } catch (IOException e) {
