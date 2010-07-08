@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class Locations implements CSVable {
+public class Locations implements CSVable, ContainsDiscriminator {
 
     private char delimiter = '|';
     private char enclosure = '¬';

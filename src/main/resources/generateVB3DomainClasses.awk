@@ -43,6 +43,8 @@ split("", methods);
 
 count = 0;
 hasVb2id = "false"
+hasDiscriminator = "false"
+hasValue = "false"
 for(i in columnArray) {
     split(columnArray[i], columnNameArray, " ");
 
@@ -53,6 +55,8 @@ for(i in columnArray) {
     types[sqlToJava[columnNameArray[2]]] = "true";
 
     if (tolower(columnNameArray[1]) == "vbase2id") hasVb2id = "true";
+    if (tolower(columnNameArray[1]) == "discriminator") hasDiscriminator = "true";
+    if (tolower(columnNameArray[1]) == "value") hasValue = "true";
 
     count++;
 }
@@ -75,6 +79,8 @@ printf "\n\n" >> tableName ".java";
 
 printf "public class " tableName " implements CSVable" >> tableName ".java";
 if (hasVb2id == "true") printf ", ContainsVb2id" >> tableName ".java";
+if (hasDiscriminator == "true") printf ", ContainsDiscriminator" >> tableName ".java";
+if (hasValue == "true") printf ", ContainsValue" >> tableName ".java";
 print " {" >> tableName ".java";
 print "" >> tableName ".java";
 

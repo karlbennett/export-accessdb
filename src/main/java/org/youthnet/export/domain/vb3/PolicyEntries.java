@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class PolicyEntries implements CSVable, ContainsVb2id {
+public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscriminator {
 
     private char delimiter = '|';
     private char enclosure = '¬';

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class ViewsTable implements CSVable, ContainsVb2id {
+public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator {
 
     private char delimiter = '|';
     private char enclosure = '¬';

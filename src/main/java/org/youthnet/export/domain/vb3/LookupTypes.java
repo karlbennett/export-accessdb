@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class LookupTypes implements CSVable {
+public class LookupTypes implements CSVable, ContainsValue {
 
     private char delimiter = '|';
     private char enclosure = '¬';
