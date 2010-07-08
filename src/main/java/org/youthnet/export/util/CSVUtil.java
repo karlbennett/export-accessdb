@@ -181,7 +181,7 @@ public class CSVUtil {
         return orgidMap;
     }
 
-    public static <T extends ContainsVb2id & CSVable> Map<Long, List<T>> createVb2idMap(String filePath, Class<T> type) {
+    public static <T extends ContainsVb2id & CSVable> Map<Long, List<T>> createVb2idListMap(String filePath, Class<T> type) {
         Map<Long, List<T>> orgidMap = null;
         CSVFileReader csvFileReader = null;
 
@@ -197,6 +197,45 @@ public class CSVUtil {
                     domainObject.init(record);
                     if (orgidMap.get(domainObject.getVbase2Id()) == null) orgidMap.put(domainObject.getVbase2Id(), new ArrayList<T>());
                     orgidMap.get(domainObject.getVbase2Id()).add(domainObject);
+                } catch (InstantiationException e) {
+                    System.out.println("Could not instantiate " + type.getName() + ". Error: " + e.getMessage());
+                    break;
+                } catch (IllegalAccessException e) {
+                    System.out.println("Could not access " + type.getName() + ". Error: " + e.getMessage());
+                    break;
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("File " + filePath + " not found. Error: " + e.getMessage());
+        } finally {
+            if (csvFileReader != null) {
+                try {
+                    csvFileReader.close();
+                } catch (IOException e) {
+                    System.out.println("Could not close file stream. Error: " + e.getMessage());
+                }
+            }
+        }
+
+        return orgidMap;
+    }
+
+    public static <T extends ContainsVb2id & CSVable> Map<Long, T> createVb2idMap(String filePath, Class<T> type) {
+        Map<Long, T> orgidMap = null;
+        CSVFileReader csvFileReader = null;
+
+        try {
+            csvFileReader = new CSVFileReader(new FileReader(filePath));
+            orgidMap = new HashMap<Long, T>();
+
+            String record = "";
+            T domainObject = null;
+            while ((record = csvFileReader.readRecord()) != null) {
+                try {
+                    domainObject = type.newInstance();
+                    domainObject.init(record);
+                    orgidMap.put(domainObject.getVbase2Id(), domainObject);
                 } catch (InstantiationException e) {
                     System.out.println("Could not instantiate " + type.getName() + ". Error: " + e.getMessage());
                     break;

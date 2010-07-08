@@ -185,11 +185,11 @@ public class Lookups implements CSVable, ContainsVb2id {
         this.sortorder = sortorder;
     }
 
-    public Long getVBase2Id() {
+    public Long getVbase2Id() {
         return this.vbase2id;
     }
 
-    public void setVBase2Id(Long vbase2id) {
+    public void setVbase2Id(Long vbase2id) {
         this.vbase2id = vbase2id;
     }
 
