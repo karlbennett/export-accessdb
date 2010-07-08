@@ -54,9 +54,11 @@ public class OpportunitiesMigration implements Migratable {
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tblOpp.csv"));
             opportunitiesWriter = new BufferedWriter(new FileWriter(outputDir + "Opportunities.csv"));
 
-            addressWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv"));
+            // Append to existing records created by OrganisationVuoMigration, OrganisationsMigration, VolunteersMigration.
+            addressWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv", true));
             locationsWriter = new BufferedWriter(new FileWriter(outputDir + "Locations.csv"));
-            contactWriter = new BufferedWriter(new FileWriter(outputDir + "Contacts.csv"));
+            // Append to existing records created by OrganisationsMigration.
+            contactWriter = new BufferedWriter(new FileWriter(outputDir + "Contacts.csv", true));
             contactDetailsWriter = new BufferedWriter(new FileWriter(outputDir + "ContactDetails.csv"));
 
             policyEntryiesWriter = new BufferedWriter(new FileWriter(outputDir + "PolicyEntries.csv"));

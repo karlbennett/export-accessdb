@@ -32,9 +32,12 @@ public class OrganisationVuoMigration implements Migratable {
 
         try {
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "UsysRegistration.csv"));
+            // Append to existing records created by OrganisationsMigration.
             organisationsWriter = new BufferedWriter(new FileWriter(outputDir + "Organisations.csv", true));
+            // Append to existing records created by OrganisationsMigration.
             organisationAddressWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationAddress.csv", true));
 
+            // Append to existing records created by OrganisationsMigration, VolunteersMigration.
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv", true));
 
             Map<String, Map<String, Lookups>> lookupsMap =
