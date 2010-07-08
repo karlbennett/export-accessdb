@@ -37,27 +37,63 @@ public class OpportunitiesMigration implements Migratable {
         CSVFileReader csvFileReader = null;
         BufferedWriter opportunitiesWriter = null;
 
+        BufferedWriter addressWriter = null;
+        BufferedWriter locationsWriter = null;
+        BufferedWriter contactWriter = null;
+        BufferedWriter contactDetailsWriter = null;
+
+        BufferedWriter policyEntryiesWriter = null;
+        BufferedWriter opportunityArrPolicyEntriesWriter = null;
+
+        BufferedWriter opportunityTagsWriter = null;
+        BufferedWriter opportunityTypesOfActivitiesWriter = null;
+        BufferedWriter opportunityCausesInterestsWriter = null;
+        BufferedWriter opportunitySelectionMethodsWriter = null;
+
         try {
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tblOpp.csv"));
-            opportunitiesWriter = new BufferedWriter(new FileWriter(outputDir + "Opprotunities.csv"));
+            opportunitiesWriter = new BufferedWriter(new FileWriter(outputDir + "Opportunities.csv"));
+
+            addressWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv"));
+            locationsWriter = new BufferedWriter(new FileWriter(outputDir + "Locations.csv"));
+            contactWriter = new BufferedWriter(new FileWriter(outputDir + "Contacts.csv"));
+            contactDetailsWriter = new BufferedWriter(new FileWriter(outputDir + "ContactDetails.csv"));
+
+            policyEntryiesWriter = new BufferedWriter(new FileWriter(outputDir + "PolicyEntries.csv"));
+            opportunityArrPolicyEntriesWriter = new BufferedWriter(new FileWriter(outputDir + "OpportunityArrPolicyEntry.csv"));
+
+            opportunityTagsWriter = new BufferedWriter(new FileWriter(outputDir + "OpportunityTags.csv"));
+            opportunityTypesOfActivitiesWriter = new BufferedWriter(new FileWriter(outputDir + "OpportunityTypesOfActivity.csv"));
+            opportunityCausesInterestsWriter = new BufferedWriter(new FileWriter(outputDir + "OpportunityCausesInterests.csv"));
+            opportunitySelectionMethodsWriter = new BufferedWriter(new FileWriter(outputDir + "OpportunitySelectionMethods.csv"));
 
             Map<Long, Organisations> organisationVb2idMap =
                     CSVUtil.createVb2idMap(outputDir + "Organisations.csv", Organisations.class);
 
             Organisations vuoOrganisation = null;
-            for (Organisations organisation : organisationVb2idMap.values()) {
+            for (Organisations organisation : organisationVb2idMap.values()) { // Find the vuo organisation to get it's address.
                 if (organisation.getIsVuo()) vuoOrganisation = organisation;
             }
 
+            UUID vuoAddressId = null;
+            if (vuoOrganisation != null) { // If the vuo organisation was found find it's address id.
+                for (OrganisationAddresses organisationAddress :
+                        CSVUtil.createDomainList(outputDir + "OrganisationAddresses.csv", OrganisationAddresses.class)) {
+                    if (organisationAddress.getOrgAddConInfoId().equals(vuoOrganisation.getId())) {
+                        vuoAddressId = organisationAddress.getAddressId();
+                    }
+                }
+            }
+
             Map<Long, List<TblOppTime>> tblOppTimes = CSVUtil.createOidMap(csvDir + "tblOppTime.csv", TblOppTime.class);
+            Map<Long, List<TblOppArrangements>> tblOppArrangementses =
+                    CSVUtil.createOidMap(csvDir + "tblOppArrangements.csv", TblOppArrangements.class);
             Map<Long, List<TblOppSpecial>> tblOppSpecials =
                     CSVUtil.createOidMap(csvDir + "tblOppSpecial.csv", TblOppSpecial.class);
             Map<Long, List<TblOppTypeOfActivity>> tblOppTypeOfActivities =
                     CSVUtil.createOidMap(csvDir + "tblOppTypeOfActivity.csv", TblOppTypeOfActivity.class);
             Map<Long, List<TblOppAreasOfInterest>> tblOppAreasOfInterests =
                     CSVUtil.createOidMap(csvDir + "tblOppAreasOfInterest.csv", TblOppAreasOfInterest.class);
-            Map<Long, List<TblOppArrangements>> tblOppArrangementses =
-                    CSVUtil.createOidMap(csvDir + "tblOppArrangements.csv", TblOppArrangements.class);
             Map<Long, List<TblOppRecruitmentMethod>> tblOppRecruitmentMethods =
                     CSVUtil.createOidMap(csvDir + "tblOppRecruitmentMethod.csv", TblOppRecruitmentMethod.class);
             List<UsysRegistration> usysRegistrations =
@@ -65,20 +101,31 @@ public class OpportunitiesMigration implements Migratable {
 
             TblOpp tblOpp = null;
             Opportunities opportunities = null;
-            Addresses addresses = null;
+            Addresses address = null;
             Locations locations = null;
-            Contacts contacts = null; 
+            Contacts contact = null;
             ContactDetails contactDetails = null;
             ContactDetails vuoContactDetails = null;
+            List<PolicyEntries> policyEntryies = null;
+            List<OpportunityArrPolicyEntry> opportunityArrPolicyEntries = null;
+            List<OpportunityTags> opportunityTags = null;
+            List<OpportunityTypesOfActivity> opportunityTypesOfActivities = null;
+            List<OpportunityCausesInterests> opportunityCausesInterests = null;
+            List<OpportunitySelectionMethods> opportunitySelectionMethods = null;
             String record = "";
             while ((record = csvFileReader.readRecord()) != null) {
                 tblOpp = new TblOpp(record);
                 opportunities = new Opportunities();
-                addresses = null;
+                address = null;
                 locations = null;
-                contacts = null;
+                contact = null;
                 contactDetails = null;
                 vuoContactDetails = null;
+                policyEntryies = null;
+                opportunityArrPolicyEntries = null;
+                opportunityTypesOfActivities = null;
+                opportunityCausesInterests = null;
+                opportunitySelectionMethods = null;
 
                 opportunities.setId(UUID.randomUUID());
                 opportunities.setVbase2Id(tblOpp.getOid());
@@ -116,23 +163,23 @@ public class OpportunitiesMigration implements Migratable {
                 opportunities.setRequirements(tblOpp.getSkillsqualifications());
 
                 if (tblOpp.getAddress1() != null && !tblOpp.getAddress1().equals("")) {
-                    addresses = new Addresses();
+                    address = new Addresses();
                     locations = new Locations();
-                    contacts = new Contacts();
+                    contact = new Contacts();
                     contactDetails = new ContactDetails();
 
-                    addresses.setId(UUID.randomUUID());
-                    addresses.setVbase2Id(opportunities.getVbase2Id());
-                    addresses.setAddress1(tblOpp.getAddress1());
-                    addresses.setAddress2(tblOpp.getAddress2());
-                    addresses.setAddress3(null);
-                    addresses.setTown(tblOpp.getTown());
-                    addresses.setCountryId(null);
-                    addresses.setCountyId(null);
-                    addresses.setPostCode(tblOpp.getPostcode());
+                    address.setId(UUID.randomUUID());
+                    address.setVbase2Id(opportunities.getVbase2Id());
+                    address.setAddress1(tblOpp.getAddress1());
+                    address.setAddress2(tblOpp.getAddress2());
+                    address.setAddress3(null);
+                    address.setTown(tblOpp.getTown());
+                    address.setCountryId(null);
+                    address.setCountyId(null);
+                    address.setPostCode(tblOpp.getPostcode());
 
                     locations.setId(UUID.randomUUID());
-                    locations.setAddressId(addresses.getId());
+                    locations.setAddressId(address.getId());
                     locations.setOpportunityLocationId(opportunities.getId());
                     locations.setDisplayString(opportunities.getOwnId());
                     locations.setUseCustomAddress(true); // TODO: Set the opportunity addresses country lookup
@@ -140,25 +187,25 @@ public class OpportunitiesMigration implements Migratable {
                     locations.setDiscriminator("PostCodeLocationAddress");
                     locations.setLocationType("POSTCODE");
 
-                    contacts.setId(UUID.randomUUID());
-                    contacts.setTitleId(null);  // TODO: Set the opportunity title lookup
+                    contact.setId(UUID.randomUUID());
+                    contact.setTitleId(null);  // TODO: Set the opportunity title lookup
 
                     if (tblOpp.getContact() != null && !tblOpp.getContact().equals("")) {
                         String[] contactArray = tblOpp.getContact().split(" ");
-                        if(contactArray.length > 0) {
-                            contacts.setFirstName(contactArray[0]);
-                            contacts.setPreferredName(contactArray[0]);
+                        if (contactArray.length > 0) {
+                            contact.setFirstName(contactArray[0]);
+                            contact.setPreferredName(contactArray[0]);
 
-                            if (contactArray.length > 1) contacts.setSurname(contactArray[1]);
+                            if (contactArray.length > 1) contact.setSurname(contactArray[1]);
                         }
                     }
 
-                    contacts.setIsActive(true);
-                    contacts.setUseAsMainContact(true);
+                    contact.setIsActive(true);
+                    contact.setUseAsMainContact(true);
 
                     contactDetails.setId(UUID.randomUUID());
-                    contactDetails.setAddressId(addresses.getId());
-                    contactDetails.setContactId(contacts.getId());
+                    contactDetails.setAddressId(address.getId());
+                    contactDetails.setContactId(contact.getId());
                     contactDetails.setUseCustomAddress(true);
                     contactDetails.setUseCustomPerson(true);
                     contactDetails.setCustomTelephone(tblOpp.getTel1());
@@ -168,27 +215,140 @@ public class OpportunitiesMigration implements Migratable {
                     contactDetails.setFaxSource("CUSTOM");
                     contactDetails.setEmailSource("CUSTOM");
                     contactDetails.setWebAddressSource("CUSTOM");
+
+                    opportunities.setSharedInternalContactDetailsId(contactDetails.getId());
+
+                    if (opportunities.getIsSharedInternalContactPublic()) {
+                        opportunities.setSharedPublicContactDetailsId(contactDetails.getId());
+                    } else if (vuoAddressId != null) {
+                        vuoContactDetails = new ContactDetails();
+
+                        vuoContactDetails.setId(UUID.randomUUID());
+                        vuoContactDetails.setUseVuoDetails(true);
+                        vuoContactDetails.setOrganisationAddressId(vuoAddressId);
+                        vuoContactDetails.setTelephoneSource("ADDRESS");
+                        vuoContactDetails.setFaxSource("ADDRESS");
+                        vuoContactDetails.setEmailSource("ADDRESS");
+                        vuoContactDetails.setWebAddressSource("ADDRESS");
+
+                        opportunities.setSharedPublicContactDetailsId(vuoContactDetails.getId());
+                    }
                 }
 
-                opportunities.setSharedInternalContactDetailsId(contactDetails.getId());
+                if (tblOppArrangementses.get(opportunities.getVbase2Id()) != null) {
+                    policyEntryies = new ArrayList<PolicyEntries>();
+                    opportunityArrPolicyEntries = new ArrayList<OpportunityArrPolicyEntry>();
 
-                if (opportunities.getIsSharedInternalContactPublic()) {
-                    opportunities.setSharedPublicContactDetailsId(contactDetails.getId());
-                } else if (vuoOrganisation != null) {
-                    vuoContactDetails = new ContactDetails();
+                    PolicyEntries policyEntry = null;
+                    OpportunityArrPolicyEntry opportunityArrPolicyEntry = null;
+                    for (TblOppArrangements arrangement : tblOppArrangementses.get(opportunities.getVbase2Id())) {
+                        policyEntry = new PolicyEntries();
+                        opportunityArrPolicyEntry = new OpportunityArrPolicyEntry();
 
-                    vuoContactDetails.setId(UUID.randomUUID());
-                    vuoContactDetails.setUseVuoDetails(true);
-                    vuoContactDetails.setOrganisationAddressId(vuoOrganisation.getId());
-                    vuoContactDetails.setTelephoneSource("ADDRESS");
-                    vuoContactDetails.setFaxSource("ADDRESS");
-                    vuoContactDetails.setEmailSource("ADDRESS");
-                    vuoContactDetails.setWebAddressSource("ADDRESS");
+                        policyEntry.setId(UUID.randomUUID());
+                        policyEntry.setDiscriminator("A");
+                        policyEntry.setPolicyId(null); // TODO: Set the opportunity policy  lookup
+                        policyEntry.setPolicyStatusId(null); // TODO: Set the opportunity policy  status lookup
+                        policyEntry.setComments(arrangement.getDetails());
 
-                    opportunities.setSharedPublicContactDetailsId(vuoContactDetails.getId());
+                        opportunityArrPolicyEntry.setOpportunityId(opportunities.getId());
+                        opportunityArrPolicyEntry.setPolicyId(policyEntry.getId());
+
+                        policyEntryies.add(policyEntry);
+                        opportunityArrPolicyEntries.add(opportunityArrPolicyEntry);
+                    }
+                }
+
+                if (tblOppSpecials.get(opportunities.getVbase2Id()) != null) {
+                    opportunityTags = new ArrayList<OpportunityTags>();
+
+                    OpportunityTags opportunityTag = null;
+                    for (TblOppSpecial special : tblOppSpecials.get(opportunities.getVbase2Id())) {
+                        opportunityTag = new OpportunityTags();
+                        opportunityTag.setOpportunityId(opportunities.getId());
+                        opportunityTag.setLookupId(null); // TODO: Set the opportunity lag lookup
+
+                        opportunityTags.add(opportunityTag);
+                    }
+                }
+
+                if (tblOppTypeOfActivities.get(opportunities.getVbase2Id()) != null) {
+                    opportunityTypesOfActivities = new ArrayList<OpportunityTypesOfActivity>();
+
+                    OpportunityTypesOfActivity opportunityTypesOfActivity = null;
+                    for (TblOppTypeOfActivity activity : tblOppTypeOfActivities.get(opportunities.getVbase2Id())) {
+                        opportunityTypesOfActivity = new OpportunityTypesOfActivity();
+                        opportunityTypesOfActivity.setOpportunityId(opportunities.getId());
+                        opportunityTypesOfActivity.setLookupId(null); // TODO: Set the opportunity type of activity lookup
+
+                        opportunityTypesOfActivities.add(opportunityTypesOfActivity);
+                    }
+                }
+
+                if (tblOppAreasOfInterests.get(opportunities.getVbase2Id()) != null) {
+                    opportunityCausesInterests = new ArrayList<OpportunityCausesInterests>();
+
+                    OpportunityCausesInterests opportunityCausesInterest = null;
+                    for (TblOppAreasOfInterest interest : tblOppAreasOfInterests.get(opportunities.getVbase2Id())) {
+                        opportunityCausesInterest = new OpportunityCausesInterests();
+                        opportunityCausesInterest.setOpportunityId(opportunities.getId());
+                        opportunityCausesInterest.setLookupId(null); // TODO: Set the opportunity cause of interest lookup
+
+                        opportunityCausesInterests.add(opportunityCausesInterest);
+                    }
+                }
+
+                if (tblOppRecruitmentMethods.get(opportunities.getVbase2Id()) != null) {
+                    opportunitySelectionMethods = new ArrayList<OpportunitySelectionMethods>();
+
+                    OpportunitySelectionMethods opportunitySelectionMethod = null;
+                    for (TblOppRecruitmentMethod method : tblOppRecruitmentMethods.get(opportunities.getVbase2Id())) {
+                        opportunitySelectionMethod = new OpportunitySelectionMethods();
+                        opportunitySelectionMethod.setOpportunityId(opportunities.getId());
+                        opportunitySelectionMethod.setLookupId(null); // TODO: Set the opportunity selection method lookup
+
+                        opportunitySelectionMethods.add(opportunitySelectionMethod);
+                    }
                 }
 
                 opportunitiesWriter.write(opportunities.getRecord() + "\n");
+
+                if (address != null) addressWriter.write(address.getRecord() + "\n");
+                if (locations != null) locationsWriter.write(locations.getRecord() + "\n");
+                if (contact != null) contactWriter.write(contact.getRecord() + "\n");
+                if (contactDetails != null) contactDetailsWriter.write(contactDetails.getRecord() + "\n");
+                if (vuoContactDetails != null) contactDetailsWriter.write(vuoContactDetails.getRecord() + "\n");
+
+                if (policyEntryies != null) {
+                    for (PolicyEntries policyEntry : policyEntryies) {
+                        policyEntryiesWriter.write(policyEntry.getRecord() + "\n");
+                    }
+                }
+                if (opportunityArrPolicyEntries != null) {
+                    for (OpportunityArrPolicyEntry arrPolicyEntry : opportunityArrPolicyEntries) {
+                        opportunityArrPolicyEntriesWriter.write(arrPolicyEntry.getRecord() + "\n");
+                    }
+                }
+                if (opportunityTags != null) {
+                    for (OpportunityTags opportunityTag : opportunityTags) {
+                        opportunityTagsWriter.write(opportunityTag.getRecord() + "\n");
+                    }
+                }
+                if (opportunityTypesOfActivities != null) {
+                    for (OpportunityTypesOfActivity typesOfActivity : opportunityTypesOfActivities) {
+                        opportunityTypesOfActivitiesWriter.write(typesOfActivity.getRecord() + "\n");
+                    }
+                }
+                if (opportunityCausesInterests != null) {
+                    for (OpportunityCausesInterests causesInterest : opportunityCausesInterests) {
+                        opportunityCausesInterestsWriter.write(causesInterest.getRecord() + "\n");
+                    }
+                }
+                if (opportunitySelectionMethods != null) {
+                    for (OpportunitySelectionMethods selectionMethod : opportunitySelectionMethods) {
+                        opportunitySelectionMethodsWriter.write(selectionMethod.getRecord() + "\n");
+                    }
+                }
             }
 
         } catch (IOException e) {
@@ -196,7 +356,50 @@ public class OpportunitiesMigration implements Migratable {
         } finally {
             try {
                 if (csvFileReader != null) csvFileReader.close();
-                if (opportunitiesWriter != null) opportunitiesWriter.close();
+                if (opportunitiesWriter != null) {
+                    opportunitiesWriter.flush();
+                    opportunitiesWriter.close();
+                }
+                if (addressWriter != null) {
+                    addressWriter.flush();
+                    addressWriter.close();
+                }
+                if (locationsWriter != null) {
+                    locationsWriter.flush();
+                    locationsWriter.close();
+                }
+                if (contactWriter != null) {
+                    contactWriter.flush();
+                    contactWriter.close();
+                }
+                if (contactDetailsWriter != null) {
+                    contactDetailsWriter.flush();
+                    contactDetailsWriter.close();
+                }
+                if (policyEntryiesWriter != null) {
+                    policyEntryiesWriter.flush();
+                    policyEntryiesWriter.close();
+                }
+                if (opportunityArrPolicyEntriesWriter != null) {
+                    opportunityArrPolicyEntriesWriter.flush();
+                    opportunityArrPolicyEntriesWriter.close();
+                }
+                if (opportunityTagsWriter != null) {
+                    opportunityTagsWriter.flush();
+                    opportunityTagsWriter.close();
+                }
+                if (opportunityTypesOfActivitiesWriter != null) {
+                    opportunityTypesOfActivitiesWriter.flush();
+                    opportunityTypesOfActivitiesWriter.close();
+                }
+                if (opportunityCausesInterestsWriter != null) {
+                    opportunityCausesInterestsWriter.flush();
+                    opportunityCausesInterestsWriter.close();
+                }
+                if (opportunitySelectionMethodsWriter != null) {
+                    opportunitySelectionMethodsWriter.flush();
+                    opportunitySelectionMethodsWriter.close();
+                }
             } catch (IOException e) {
                 System.out.println("Error closing opportunities streams. Error:" + e.getMessage());
             }
