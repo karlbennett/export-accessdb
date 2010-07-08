@@ -41,7 +41,8 @@ columnNum = split($2, columnArray, ", ");
 split("", attributes);
 split("", methods);
 
-count=0;
+count = 0;
+hasVb2id = "false"
 for(i in columnArray) {
     split(columnArray[i], columnNameArray, " ");
 
@@ -51,6 +52,8 @@ for(i in columnArray) {
     methods[count, 1] = sqlToJava[columnNameArray[2]];
     types[sqlToJava[columnNameArray[2]]] = "true";
 
+    if (tolower(columnNameArray[1]) == "vbase2id") hasVb2id = "true";
+
     count++;
 }
 methoddNum = count;
@@ -59,6 +62,7 @@ print "package org.youthnet.export.domain.vb3;" > tableName ".java";
 printf "\n\n" >> tableName ".java";
 
 print "import org.youthnet.export.domain.CSVable;" >> tableName ".java";
+if (hasVb2id == "true") print "import org.youthnet.export.domain.vb3.ContainsVb2id;" >> tableName ".java";
 print "import java.util.UUID;" >> tableName ".java";
 if ("Timestamp" in types) {
     print "import java.sql.Timestamp;" >> tableName ".java";
@@ -69,7 +73,9 @@ print "import java.util.List;" >> tableName ".java";
 print "import java.util.ArrayList;" >> tableName ".java";
 printf "\n\n" >> tableName ".java";
 
-print "public class " tableName " implements CSVable{" >> tableName ".java";
+printf "public class " tableName " implements CSVable" >> tableName ".java";
+if (hasVb2id == "true") printf ", ContainsVb2id" >> tableName ".java";
+print " {" >> tableName ".java";
 print "" >> tableName ".java";
 
 print "\tprivate char delimiter = '|';" >> tableName ".java";
