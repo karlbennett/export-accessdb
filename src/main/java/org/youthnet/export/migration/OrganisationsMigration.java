@@ -76,6 +76,7 @@ public class OrganisationsMigration implements Migratable {
                     organisationAddresses = new OrganisationAddresses();
 
                     addresses.setId(UUID.randomUUID());
+                    addresses.setVbase2Id(organisations.getVbase2Id());
                     addresses.setAddress1(tblOrg.getAddress1()); // Migrate field.
                     // If the vb2.5 address one does not match the vb 2.5 address two then add it to the new vb3 address.
                     if (tblOrg.getAddress2() != null // Stop any null pointer exceptions.
@@ -110,6 +111,7 @@ public class OrganisationsMigration implements Migratable {
 
                 // -- Migrate the organisation generic contact data --
                 contacts.setId(UUID.randomUUID());
+                contacts.setVbase2Id(organisations.getVbase2Id());
                 contacts.setDepartment(null); // There is no migration mapping for this.
 
                 // Check to see if the contact can use the addresses email address.
@@ -163,6 +165,7 @@ public class OrganisationsMigration implements Migratable {
                     contactOrganisationContacts = new OrganisationContacts();
 
                     contactAddresses.setId(UUID.randomUUID());
+                    contactAddresses.setVbase2Id(organisations.getVbase2Id());
                     contactAddresses.setAddress1(tblOrg.getContactaddress1()); // Migrate field.
                     // If the vb2.5 contact address one does not match the vb 2.5 contact address two then add it to the new vb3 address.
                     if (tblOrg.getContactaddress2() != null // Stop any null pointer exceptions.

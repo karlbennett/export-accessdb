@@ -152,6 +152,7 @@ public class VolunteersMigration implements Migratable {
                     volunteerAddresses = new VolunteerAddresses();
 
                     addresses.setId(UUID.randomUUID());
+                    addresses.setVbase2Id(volunteers.getVbase2Id());
                     addresses.setAddress1(tblVol.getAddress1());
                     addresses.setAddress2(tblVol.getAddress2());
                     addresses.setTown(tblVol.getTown());
