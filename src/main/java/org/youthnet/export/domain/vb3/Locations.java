@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -56,11 +57,11 @@ public class Locations implements CSVable, ContainsDiscriminator {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.displaystring = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.displaystring = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isactive = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.locationtype = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.locationtype = fields[2].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -75,7 +76,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
             this.countyid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.publiccontactdetailssource = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.publiccontactdetailssource = fields[4].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[5].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -161,7 +162,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
             this.publiccontactdetailsid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.discriminator = fields[14].replace(String.valueOf(this.enclosure), "");
+        this.discriminator = fields[14].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[15].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -218,7 +219,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
 
         this.version = (fields[21].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[21].replace(String.valueOf(this.enclosure), ""));
 
-        this.customorgname = fields[22].replace(String.valueOf(this.enclosure), "");
+        this.customorgname = fields[22].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
     }
 
@@ -463,17 +464,17 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.displaystring == null ? "" : this.displaystring);
+        recordStringBuffer.append(this.displaystring == null ? "" : StringEscapeUtils.escapeSql(this.displaystring).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive != null && isactive ? 1 : 0);
+        recordStringBuffer.append(this.isactive != null && this.isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.locationtype == null ? "" : this.locationtype);
+        recordStringBuffer.append(this.locationtype == null ? "" : StringEscapeUtils.escapeSql(this.locationtype).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -483,7 +484,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.publiccontactdetailssource == null ? "" : this.publiccontactdetailssource);
+        recordStringBuffer.append(this.publiccontactdetailssource == null ? "" : StringEscapeUtils.escapeSql(this.publiccontactdetailssource).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -493,7 +494,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomorgname != null && usecustomorgname ? 1 : 0);
+        recordStringBuffer.append(this.usecustomorgname != null && this.usecustomorgname ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -503,7 +504,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomaddress != null && usecustomaddress ? 1 : 0);
+        recordStringBuffer.append(this.usecustomaddress != null && this.usecustomaddress ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -513,7 +514,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(useforcontactdetails != null && useforcontactdetails ? 1 : 0);
+        recordStringBuffer.append(this.useforcontactdetails != null && this.useforcontactdetails ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -533,7 +534,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.discriminator == null ? "" : this.discriminator);
+        recordStringBuffer.append(this.discriminator == null ? "" : StringEscapeUtils.escapeSql(this.discriminator).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -553,7 +554,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -573,7 +574,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.customorgname == null ? "" : this.customorgname);
+        recordStringBuffer.append(this.customorgname == null ? "" : StringEscapeUtils.escapeSql(this.customorgname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

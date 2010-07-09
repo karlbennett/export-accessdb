@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -73,7 +74,7 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
             this.policystatusid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.discriminator = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.discriminator = fields[3].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -130,7 +131,7 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
 
         this.version = (fields[10].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[10].replace(String.valueOf(this.enclosure), ""));
 
-        this.comments = fields[11].replace(String.valueOf(this.enclosure), "");
+        this.comments = fields[11].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
     }
 
@@ -291,7 +292,7 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.discriminator == null ? "" : this.discriminator);
+        recordStringBuffer.append(this.discriminator == null ? "" : StringEscapeUtils.escapeSql(this.discriminator).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -311,7 +312,7 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -331,7 +332,7 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.comments == null ? "" : this.comments);
+        recordStringBuffer.append(this.comments == null ? "" : StringEscapeUtils.escapeSql(this.comments).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

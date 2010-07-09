@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -46,7 +47,7 @@ public class MetaData implements CSVable {
 
         this.serializedobject = (fields[0].replace(String.valueOf(this.enclosure), "").equals("")) ? null : fields[0].replace(String.valueOf(this.enclosure), "").getBytes();
 
-        this.type = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.type = fields[1].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -258,7 +259,7 @@ public class MetaData implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.type == null ? "" : this.type);
+        recordStringBuffer.append(this.type == null ? "" : StringEscapeUtils.escapeSql(this.type).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -278,7 +279,7 @@ public class MetaData implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

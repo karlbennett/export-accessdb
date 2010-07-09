@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -114,9 +115,9 @@ public class Roles implements CSVable, ContainsVb2id {
 
         this.version = (fields[8].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[8].replace(String.valueOf(this.enclosure), ""));
 
-        this.description = fields[9].replace(String.valueOf(this.enclosure), "");
+        this.description = fields[9].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.name = fields[10].replace(String.valueOf(this.enclosure), "");
+        this.name = fields[10].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
     }
 
@@ -278,7 +279,7 @@ public class Roles implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -298,12 +299,12 @@ public class Roles implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.description == null ? "" : this.description);
+        recordStringBuffer.append(this.description == null ? "" : StringEscapeUtils.escapeSql(this.description).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.name == null ? "" : this.name);
+        recordStringBuffer.append(this.name == null ? "" : StringEscapeUtils.escapeSql(this.name).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

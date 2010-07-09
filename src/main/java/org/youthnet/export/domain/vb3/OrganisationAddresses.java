@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +44,7 @@ public class OrganisationAddresses implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.website = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.website = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -71,21 +72,21 @@ public class OrganisationAddresses implements CSVable {
             this.orgaddconinfoid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.directions = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.directions = fields[3].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.email = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.email = fields[4].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.emergencytelephone = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.emergencytelephone = fields[5].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.fax = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.fax = fields[6].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.friendlyname = fields[7].replace(String.valueOf(this.enclosure), "");
+        this.friendlyname = fields[7].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isdefaultaddress = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.organisationname = fields[9].replace(String.valueOf(this.enclosure), "");
+        this.organisationname = fields[9].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.telephone = fields[10].replace(String.valueOf(this.enclosure), "");
+        this.telephone = fields[10].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.usecustomorganisationname = fields[11].replace(String.valueOf(this.enclosure), "").equals("1");
 
@@ -233,7 +234,7 @@ public class OrganisationAddresses implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.website == null ? "" : this.website);
+        recordStringBuffer.append(this.website == null ? "" : StringEscapeUtils.escapeSql(this.website).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -248,47 +249,47 @@ public class OrganisationAddresses implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.directions == null ? "" : this.directions);
+        recordStringBuffer.append(this.directions == null ? "" : StringEscapeUtils.escapeSql(this.directions).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.email == null ? "" : this.email);
+        recordStringBuffer.append(this.email == null ? "" : StringEscapeUtils.escapeSql(this.email).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.emergencytelephone == null ? "" : this.emergencytelephone);
+        recordStringBuffer.append(this.emergencytelephone == null ? "" : StringEscapeUtils.escapeSql(this.emergencytelephone).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.fax == null ? "" : this.fax);
+        recordStringBuffer.append(this.fax == null ? "" : StringEscapeUtils.escapeSql(this.fax).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.friendlyname == null ? "" : this.friendlyname);
+        recordStringBuffer.append(this.friendlyname == null ? "" : StringEscapeUtils.escapeSql(this.friendlyname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isdefaultaddress != null && isdefaultaddress ? 1 : 0);
+        recordStringBuffer.append(this.isdefaultaddress != null && this.isdefaultaddress ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.organisationname == null ? "" : this.organisationname);
+        recordStringBuffer.append(this.organisationname == null ? "" : StringEscapeUtils.escapeSql(this.organisationname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.telephone == null ? "" : this.telephone);
+        recordStringBuffer.append(this.telephone == null ? "" : StringEscapeUtils.escapeSql(this.telephone).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usecustomorganisationname != null && usecustomorganisationname ? 1 : 0);
+        recordStringBuffer.append(this.usecustomorganisationname != null && this.usecustomorganisationname ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -56,21 +57,21 @@ public class Users implements CSVable, ContainsVb2id {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.firstname = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.firstname = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.fullname = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.fullname = fields[1].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isaccountexpired = fields[2].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.passwordhint = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.passwordhint = fields[3].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isaccountlocked = fields[4].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.phonenumber = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.phonenumber = fields[5].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.iscredentialsexpired = fields[6].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.username = fields[7].replace(String.valueOf(this.enclosure), "");
+        this.username = fields[7].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isenabled = fields[8].replace(String.valueOf(this.enclosure), "").equals("1");
 
@@ -82,7 +83,7 @@ public class Users implements CSVable, ContainsVb2id {
             System.out.println("Could not pars Timestamp lastloginattempt " + fields[10].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        this.lastname = fields[11].replace(String.valueOf(this.enclosure), "");
+        this.lastname = fields[11].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         try {
             this.lstloggedin = (fields[12].replace(String.valueOf(this.enclosure), "").equals("")) ? null : new Timestamp(simpleDateFormat.parse(fields[12].replace(String.valueOf(this.enclosure), "")).getTime());
@@ -90,7 +91,7 @@ public class Users implements CSVable, ContainsVb2id {
             System.out.println("Could not pars Timestamp lstloggedin " + fields[12].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        this.password = fields[13].replace(String.valueOf(this.enclosure), "");
+        this.password = fields[13].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[14].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -398,47 +399,47 @@ public class Users implements CSVable, ContainsVb2id {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.firstname == null ? "" : this.firstname);
+        recordStringBuffer.append(this.firstname == null ? "" : StringEscapeUtils.escapeSql(this.firstname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.fullname == null ? "" : this.fullname);
+        recordStringBuffer.append(this.fullname == null ? "" : StringEscapeUtils.escapeSql(this.fullname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isaccountexpired != null && isaccountexpired ? 1 : 0);
+        recordStringBuffer.append(this.isaccountexpired != null && this.isaccountexpired ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.passwordhint == null ? "" : this.passwordhint);
+        recordStringBuffer.append(this.passwordhint == null ? "" : StringEscapeUtils.escapeSql(this.passwordhint).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isaccountlocked != null && isaccountlocked ? 1 : 0);
+        recordStringBuffer.append(this.isaccountlocked != null && this.isaccountlocked ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.phonenumber == null ? "" : this.phonenumber);
+        recordStringBuffer.append(this.phonenumber == null ? "" : StringEscapeUtils.escapeSql(this.phonenumber).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(iscredentialsexpired != null && iscredentialsexpired ? 1 : 0);
+        recordStringBuffer.append(this.iscredentialsexpired != null && this.iscredentialsexpired ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.username == null ? "" : this.username);
+        recordStringBuffer.append(this.username == null ? "" : StringEscapeUtils.escapeSql(this.username).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isenabled != null && isenabled ? 1 : 0);
+        recordStringBuffer.append(this.isenabled != null && this.isenabled ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -453,7 +454,7 @@ public class Users implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.lastname == null ? "" : this.lastname);
+        recordStringBuffer.append(this.lastname == null ? "" : StringEscapeUtils.escapeSql(this.lastname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -463,7 +464,7 @@ public class Users implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.password == null ? "" : this.password);
+        recordStringBuffer.append(this.password == null ? "" : StringEscapeUtils.escapeSql(this.password).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -483,7 +484,7 @@ public class Users implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

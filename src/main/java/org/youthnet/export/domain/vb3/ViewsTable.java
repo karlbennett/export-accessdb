@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -50,13 +51,13 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
 
         this.isskills = fields[0].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.lookupuptypesvalue = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.lookupuptypesvalue = fields[1].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.sectionlookup = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.sectionlookup = fields[2].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.sectionname = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.sectionname = fields[3].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.skilltype = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.skilltype = fields[4].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.vbase2id = (fields[5].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[5].replace(String.valueOf(this.enclosure), ""));
 
@@ -115,9 +116,9 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
 
         this.version = (fields[12].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[12].replace(String.valueOf(this.enclosure), ""));
 
-        this.discriminator = fields[13].replace(String.valueOf(this.enclosure), "");
+        this.discriminator = fields[13].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.fieldname = fields[14].replace(String.valueOf(this.enclosure), "");
+        this.fieldname = fields[14].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
     }
 
@@ -290,27 +291,27 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isskills != null && isskills ? 1 : 0);
+        recordStringBuffer.append(this.isskills != null && this.isskills ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.lookupuptypesvalue == null ? "" : this.lookupuptypesvalue);
+        recordStringBuffer.append(this.lookupuptypesvalue == null ? "" : StringEscapeUtils.escapeSql(this.lookupuptypesvalue).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.sectionlookup == null ? "" : this.sectionlookup);
+        recordStringBuffer.append(this.sectionlookup == null ? "" : StringEscapeUtils.escapeSql(this.sectionlookup).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.sectionname == null ? "" : this.sectionname);
+        recordStringBuffer.append(this.sectionname == null ? "" : StringEscapeUtils.escapeSql(this.sectionname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.skilltype == null ? "" : this.skilltype);
+        recordStringBuffer.append(this.skilltype == null ? "" : StringEscapeUtils.escapeSql(this.skilltype).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -335,7 +336,7 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -355,12 +356,12 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.discriminator == null ? "" : this.discriminator);
+        recordStringBuffer.append(this.discriminator == null ? "" : StringEscapeUtils.escapeSql(this.discriminator).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.fieldname == null ? "" : this.fieldname);
+        recordStringBuffer.append(this.fieldname == null ? "" : StringEscapeUtils.escapeSql(this.fieldname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -44,7 +45,7 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.sqlquery = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.sqlquery = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.vbase2id = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
 
@@ -103,9 +104,9 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
 
         this.version = (fields[8].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[8].replace(String.valueOf(this.enclosure), ""));
 
-        this.hqlquery = fields[9].replace(String.valueOf(this.enclosure), "");
+        this.hqlquery = fields[9].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.queryname = fields[10].replace(String.valueOf(this.enclosure), "");
+        this.queryname = fields[10].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
     }
 
@@ -242,7 +243,7 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.sqlquery == null ? "" : this.sqlquery);
+        recordStringBuffer.append(this.sqlquery == null ? "" : StringEscapeUtils.escapeSql(this.sqlquery).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -267,7 +268,7 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -287,12 +288,12 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.hqlquery == null ? "" : this.hqlquery);
+        recordStringBuffer.append(this.hqlquery == null ? "" : StringEscapeUtils.escapeSql(this.hqlquery).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.queryname == null ? "" : this.queryname);
+        recordStringBuffer.append(this.queryname == null ? "" : StringEscapeUtils.escapeSql(this.queryname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

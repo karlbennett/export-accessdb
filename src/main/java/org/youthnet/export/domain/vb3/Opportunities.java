@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -68,7 +69,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.benefits = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.benefits = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.commitmentam = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
 
@@ -80,7 +81,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         this.locationspubliclyviewable = fields[5].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.description = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.description = fields[6].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.monetaryvalueperhour = (fields[7].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Float.valueOf(fields[7].replace(String.valueOf(this.enclosure), ""));
 
@@ -88,7 +89,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         this.usesharedintcondets = fields[9].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.ownid = fields[10].replace(String.valueOf(this.enclosure), "");
+        this.ownid = fields[10].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isdatespecific = fields[11].replace(String.valueOf(this.enclosure), "").equals("1");
 
@@ -100,7 +101,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         this.vbase2id = (fields[15].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[15].replace(String.valueOf(this.enclosure), ""));
 
-        this.requirements = fields[16].replace(String.valueOf(this.enclosure), "");
+        this.requirements = fields[16].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.isresidential = fields[17].replace(String.valueOf(this.enclosure), "").equals("1");
 
@@ -117,7 +118,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
             this.organisationid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.shortdescription = fields[19].replace(String.valueOf(this.enclosure), "");
+        this.shortdescription = fields[19].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.issharedinternalcontactpublic = fields[20].replace(String.valueOf(this.enclosure), "").equals("1");
 
@@ -159,7 +160,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
             System.out.println("Could not pars Timestamp specificstartdate " + fields[24].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        this.title = fields[25].replace(String.valueOf(this.enclosure), "");
+        this.title = fields[25].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[26].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -579,7 +580,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.benefits == null ? "" : this.benefits);
+        recordStringBuffer.append(this.benefits == null ? "" : StringEscapeUtils.escapeSql(this.benefits).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -594,7 +595,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isvirtualremote != null && isvirtualremote ? 1 : 0);
+        recordStringBuffer.append(this.isvirtualremote != null && this.isvirtualremote ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -604,12 +605,12 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(locationspubliclyviewable != null && locationspubliclyviewable ? 1 : 0);
+        recordStringBuffer.append(this.locationspubliclyviewable != null && this.locationspubliclyviewable ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.description == null ? "" : this.description);
+        recordStringBuffer.append(this.description == null ? "" : StringEscapeUtils.escapeSql(this.description).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -619,37 +620,37 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive != null && isactive ? 1 : 0);
+        recordStringBuffer.append(this.isactive != null && this.isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usesharedintcondets != null && usesharedintcondets ? 1 : 0);
+        recordStringBuffer.append(this.usesharedintcondets != null && this.usesharedintcondets ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.ownid == null ? "" : this.ownid);
+        recordStringBuffer.append(this.ownid == null ? "" : StringEscapeUtils.escapeSql(this.ownid).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isdatespecific != null && isdatespecific ? 1 : 0);
+        recordStringBuffer.append(this.isdatespecific != null && this.isdatespecific ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usesharedpubliccontactdetails != null && usesharedpubliccontactdetails ? 1 : 0);
+        recordStringBuffer.append(this.usesharedpubliccontactdetails != null && this.usesharedpubliccontactdetails ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(publishtodoit != null && publishtodoit ? 1 : 0);
+        recordStringBuffer.append(this.publishtodoit != null && this.publishtodoit ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isoneoff != null && isoneoff ? 1 : 0);
+        recordStringBuffer.append(this.isoneoff != null && this.isoneoff ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -659,12 +660,12 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.requirements == null ? "" : this.requirements);
+        recordStringBuffer.append(this.requirements == null ? "" : StringEscapeUtils.escapeSql(this.requirements).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isresidential != null && isresidential ? 1 : 0);
+        recordStringBuffer.append(this.isresidential != null && this.isresidential ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -674,12 +675,12 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.shortdescription == null ? "" : this.shortdescription);
+        recordStringBuffer.append(this.shortdescription == null ? "" : StringEscapeUtils.escapeSql(this.shortdescription).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(issharedinternalcontactpublic != null && issharedinternalcontactpublic ? 1 : 0);
+        recordStringBuffer.append(this.issharedinternalcontactpublic != null && this.issharedinternalcontactpublic ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -704,7 +705,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.title == null ? "" : this.title);
+        recordStringBuffer.append(this.title == null ? "" : StringEscapeUtils.escapeSql(this.title).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -724,7 +725,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -49,13 +50,13 @@ public class Addresses implements CSVable, ContainsVb2id {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.address3 = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.address3 = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.directions = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.directions = fields[1].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.postcode = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.postcode = fields[2].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.town = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.town = fields[3].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.vbase2id = (fields[4].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[4].replace(String.valueOf(this.enclosure), ""));
 
@@ -140,9 +141,9 @@ public class Addresses implements CSVable, ContainsVb2id {
 
         this.version = (fields[13].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[13].replace(String.valueOf(this.enclosure), ""));
 
-        this.address1 = fields[14].replace(String.valueOf(this.enclosure), "");
+        this.address1 = fields[14].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.address2 = fields[15].replace(String.valueOf(this.enclosure), "");
+        this.address2 = fields[15].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
     }
 
@@ -324,22 +325,22 @@ public class Addresses implements CSVable, ContainsVb2id {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.address3 == null ? "" : this.address3);
+        recordStringBuffer.append(this.address3 == null ? "" : StringEscapeUtils.escapeSql(this.address3).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.directions == null ? "" : this.directions);
+        recordStringBuffer.append(this.directions == null ? "" : StringEscapeUtils.escapeSql(this.directions).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.postcode == null ? "" : this.postcode);
+        recordStringBuffer.append(this.postcode == null ? "" : StringEscapeUtils.escapeSql(this.postcode).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.town == null ? "" : this.town);
+        recordStringBuffer.append(this.town == null ? "" : StringEscapeUtils.escapeSql(this.town).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -374,7 +375,7 @@ public class Addresses implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -394,12 +395,12 @@ public class Addresses implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.address1 == null ? "" : this.address1);
+        recordStringBuffer.append(this.address1 == null ? "" : StringEscapeUtils.escapeSql(this.address1).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.address2 == null ? "" : this.address2);
+        recordStringBuffer.append(this.address2 == null ? "" : StringEscapeUtils.escapeSql(this.address2).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

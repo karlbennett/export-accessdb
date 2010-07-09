@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -75,17 +76,17 @@ public class Volunteers implements CSVable, ContainsVb2id {
             System.out.println("Could not pars Timestamp dateofbirth " + fields[0].replace(String.valueOf(this.enclosure), "") + " for table " + this.getClass().getName() + ". Error: " + e.getMessage());
         }
 
-        this.disabilitydetails = fields[1].replace(String.valueOf(this.enclosure), "");
+        this.disabilitydetails = fields[1].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.evecommitment = (fields[2].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[2].replace(String.valueOf(this.enclosure), ""));
 
-        this.preferredname = fields[3].replace(String.valueOf(this.enclosure), "");
+        this.preferredname = fields[3].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.firstname = fields[4].replace(String.valueOf(this.enclosure), "");
+        this.firstname = fields[4].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.qualificationsandexperience = fields[5].replace(String.valueOf(this.enclosure), "");
+        this.qualificationsandexperience = fields[5].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
-        this.howhearddetails = fields[6].replace(String.valueOf(this.enclosure), "");
+        this.howhearddetails = fields[6].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.vbase2id = (fields[7].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[7].replace(String.valueOf(this.enclosure), ""));
 
@@ -117,7 +118,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
             this.agerangeid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.lastname = fields[11].replace(String.valueOf(this.enclosure), "");
+        this.lastname = fields[11].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[12].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -145,7 +146,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
             this.availabilitystatusid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.othermotivations = fields[14].replace(String.valueOf(this.enclosure), "");
+        this.othermotivations = fields[14].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[15].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -173,7 +174,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
             this.disabilitystatusid = UUID.fromString(uuidStringBuffer.toString());
         }
 
-        this.ownid = fields[17].replace(String.valueOf(this.enclosure), "");
+        this.ownid = fields[17].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[18].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -705,7 +706,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.disabilitydetails == null ? "" : this.disabilitydetails);
+        recordStringBuffer.append(this.disabilitydetails == null ? "" : StringEscapeUtils.escapeSql(this.disabilitydetails).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -715,22 +716,22 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.preferredname == null ? "" : this.preferredname);
+        recordStringBuffer.append(this.preferredname == null ? "" : StringEscapeUtils.escapeSql(this.preferredname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.firstname == null ? "" : this.firstname);
+        recordStringBuffer.append(this.firstname == null ? "" : StringEscapeUtils.escapeSql(this.firstname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.qualificationsandexperience == null ? "" : this.qualificationsandexperience);
+        recordStringBuffer.append(this.qualificationsandexperience == null ? "" : StringEscapeUtils.escapeSql(this.qualificationsandexperience).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.howhearddetails == null ? "" : this.howhearddetails);
+        recordStringBuffer.append(this.howhearddetails == null ? "" : StringEscapeUtils.escapeSql(this.howhearddetails).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -740,7 +741,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive != null && isactive ? 1 : 0);
+        recordStringBuffer.append(this.isactive != null && this.isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -755,7 +756,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.lastname == null ? "" : this.lastname);
+        recordStringBuffer.append(this.lastname == null ? "" : StringEscapeUtils.escapeSql(this.lastname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -770,7 +771,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.othermotivations == null ? "" : this.othermotivations);
+        recordStringBuffer.append(this.othermotivations == null ? "" : StringEscapeUtils.escapeSql(this.othermotivations).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -785,7 +786,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.ownid == null ? "" : this.ownid);
+        recordStringBuffer.append(this.ownid == null ? "" : StringEscapeUtils.escapeSql(this.ownid).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -850,7 +851,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -870,7 +871,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(agreestobecontacted != null && agreestobecontacted ? 1 : 0);
+        recordStringBuffer.append(this.agreestobecontacted != null && this.agreestobecontacted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

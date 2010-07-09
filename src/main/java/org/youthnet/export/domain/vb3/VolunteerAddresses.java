@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +41,7 @@ public class VolunteerAddresses implements CSVable {
 
         this.isdefaultaddress = fields[1].replace(String.valueOf(this.enclosure), "").equals("1");
 
-        this.name = fields[2].replace(String.valueOf(this.enclosure), "");
+        this.name = fields[2].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         if (fields[3].replace(String.valueOf(this.enclosure), "").equals("")) {
             uuidStringBuffer.setLength(0);
@@ -149,17 +150,17 @@ public class VolunteerAddresses implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isactive != null && isactive ? 1 : 0);
+        recordStringBuffer.append(this.isactive != null && this.isactive ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(isdefaultaddress != null && isdefaultaddress ? 1 : 0);
+        recordStringBuffer.append(this.isdefaultaddress != null && this.isdefaultaddress ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.name == null ? "" : this.name);
+        recordStringBuffer.append(this.name == null ? "" : StringEscapeUtils.escapeSql(this.name).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

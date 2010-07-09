@@ -1,6 +1,7 @@
 package org.youthnet.export.domain.vb3;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -52,7 +53,7 @@ public class VBase3Preference implements CSVable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
 
-        this.copyright = fields[0].replace(String.valueOf(this.enclosure), "");
+        this.copyright = fields[0].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.dataschemaversion = (fields[1].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[1].replace(String.valueOf(this.enclosure), ""));
 
@@ -160,7 +161,7 @@ public class VBase3Preference implements CSVable {
 
         this.version = (fields[16].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[16].replace(String.valueOf(this.enclosure), ""));
 
-        this.applicationname = fields[17].replace(String.valueOf(this.enclosure), "");
+        this.applicationname = fields[17].replace(String.valueOf(this.enclosure), "").replace("[[DELM]]", String.valueOf(this.delimiter)).replace("[[ENCL]]", String.valueOf(this.enclosure));
 
         this.colourtheme = (fields[18].replace(String.valueOf(this.enclosure), "").equals("")) ? null : Long.valueOf(fields[18].replace(String.valueOf(this.enclosure), ""));
 
@@ -371,7 +372,7 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.copyright == null ? "" : this.copyright);
+        recordStringBuffer.append(this.copyright == null ? "" : StringEscapeUtils.escapeSql(this.copyright).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -396,27 +397,27 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usedefaultcountry != null && usedefaultcountry ? 1 : 0);
+        recordStringBuffer.append(this.usedefaultcountry != null && this.usedefaultcountry ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usedefaultcounty != null && usedefaultcounty ? 1 : 0);
+        recordStringBuffer.append(this.usedefaultcounty != null && this.usedefaultcounty ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingaudionotification != null && usingaudionotification ? 1 : 0);
+        recordStringBuffer.append(this.usingaudionotification != null && this.usingaudionotification ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usinglognotification != null && usinglognotification ? 1 : 0);
+        recordStringBuffer.append(this.usinglognotification != null && this.usinglognotification ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(usingvisualnotification != null && usingvisualnotification ? 1 : 0);
+        recordStringBuffer.append(this.usingvisualnotification != null && this.usingvisualnotification ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -436,7 +437,7 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(deleted != null && deleted ? 1 : 0);
+        recordStringBuffer.append(this.deleted != null && this.deleted ? 1 : 0);
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -456,7 +457,7 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.applicationname == null ? "" : this.applicationname);
+        recordStringBuffer.append(this.applicationname == null ? "" : StringEscapeUtils.escapeSql(this.applicationname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
