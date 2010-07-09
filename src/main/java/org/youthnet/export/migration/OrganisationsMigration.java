@@ -98,7 +98,7 @@ public class OrganisationsMigration implements Migratable {
                             lookupsMap.get("country").get("uk").getId() : null);
                     addresses.setCountyId(lookupsMap.get("county") != null &&
                             lookupsMap.get("county").get(tblOrg.getCounty().toLowerCase()) != null ?
-                            lookupsMap.get("country").get(tblOrg.getCounty().toLowerCase()).getId() : null);
+                            lookupsMap.get("county").get(tblOrg.getCounty().toLowerCase()).getId() : null);
                     addresses.setPostCode(tblOrg.getPostcode()); // Migrate field.
                     addresses.setTown(tblOrg.getTown()); // Migrate field.
                     addresses.setDirections(tblOrg.getDirections()); // Migrate field.
@@ -193,7 +193,7 @@ public class OrganisationsMigration implements Migratable {
                             lookupsMap.get("country").get("uk").getId() : null);
                     contactAddresses.setCountyId(lookupsMap.get("county") != null &&
                             lookupsMap.get("county").get(tblOrg.getContactcounty().toLowerCase()) != null ?
-                            lookupsMap.get("country").get(tblOrg.getContactcounty().toLowerCase()).getId() : null);
+                            lookupsMap.get("county").get(tblOrg.getContactcounty().toLowerCase()).getId() : null);
                     contactAddresses.setPostCode(tblOrg.getContactpostcode()); // Migrate field.
                     contactAddresses.setTown(tblOrg.getContacttown()); // Migrate field.
                     contactAddresses.setVbase2Id(organisations.getVbase2Id()); // Migrate field.
