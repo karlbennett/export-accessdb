@@ -1,7 +1,6 @@
 package org.youthnet.export.domain.vb3;
 
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -243,7 +242,7 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.sqlquery == null ? "" : StringEscapeUtils.escapeSql(this.sqlquery).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.sqlquery == null ? "" : this.sqlquery.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -288,12 +287,12 @@ public class QueriesForViews implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.hqlquery == null ? "" : StringEscapeUtils.escapeSql(this.hqlquery).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.hqlquery == null ? "" : this.hqlquery.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.queryname == null ? "" : StringEscapeUtils.escapeSql(this.queryname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.queryname == null ? "" : this.queryname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

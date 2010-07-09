@@ -1,7 +1,6 @@
 package org.youthnet.export.domain.vb3;
 
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.sql.Timestamp;
@@ -372,7 +371,7 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.copyright == null ? "" : StringEscapeUtils.escapeSql(this.copyright).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.copyright == null ? "" : this.copyright.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -457,7 +456,7 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.applicationname == null ? "" : StringEscapeUtils.escapeSql(this.applicationname).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.applicationname == null ? "" : this.applicationname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

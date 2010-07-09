@@ -1,7 +1,6 @@
 package org.youthnet.export.domain.vb3;
 
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.CSVable;
 
 import java.text.SimpleDateFormat;
@@ -149,7 +148,7 @@ public class VolunteerContactEmails implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.email == null ? "" : StringEscapeUtils.escapeSql(this.email).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.email == null ? "" : this.email.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

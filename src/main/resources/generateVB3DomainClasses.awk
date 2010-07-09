@@ -75,7 +75,6 @@ if ("Timestamp" in types) {
 }
 print "import java.util.List;" >> tableName ".java";
 print "import java.util.ArrayList;" >> tableName ".java";
-print "import org.apache.commons.lang.StringEscapeUtils;" >> tableName ".java";
 printf "\n\n" >> tableName ".java";
 
 printf "public class " tableName " implements CSVable" >> tableName ".java";
@@ -212,7 +211,7 @@ for (i = 0; i < methoddNum; i++) {
     } else if (methods[i, 1] == "Boolean") {
         print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " != null && this." tolower(methods[i, 0]) " ? 1 : 0);" >> tableName ".java";
     } else if (methods[i, 1] == "String") {
-        print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" : StringEscapeUtils.escapeSql(this." tolower(methods[i, 0]) ").replace(String.valueOf(this.delimiter), \"[[DELM]]\").replace(String.valueOf(this.enclosure), \"[[ENCL]]\"));" >> tableName ".java";
+        print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" : this." tolower(methods[i, 0]) ".replace(String.valueOf(this.delimiter), \"[[DELM]]\").replace(String.valueOf(this.enclosure), \"[[ENCL]]\"));" >> tableName ".java";
     } else print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" : this." tolower(methods[i, 0]) ");" >> tableName ".java";
     print "\t\trecordStringBuffer.append(this.enclosure);" >> tableName ".java";
     print "\t\trecordStringBuffer.append(this.delimiter);" >> tableName ".java";

@@ -37,7 +37,7 @@ public class LookupsMigration implements Migratable {
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains("INSERT INTO Lookups")) {
                     if (line.contains("AppliesToVolunteers, AppliesToOrganisations, AppliesToOpportunities")) {
-                        line = line.replace("(", "").replace("'", "").replace(")", "");
+                        line = line.replace("(", "").replace("'", "").replace(")", "").replace(";", "");
                         lineArray = line.split(",");
                         lookups = new Lookups();
                         lookups.setDeleted(lineArray[11].split(" ")[2].trim().equals("1"));
@@ -66,7 +66,7 @@ public class LookupsMigration implements Migratable {
 //                        lookups.setOwnerId(UUID.fromString(uuidStringBuffer.toString()));
 
                     } else {
-                        line = line.replace("(", "").replace("'", "").replace(")", "");
+                        line = line.replace("(", "").replace("'", "").replace(")", "").replace(";", "");
                         lineArray = line.split(",");
                         lookups = new Lookups();
                         lookups.setDeleted(lineArray[7].split(" ")[2].trim().equals("1"));
@@ -82,7 +82,7 @@ public class LookupsMigration implements Migratable {
                         uuidStringBuffer.insert(18, '-');
                         uuidStringBuffer.insert(23, '-');
                         lookups.setId(UUID.fromString(uuidStringBuffer.toString()));
-                        lookups.setValue(lineArray[14]);
+                        lookups.setValue(lineArray[14].trim());
                     }
                     bufferedWriter.write(lookups.getRecord() + "\n");
                     duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
