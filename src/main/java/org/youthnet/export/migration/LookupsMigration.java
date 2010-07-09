@@ -4,10 +4,7 @@ import org.youthnet.export.domain.vb25.*;
 import org.youthnet.export.domain.vb3.Lookups;
 import org.youthnet.export.io.CSVFileReader;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,14 +17,77 @@ public class LookupsMigration implements Migratable {
 
     @Override
     public void migrate(String csvDir, String outputDir) {
+        BufferedReader bufferedReader = null;
+
         CSVFileReader csvFileReader = null;
+
         BufferedWriter bufferedWriter = null;
         try {
+            bufferedReader = new BufferedReader(new InputStreamReader(
+                    getClass().getClassLoader().getResourceAsStream("lookup.sql")));
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluActivity.csv"));
+
             bufferedWriter = new BufferedWriter(new FileWriter(outputDir + "Lookups.csv"));
 
-            Map<String, Byte> duplicateMap = new HashMap<String, Byte>();
+            String line = "";
             Lookups lookups = null;
+            Map<String, Byte> duplicateMap = new HashMap<String, Byte>();
+            String[] lineArray = null;
+            StringBuffer uuidStringBuffer = new StringBuffer();
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.contains("INSERT INTO Lookups")) {
+                    if (line.contains("AppliesToVolunteers, AppliesToOrganisations, AppliesToOpportunities")) {
+                        line = line.replace("(", "").replace("'", "").replace(")", "");
+                        lineArray = line.split(",");
+                        lookups = new Lookups();
+                        lookups.setDeleted(lineArray[11].split(" ")[2].trim().equals("1"));
+                        lookups.setVersion(Long.valueOf(lineArray[12].trim()));
+                        lookups.setDiscriminator(lineArray[13].trim());
+                        lookups.setSortOrder(Long.valueOf(lineArray[14].trim()));
+                        lookups.setIsActive(lineArray[15].trim().equals("1"));
+                        lookups.setIsUserEditable(lineArray[16].trim().equals("1"));
+                        uuidStringBuffer.setLength(0);
+                        uuidStringBuffer.append(lineArray[17].trim().replace("hextoraw", ""));
+                        uuidStringBuffer.insert(8, '-');
+                        uuidStringBuffer.insert(13, '-');
+                        uuidStringBuffer.insert(18, '-');
+                        uuidStringBuffer.insert(23, '-');
+                        lookups.setId(UUID.fromString(uuidStringBuffer.toString()));
+                        lookups.setValue(lineArray[18].trim());
+                        lookups.setAppliesToVolunteers(lineArray[19].trim().equals("1"));
+                        lookups.setAppliesToOrganisations(lineArray[20].trim().equals("1"));
+                        lookups.setAppliesToOpportunities(lineArray[21].trim().equals("1"));
+//                        uuidStringBuffer.setLength(0);
+//                        uuidStringBuffer.append(lineArray[22].trim().replace("hextoraw", ""));
+//                        uuidStringBuffer.insert(8, '-');
+//                        uuidStringBuffer.insert(13, '-');
+//                        uuidStringBuffer.insert(18, '-');
+//                        uuidStringBuffer.insert(23, '-');
+//                        lookups.setOwnerId(UUID.fromString(uuidStringBuffer.toString()));
+
+                    } else {
+                        line = line.replace("(", "").replace("'", "").replace(")", "");
+                        lineArray = line.split(",");
+                        lookups = new Lookups();
+                        lookups.setDeleted(lineArray[7].split(" ")[2].trim().equals("1"));
+                        lookups.setVersion(Long.valueOf(lineArray[8].trim()));
+                        lookups.setDiscriminator(lineArray[9].trim());
+                        lookups.setSortOrder(Long.valueOf(lineArray[10].trim()));
+                        lookups.setIsActive(lineArray[11].trim().equals("1"));
+                        lookups.setIsUserEditable(lineArray[12].trim().equals("1"));
+                        uuidStringBuffer.setLength(0);
+                        uuidStringBuffer.append(lineArray[13].trim().replace("hextoraw", ""));
+                        uuidStringBuffer.insert(8, '-');
+                        uuidStringBuffer.insert(13, '-');
+                        uuidStringBuffer.insert(18, '-');
+                        uuidStringBuffer.insert(23, '-');
+                        lookups.setId(UUID.fromString(uuidStringBuffer.toString()));
+                        lookups.setValue(lineArray[14]);
+                    }
+                    bufferedWriter.write(lookups.getRecord() + "\n");
+                    duplicateMap.put(lookups.getValue().toLowerCase(), (byte) 1);
+                }
+            }
 
             TbluActivity tbluActivity = null;
             String record = "";
@@ -54,6 +114,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluOppArrangements tbluOppArrangements = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluOppArrangements.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -75,6 +136,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluDriving tbluDriving = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluDriving.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -96,6 +158,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluGeographicalArea tbluGeographicalArea = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluGeographicalArea.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -117,6 +180,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluHowHeard tbluHowHeard = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluHowHeard.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -138,6 +202,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluNationality tbluNationality = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluNationality.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -159,6 +224,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluReligion tbluReligion = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluReligion.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -180,6 +246,7 @@ public class LookupsMigration implements Migratable {
 
             duplicateMap = new HashMap<String, Byte>();
             TbluSpecial tbluSpecial = null;
+            csvFileReader.close();
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tbluSpecial.csv"));
             record = "";
             while ((record = csvFileReader.readRecord()) != null) {
@@ -203,6 +270,7 @@ public class LookupsMigration implements Migratable {
             System.out.println("Error while migrating lookups. Error:" + e.getMessage());
         } finally {
             try {
+                if (bufferedReader != null) bufferedReader.close();
                 if (csvFileReader != null) csvFileReader.close();
                 if (bufferedWriter != null) {
                     bufferedWriter.flush();
