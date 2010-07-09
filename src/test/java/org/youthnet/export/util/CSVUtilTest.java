@@ -30,7 +30,7 @@ public class CSVUtilTest {
                 tblActivityLogs.get(lastIndex).getSubject());
 
 
-//        assertEquals("list size 114678", 114678, tblActivityLogs.size());
+        assertEquals("list size 114678", 114678, tblActivityLogs.size());
 
     }
 
@@ -39,7 +39,7 @@ public class CSVUtilTest {
         List<TblVol> tblVol = CSVUtil.createDomainList("src/test/resources/tblVol.csv",
                 TblVol.class);
 
-//        assertEquals("list size 33349", 33349, tblVol.size());
+        assertEquals("list size 33349", 33349, tblVol.size());
 
     }
 }

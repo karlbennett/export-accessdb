@@ -47,6 +47,7 @@ public class Lookups implements CSVable, ContainsVb2id, ContainsDiscriminator, C
 
     public void init(String record) {
         String[] fields = record.split("\\" + String.valueOf(this.delimiter));
+        if(fields.length < 19) System.out.println(record);
         StringBuffer uuidStringBuffer = new StringBuffer();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
