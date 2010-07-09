@@ -38,11 +38,17 @@ public class VolunteersMigration implements Migratable {
     public VolunteersMigration(Map<String, Map<String, Lookups>> lookupsMap) {
         this.lookupsMap = lookupsMap;
 
-        availabilityStatusMap.put("available", lookupsMap.get("availabilitystatus").get("available").getId());
-        availabilityStatusMap.put("registered an interest", lookupsMap.get("availabilitystatus").get("available").getId());
-        availabilityStatusMap.put("not available", lookupsMap.get("availabilitystatus").get("unavailable").getId());
-        availabilityStatusMap.put("placed", lookupsMap.get("availabilitystatus").get("unknown").getId());
-        availabilityStatusMap.put("special skills", lookupsMap.get("availabilitystatus").get("unknown").getId());
+        availabilityStatusMap = new HashMap<String, UUID>();
+        availabilityStatusMap.put("available", lookupsMap.get("availabilitystatus").get("available") != null ?
+                lookupsMap.get("availabilitystatus").get("available").getId() : null);
+        availabilityStatusMap.put("registered an interest", lookupsMap.get("availabilitystatus").get("available") != null ?
+                lookupsMap.get("availabilitystatus").get("available").getId() : null);
+        availabilityStatusMap.put("not available", lookupsMap.get("availabilitystatus").get("unavailable") != null ?
+                lookupsMap.get("availabilitystatus").get("unavailable").getId() : null);
+        availabilityStatusMap.put("placed", lookupsMap.get("availabilitystatus").get("unknown") != null ?
+                lookupsMap.get("availabilitystatus").get("unknown").getId() : null);
+        availabilityStatusMap.put("special skills", lookupsMap.get("availabilitystatus").get("unknown") != null ?
+                lookupsMap.get("availabilitystatus").get("unknown").getId() : null);
     }
 
     @Override
@@ -136,7 +142,7 @@ public class VolunteersMigration implements Migratable {
                 volunteers.setTitleId(lookupsMap.get("title") != null &&
                         lookupsMap.get("title").get(tblVol.getTitle().toLowerCase()) != null ?
                         lookupsMap.get("title").get(tblVol.getTitle().toLowerCase()).getId() :
-                        lookupsMap.get("title").get("-").getId());
+                        null); // TODO put back to lookupsMap.get("title").get("-").getId()
                 volunteers.setFirstName(tblVol.getFirstname());
                 volunteers.setLastName(tblVol.getLastname());
                 volunteers.setPreferredName(tblVol.getSalutation() != null &&

@@ -265,7 +265,7 @@ public class OpportunitiesMigration implements Migratable {
                         policyEntry.setPolicyStatusId(lookupsMap.get("arrangementstatus") != null &&
                             lookupsMap.get("arrangementstatus").get(arrangement.getDetails().toLowerCase()) != null ?
                             lookupsMap.get("arrangementstatus").get(arrangement.getDetails().toLowerCase()).getId() :
-                                lookupsMap.get("arrangementstatus").get("-").getId());
+                                null); // TODO put back to lookupsMap.get("arrangementstatus").get("-").getId() 
                         policyEntry.setComments(arrangement.getDetails());
 
                         opportunityArrPolicyEntry.setOpportunityId(opportunities.getId());
