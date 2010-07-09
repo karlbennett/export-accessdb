@@ -16,7 +16,7 @@ public class OrganisationActivityLogs implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 10;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private UUID organisationid;
@@ -241,19 +241,19 @@ public class OrganisationActivityLogs implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("OrganisationId");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("ActivityLogId");
-            this.columnNames.add("ContactId");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"OrganisationId", "UUID"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"ActivityLogId", "UUID"});
+            this.columnNames.add(new String[]{"ContactId", "UUID"});
         }
 
         return this.columnNames;

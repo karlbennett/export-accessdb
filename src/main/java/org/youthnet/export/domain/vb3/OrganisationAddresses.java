@@ -14,7 +14,7 @@ public class OrganisationAddresses implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 12;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String website;
@@ -209,21 +209,21 @@ public class OrganisationAddresses implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Website");
-            this.columnNames.add("AddressId");
-            this.columnNames.add("OrgAddConInfoId");
-            this.columnNames.add("Directions");
-            this.columnNames.add("Email");
-            this.columnNames.add("EmergencyTelephone");
-            this.columnNames.add("Fax");
-            this.columnNames.add("FriendlyName");
-            this.columnNames.add("IsDefaultAddress");
-            this.columnNames.add("OrganisationName");
-            this.columnNames.add("Telephone");
-            this.columnNames.add("UseCustomOrganisationName");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"Website", "String"});
+            this.columnNames.add(new String[]{"AddressId", "UUID"});
+            this.columnNames.add(new String[]{"OrgAddConInfoId", "UUID"});
+            this.columnNames.add(new String[]{"Directions", "String"});
+            this.columnNames.add(new String[]{"Email", "String"});
+            this.columnNames.add(new String[]{"EmergencyTelephone", "String"});
+            this.columnNames.add(new String[]{"Fax", "String"});
+            this.columnNames.add(new String[]{"FriendlyName", "String"});
+            this.columnNames.add(new String[]{"IsDefaultAddress", "Boolean"});
+            this.columnNames.add(new String[]{"OrganisationName", "String"});
+            this.columnNames.add(new String[]{"Telephone", "String"});
+            this.columnNames.add(new String[]{"UseCustomOrganisationName", "Boolean"});
         }
 
         return this.columnNames;

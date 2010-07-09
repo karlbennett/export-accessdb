@@ -455,9 +455,12 @@ public class Smasher {
         classStringBuffer.append("public class ");
         classStringBuffer.append(className);
         classStringBuffer.append(" implements CSVable");
-        if (hasVid) classStringBuffer.append(", ContainsVid"); // If this class contains a vid implement the supporting interface.
-        if (hasOid) classStringBuffer.append(", ContainsOid"); // If this class contains an Oid implement the supporting interface.
-        if (hasOrgid) classStringBuffer.append(", ContainsOrgid"); // If this class contains an Orgid implement the supporting interface.
+        if (hasVid)
+            classStringBuffer.append(", ContainsVid"); // If this class contains a vid implement the supporting interface.
+        if (hasOid)
+            classStringBuffer.append(", ContainsOid"); // If this class contains an Oid implement the supporting interface.
+        if (hasOrgid)
+            classStringBuffer.append(", ContainsOrgid"); // If this class contains an Orgid implement the supporting interface.
         classStringBuffer.append(" {\n\n\tprivate char delimiter = '");
         classStringBuffer.append(CSV_DELIMITER);
         classStringBuffer.append("';\n");
@@ -467,7 +470,7 @@ public class Smasher {
         classStringBuffer.append("\tpublic static final int COLUMN_NUM = ");
         classStringBuffer.append(attributeNum);
         classStringBuffer.append(";\n\n");
-        classStringBuffer.append("\tprivate List<String> columnNames = null;\n\n");
+        classStringBuffer.append("\tprivate List<String[]> columnNames = null;\n\n");
         classStringBuffer.append("\tprivate StringBuffer record = new StringBuffer();\n\n");
 
         StringBuffer initAttributesStringBuffer = new StringBuffer();
@@ -612,11 +615,18 @@ public class Smasher {
         classStringBuffer.append("\tpublic Integer getColumnNumber() {\n\t\treturn COLUMN_NUM;\n\t}\n\n");
 
         // Add column name getter.
-        classStringBuffer.append("\tpublic List<String> getColumnNames() {\n\t\tif (this.columnNames == null) {\n\t\t\tcolumnNames = new ArrayList<String>();\n");
+        classStringBuffer.append("\tpublic List<String[]> getColumnNames() {\n\t\tif (this.columnNames == null) {\n\t\t\tcolumnNames = new ArrayList<String[]>();\n");
         for (Column column : columns) {
-            classStringBuffer.append("\t\t\tcolumnNames.add(\"");
+            classStringBuffer.append("\t\t\tcolumnNames.add(new String[]{\"");
             classStringBuffer.append(column.getName());
-            classStringBuffer.append("\");\n");
+            classStringBuffer.append(", ");
+            try {
+                classStringBuffer.append(JavaCodeUtil.javaTypeForSQLType(column.getSQLType()).getSimpleName());
+            } catch (SQLException e) {
+                System.out.println("Could not get SQL type for for column " + column.getName() + " in table "
+                        + tableName + ". Error: " + e.getMessage());
+            }
+            classStringBuffer.append("\"});\n");
         }
         classStringBuffer.append("\t\t}\n\n");
         classStringBuffer.append("\t\treturn columnNames;");

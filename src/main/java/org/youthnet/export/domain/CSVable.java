@@ -20,7 +20,7 @@ public interface CSVable {
 
     public Integer getColumnNumber();
 
-    public List<String> getColumnNames();
+    public List<String[]> getColumnNames();
 
     public String getRecord();
 }

@@ -13,7 +13,7 @@ public class UsysQBFOppSpecial implements CSVable {
 
     public static final int COLUMN_NUM = 2;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -64,11 +64,11 @@ public class UsysQBFOppSpecial implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("User");
-            columnNames.add("Special");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"User, String"});
+            columnNames.add(new String[]{"Special, String"});
         }
 
         return columnNames;

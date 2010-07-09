@@ -14,7 +14,7 @@ public class VolunteerAddresses implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 5;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private Boolean isactive;
@@ -132,14 +132,14 @@ public class VolunteerAddresses implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("IsActive");
-            this.columnNames.add("IsDefaultAddress");
-            this.columnNames.add("Name");
-            this.columnNames.add("AddressId");
-            this.columnNames.add("VolunteerId");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"IsActive", "Boolean"});
+            this.columnNames.add(new String[]{"IsDefaultAddress", "Boolean"});
+            this.columnNames.add(new String[]{"Name", "String"});
+            this.columnNames.add(new String[]{"AddressId", "UUID"});
+            this.columnNames.add(new String[]{"VolunteerId", "UUID"});
         }
 
         return this.columnNames;

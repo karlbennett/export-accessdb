@@ -16,7 +16,7 @@ public class TblActivityLog implements CSVable, ContainsVid, ContainsOid, Contai
 
     public static final int COLUMN_NUM = 25;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -241,34 +241,34 @@ public class TblActivityLog implements CSVable, ContainsVid, ContainsOid, Contai
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("LID");
-            columnNames.add("Activity");
-            columnNames.add("Type");
-            columnNames.add("VID");
-            columnNames.add("OID");
-            columnNames.add("OrgID");
-            columnNames.add("LinkedOID");
-            columnNames.add("Subject");
-            columnNames.add("Owner");
-            columnNames.add("StartTime");
-            columnNames.add("EndTime");
-            columnNames.add("Alarm");
-            columnNames.add("AlarmStartTime");
-            columnNames.add("AlarmPeriod");
-            columnNames.add("AllDayEvent");
-            columnNames.add("Correspondence");
-            columnNames.add("DateCorrSent");
-            columnNames.add("LinkedLID");
-            columnNames.add("BackLID");
-            columnNames.add("ShowInCalendar");
-            columnNames.add("EstTotalHours");
-            columnNames.add("Notes");
-            columnNames.add("DateFirstEntered");
-            columnNames.add("DateLastUpdated");
-            columnNames.add("LastUpdatedBy");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"LID, Long"});
+            columnNames.add(new String[]{"Activity, String"});
+            columnNames.add(new String[]{"Type, String"});
+            columnNames.add(new String[]{"VID, Long"});
+            columnNames.add(new String[]{"OID, Long"});
+            columnNames.add(new String[]{"OrgID, Long"});
+            columnNames.add(new String[]{"LinkedOID, Long"});
+            columnNames.add(new String[]{"Subject, String"});
+            columnNames.add(new String[]{"Owner, String"});
+            columnNames.add(new String[]{"StartTime, Timestamp"});
+            columnNames.add(new String[]{"EndTime, Timestamp"});
+            columnNames.add(new String[]{"Alarm, Boolean"});
+            columnNames.add(new String[]{"AlarmStartTime, Timestamp"});
+            columnNames.add(new String[]{"AlarmPeriod, String"});
+            columnNames.add(new String[]{"AllDayEvent, Boolean"});
+            columnNames.add(new String[]{"Correspondence, String"});
+            columnNames.add(new String[]{"DateCorrSent, Timestamp"});
+            columnNames.add(new String[]{"LinkedLID, Long"});
+            columnNames.add(new String[]{"BackLID, Long"});
+            columnNames.add(new String[]{"ShowInCalendar, Boolean"});
+            columnNames.add(new String[]{"EstTotalHours, Short"});
+            columnNames.add(new String[]{"Notes, String"});
+            columnNames.add(new String[]{"DateFirstEntered, Timestamp"});
+            columnNames.add(new String[]{"DateLastUpdated, Timestamp"});
+            columnNames.add(new String[]{"LastUpdatedBy, String"});
         }
 
         return columnNames;

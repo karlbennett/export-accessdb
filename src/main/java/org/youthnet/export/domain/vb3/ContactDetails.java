@@ -16,7 +16,7 @@ public class ContactDetails implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 24;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String customorgname;
@@ -406,33 +406,33 @@ public class ContactDetails implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("CustomOrgName");
-            this.columnNames.add("CustomTelephone");
-            this.columnNames.add("CustomWebAddress");
-            this.columnNames.add("WebAddressSource");
-            this.columnNames.add("EmailSource");
-            this.columnNames.add("AddressId");
-            this.columnNames.add("FaxSource");
-            this.columnNames.add("ContactId");
-            this.columnNames.add("TelephoneSource");
-            this.columnNames.add("OrganisationAddressId");
-            this.columnNames.add("UseCustomAddress");
-            this.columnNames.add("OrgContactId");
-            this.columnNames.add("UseCustomOrgName");
-            this.columnNames.add("UseCustomPerson");
-            this.columnNames.add("UseVuoDetails");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("CustomEmail");
-            this.columnNames.add("CustomFax");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"CustomOrgName", "String"});
+            this.columnNames.add(new String[]{"CustomTelephone", "String"});
+            this.columnNames.add(new String[]{"CustomWebAddress", "String"});
+            this.columnNames.add(new String[]{"WebAddressSource", "String"});
+            this.columnNames.add(new String[]{"EmailSource", "String"});
+            this.columnNames.add(new String[]{"AddressId", "UUID"});
+            this.columnNames.add(new String[]{"FaxSource", "String"});
+            this.columnNames.add(new String[]{"ContactId", "UUID"});
+            this.columnNames.add(new String[]{"TelephoneSource", "String"});
+            this.columnNames.add(new String[]{"OrganisationAddressId", "UUID"});
+            this.columnNames.add(new String[]{"UseCustomAddress", "Boolean"});
+            this.columnNames.add(new String[]{"OrgContactId", "UUID"});
+            this.columnNames.add(new String[]{"UseCustomOrgName", "Boolean"});
+            this.columnNames.add(new String[]{"UseCustomPerson", "Boolean"});
+            this.columnNames.add(new String[]{"UseVuoDetails", "Boolean"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"CustomEmail", "String"});
+            this.columnNames.add(new String[]{"CustomFax", "String"});
         }
 
         return this.columnNames;

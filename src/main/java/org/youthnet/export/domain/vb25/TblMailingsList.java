@@ -13,7 +13,7 @@ public class TblMailingsList implements CSVable, ContainsVid, ContainsOid, Conta
 
     public static final int COLUMN_NUM = 6;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -88,15 +88,15 @@ public class TblMailingsList implements CSVable, ContainsVid, ContainsOid, Conta
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("MID");
-            columnNames.add("Mailing");
-            columnNames.add("VID");
-            columnNames.add("OID");
-            columnNames.add("OrgID");
-            columnNames.add("EmailPreference");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"MID, Long"});
+            columnNames.add(new String[]{"Mailing, String"});
+            columnNames.add(new String[]{"VID, Long"});
+            columnNames.add(new String[]{"OID, Long"});
+            columnNames.add(new String[]{"OrgID, Long"});
+            columnNames.add(new String[]{"EmailPreference, Boolean"});
         }
 
         return columnNames;

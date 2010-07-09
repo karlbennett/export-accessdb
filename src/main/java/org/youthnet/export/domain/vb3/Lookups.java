@@ -16,7 +16,7 @@ public class Lookups implements CSVable, ContainsVb2id, ContainsDiscriminator, C
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 18;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private Boolean isusereditable;
@@ -318,27 +318,27 @@ public class Lookups implements CSVable, ContainsVb2id, ContainsDiscriminator, C
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("IsUserEditable");
-            this.columnNames.add("LanguageId");
-            this.columnNames.add("OwnerId");
-            this.columnNames.add("SortOrder");
-            this.columnNames.add("VBase2Id");
-            this.columnNames.add("Value");
-            this.columnNames.add("AppliesToOpportunities");
-            this.columnNames.add("AppliesToOrganisations");
-            this.columnNames.add("AppliesToVolunteers");
-            this.columnNames.add("Discriminator");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("IsActive");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"IsUserEditable", "Boolean"});
+            this.columnNames.add(new String[]{"LanguageId", "UUID"});
+            this.columnNames.add(new String[]{"OwnerId", "UUID"});
+            this.columnNames.add(new String[]{"SortOrder", "Long"});
+            this.columnNames.add(new String[]{"VBase2Id", "Long"});
+            this.columnNames.add(new String[]{"Value", "String"});
+            this.columnNames.add(new String[]{"AppliesToOpportunities", "Boolean"});
+            this.columnNames.add(new String[]{"AppliesToOrganisations", "Boolean"});
+            this.columnNames.add(new String[]{"AppliesToVolunteers", "Boolean"});
+            this.columnNames.add(new String[]{"Discriminator", "String"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"IsActive", "Boolean"});
         }
 
         return this.columnNames;

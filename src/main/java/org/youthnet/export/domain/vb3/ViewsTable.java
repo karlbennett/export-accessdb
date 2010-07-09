@@ -16,7 +16,7 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 15;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private Boolean isskills;
@@ -263,24 +263,24 @@ public class ViewsTable implements CSVable, ContainsVb2id, ContainsDiscriminator
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("IsSKills");
-            this.columnNames.add("LookupUpTypesValue");
-            this.columnNames.add("SectionLookup");
-            this.columnNames.add("SectionName");
-            this.columnNames.add("SkillType");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("Discriminator");
-            this.columnNames.add("FieldName");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"IsSKills", "Boolean"});
+            this.columnNames.add(new String[]{"LookupUpTypesValue", "String"});
+            this.columnNames.add(new String[]{"SectionLookup", "String"});
+            this.columnNames.add(new String[]{"SectionName", "String"});
+            this.columnNames.add(new String[]{"SkillType", "String"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"Discriminator", "String"});
+            this.columnNames.add(new String[]{"FieldName", "String"});
         }
 
         return this.columnNames;

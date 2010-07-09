@@ -16,7 +16,7 @@ public class TblOrg implements CSVable, ContainsOrgid {
 
     public static final int COLUMN_NUM = 35;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -277,44 +277,44 @@ public class TblOrg implements CSVable, ContainsOrgid {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("OrgID");
-            columnNames.add("OrgEnteredID");
-            columnNames.add("Name");
-            columnNames.add("Address1");
-            columnNames.add("Address2");
-            columnNames.add("Town");
-            columnNames.add("County");
-            columnNames.add("Postcode");
-            columnNames.add("Tel1");
-            columnNames.add("Fax");
-            columnNames.add("Email");
-            columnNames.add("WWW");
-            columnNames.add("GeographicalArea");
-            columnNames.add("Directions");
-            columnNames.add("FirstName");
-            columnNames.add("LastName");
-            columnNames.add("Title");
-            columnNames.add("Salutation");
-            columnNames.add("JobTitle");
-            columnNames.add("ContactTel1");
-            columnNames.add("ContactFax");
-            columnNames.add("ContactEmail");
-            columnNames.add("ContactWWW");
-            columnNames.add("Mission");
-            columnNames.add("Activities");
-            columnNames.add("DateFirstEntered");
-            columnNames.add("DateLastUpdated");
-            columnNames.add("LastUpdatedBy");
-            columnNames.add("ContactAddress1");
-            columnNames.add("ContactAddress2");
-            columnNames.add("ContactTown");
-            columnNames.add("ContactCounty");
-            columnNames.add("ContactPostcode");
-            columnNames.add("TelFaxSearch");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"OrgID, Long"});
+            columnNames.add(new String[]{"OrgEnteredID, String"});
+            columnNames.add(new String[]{"Name, String"});
+            columnNames.add(new String[]{"Address1, String"});
+            columnNames.add(new String[]{"Address2, String"});
+            columnNames.add(new String[]{"Town, String"});
+            columnNames.add(new String[]{"County, String"});
+            columnNames.add(new String[]{"Postcode, String"});
+            columnNames.add(new String[]{"Tel1, String"});
+            columnNames.add(new String[]{"Fax, String"});
+            columnNames.add(new String[]{"Email, String"});
+            columnNames.add(new String[]{"WWW, String"});
+            columnNames.add(new String[]{"GeographicalArea, String"});
+            columnNames.add(new String[]{"Directions, String"});
+            columnNames.add(new String[]{"FirstName, String"});
+            columnNames.add(new String[]{"LastName, String"});
+            columnNames.add(new String[]{"Title, String"});
+            columnNames.add(new String[]{"Salutation, String"});
+            columnNames.add(new String[]{"JobTitle, String"});
+            columnNames.add(new String[]{"ContactTel1, String"});
+            columnNames.add(new String[]{"ContactFax, String"});
+            columnNames.add(new String[]{"ContactEmail, String"});
+            columnNames.add(new String[]{"ContactWWW, String"});
+            columnNames.add(new String[]{"Mission, String"});
+            columnNames.add(new String[]{"Activities, String"});
+            columnNames.add(new String[]{"DateFirstEntered, Timestamp"});
+            columnNames.add(new String[]{"DateLastUpdated, Timestamp"});
+            columnNames.add(new String[]{"LastUpdatedBy, String"});
+            columnNames.add(new String[]{"ContactAddress1, String"});
+            columnNames.add(new String[]{"ContactAddress2, String"});
+            columnNames.add(new String[]{"ContactTown, String"});
+            columnNames.add(new String[]{"ContactCounty, String"});
+            columnNames.add(new String[]{"ContactPostcode, String"});
+            columnNames.add(new String[]{"TelFaxSearch, String"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

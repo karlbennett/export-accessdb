@@ -16,7 +16,7 @@ public class UsysReportCriteria implements CSVable {
 
     public static final int COLUMN_NUM = 6;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -103,15 +103,15 @@ public class UsysReportCriteria implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Report");
-            columnNames.add("User");
-            columnNames.add("StartDate");
-            columnNames.add("EndDate");
-            columnNames.add("DateOption");
-            columnNames.add("SQL");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Report, String"});
+            columnNames.add(new String[]{"User, String"});
+            columnNames.add(new String[]{"StartDate, Timestamp"});
+            columnNames.add(new String[]{"EndDate, Timestamp"});
+            columnNames.add(new String[]{"DateOption, String"});
+            columnNames.add(new String[]{"SQL, String"});
         }
 
         return columnNames;

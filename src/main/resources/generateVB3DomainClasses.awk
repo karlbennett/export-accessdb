@@ -87,7 +87,7 @@ print "" >> tableName ".java";
 print "\tprivate char delimiter = '|';" >> tableName ".java";
 print "\tprivate char enclosure = '¬';" >> tableName ".java";
 print "\tprivate Integer columnNum = " columnNum ";" >> tableName ".java";
-print "\tprivate List<String> columnNames = null;" >> tableName ".java";
+print "\tprivate List<String[]> columnNames = null;" >> tableName ".java";
 print "\tprivate StringBuffer recordStringBuffer = new StringBuffer();" >> tableName ".java";
 print "" >> tableName ".java";
 
@@ -187,11 +187,11 @@ print "\t\treturn this.columnNum;" >> tableName ".java";
 print "\t}" >> tableName ".java";
 print "" >> tableName ".java";
 
-print "\tpublic List<String> getColumnNames() {" >> tableName ".java";
+print "\tpublic List<String[]> getColumnNames() {" >> tableName ".java";
 print "\t\tif (this.columnNames == null) {" >> tableName ".java";
-print "\t\t\tthis.columnNames = new ArrayList<String>();" >> tableName ".java";
+print "\t\t\tthis.columnNames = new ArrayList<String[]>();" >> tableName ".java";
 for (i = 0; i < methoddNum; i++) {
-    print "\t\t\tthis.columnNames.add(\"" methods[i, 0] "\");" >> tableName ".java";
+    print "\t\t\tthis.columnNames.add(new String[]{\"" methods[i, 0] "\", \"" methods[i, 1] "\"});" >> tableName ".java";
 }
 print "\t\t}" >> tableName ".java";
 print "" >> tableName ".java";

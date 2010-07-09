@@ -13,7 +13,7 @@ public class TblOppArrangements implements CSVable, ContainsOid {
 
     public static final int COLUMN_NUM = 4;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -76,13 +76,13 @@ public class TblOppArrangements implements CSVable, ContainsOid {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("AID");
-            columnNames.add("OID");
-            columnNames.add("OppArrangements");
-            columnNames.add("Details");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"AID, Long"});
+            columnNames.add(new String[]{"OID, Long"});
+            columnNames.add(new String[]{"OppArrangements, String"});
+            columnNames.add(new String[]{"Details, String"});
         }
 
         return columnNames;

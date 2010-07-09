@@ -14,7 +14,7 @@ public class LocationAddressLookups implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 2;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private UUID locationaddressid;
@@ -99,11 +99,11 @@ public class LocationAddressLookups implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("LocationAddressId");
-            this.columnNames.add("LookupId");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"LocationAddressId", "UUID"});
+            this.columnNames.add(new String[]{"LookupId", "UUID"});
         }
 
         return this.columnNames;

@@ -13,7 +13,7 @@ public class UsysChartCriteria implements CSVable {
 
     public static final int COLUMN_NUM = 6;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -88,15 +88,15 @@ public class UsysChartCriteria implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Chart");
-            columnNames.add("User");
-            columnNames.add("InEnglish");
-            columnNames.add("WhereClause");
-            columnNames.add("Criteria");
-            columnNames.add("AltWhereClause");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Chart, String"});
+            columnNames.add(new String[]{"User, String"});
+            columnNames.add(new String[]{"InEnglish, String"});
+            columnNames.add(new String[]{"WhereClause, String"});
+            columnNames.add(new String[]{"Criteria, String"});
+            columnNames.add(new String[]{"AltWhereClause, String"});
         }
 
         return columnNames;

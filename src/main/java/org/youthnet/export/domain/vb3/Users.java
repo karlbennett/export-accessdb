@@ -16,7 +16,7 @@ public class Users implements CSVable, ContainsVb2id {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 23;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String firstname;
@@ -363,32 +363,32 @@ public class Users implements CSVable, ContainsVb2id {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("FirstName");
-            this.columnNames.add("FullName");
-            this.columnNames.add("IsAccountExpired");
-            this.columnNames.add("PasswordHint");
-            this.columnNames.add("IsAccountLocked");
-            this.columnNames.add("PhoneNumber");
-            this.columnNames.add("IsCredentialsExpired");
-            this.columnNames.add("UserName");
-            this.columnNames.add("IsEnabled");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("LastLogInAttempt");
-            this.columnNames.add("LastName");
-            this.columnNames.add("LstLoggedIn");
-            this.columnNames.add("Password");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("AccountLastValidated");
-            this.columnNames.add("BadLogInAttempts");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"FirstName", "String"});
+            this.columnNames.add(new String[]{"FullName", "String"});
+            this.columnNames.add(new String[]{"IsAccountExpired", "Boolean"});
+            this.columnNames.add(new String[]{"PasswordHint", "String"});
+            this.columnNames.add(new String[]{"IsAccountLocked", "Boolean"});
+            this.columnNames.add(new String[]{"PhoneNumber", "String"});
+            this.columnNames.add(new String[]{"IsCredentialsExpired", "Boolean"});
+            this.columnNames.add(new String[]{"UserName", "String"});
+            this.columnNames.add(new String[]{"IsEnabled", "Boolean"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
+            this.columnNames.add(new String[]{"LastLogInAttempt", "Timestamp"});
+            this.columnNames.add(new String[]{"LastName", "String"});
+            this.columnNames.add(new String[]{"LstLoggedIn", "Timestamp"});
+            this.columnNames.add(new String[]{"Password", "String"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"AccountLastValidated", "Timestamp"});
+            this.columnNames.add(new String[]{"BadLogInAttempts", "Long"});
         }
 
         return this.columnNames;

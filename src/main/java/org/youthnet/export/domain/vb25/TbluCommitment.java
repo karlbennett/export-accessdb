@@ -13,7 +13,7 @@ public class TbluCommitment implements CSVable {
 
     public static final int COLUMN_NUM = 4;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -76,13 +76,13 @@ public class TbluCommitment implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Commitment");
-            columnNames.add("Active");
-            columnNames.add("ID");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Commitment, String"});
+            columnNames.add(new String[]{"Active, Boolean"});
+            columnNames.add(new String[]{"ID, Long"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

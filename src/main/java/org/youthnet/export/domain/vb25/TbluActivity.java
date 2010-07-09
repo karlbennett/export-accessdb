@@ -13,7 +13,7 @@ public class TbluActivity implements CSVable {
 
     public static final int COLUMN_NUM = 12;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -124,21 +124,21 @@ public class TbluActivity implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Activity");
-            columnNames.add("Active");
-            columnNames.add("ShowInCalendar");
-            columnNames.add("ShowOppLink");
-            columnNames.add("ShowHoursWorked");
-            columnNames.add("AllDayEvent");
-            columnNames.add("Type");
-            columnNames.add("UseLink");
-            columnNames.add("LinkCaption");
-            columnNames.add("CalDefault");
-            columnNames.add("Keep");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Activity, String"});
+            columnNames.add(new String[]{"Active, Boolean"});
+            columnNames.add(new String[]{"ShowInCalendar, Boolean"});
+            columnNames.add(new String[]{"ShowOppLink, Boolean"});
+            columnNames.add(new String[]{"ShowHoursWorked, Boolean"});
+            columnNames.add(new String[]{"AllDayEvent, Boolean"});
+            columnNames.add(new String[]{"Type, String"});
+            columnNames.add(new String[]{"UseLink, Boolean"});
+            columnNames.add(new String[]{"LinkCaption, String"});
+            columnNames.add(new String[]{"CalDefault, Boolean"});
+            columnNames.add(new String[]{"Keep, Boolean"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

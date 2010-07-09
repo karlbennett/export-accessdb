@@ -16,7 +16,7 @@ public class Locations implements CSVable, ContainsDiscriminator {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 23;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String displaystring;
@@ -428,32 +428,32 @@ public class Locations implements CSVable, ContainsDiscriminator {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("DisplayString");
-            this.columnNames.add("IsActive");
-            this.columnNames.add("LocationType");
-            this.columnNames.add("CountyId");
-            this.columnNames.add("PublicContactDetailsSource");
-            this.columnNames.add("AddressId");
-            this.columnNames.add("UseCustomOrgName");
-            this.columnNames.add("OrgAddressId");
-            this.columnNames.add("UseCustomAddress");
-            this.columnNames.add("RegionId");
-            this.columnNames.add("UseForContactDetails");
-            this.columnNames.add("ContactDetailsId");
-            this.columnNames.add("OpportunityLocationId");
-            this.columnNames.add("PublicContactDetailsId");
-            this.columnNames.add("Discriminator");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("CustomOrgName");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"DisplayString", "String"});
+            this.columnNames.add(new String[]{"IsActive", "Boolean"});
+            this.columnNames.add(new String[]{"LocationType", "String"});
+            this.columnNames.add(new String[]{"CountyId", "UUID"});
+            this.columnNames.add(new String[]{"PublicContactDetailsSource", "String"});
+            this.columnNames.add(new String[]{"AddressId", "UUID"});
+            this.columnNames.add(new String[]{"UseCustomOrgName", "Boolean"});
+            this.columnNames.add(new String[]{"OrgAddressId", "UUID"});
+            this.columnNames.add(new String[]{"UseCustomAddress", "Boolean"});
+            this.columnNames.add(new String[]{"RegionId", "UUID"});
+            this.columnNames.add(new String[]{"UseForContactDetails", "Boolean"});
+            this.columnNames.add(new String[]{"ContactDetailsId", "UUID"});
+            this.columnNames.add(new String[]{"OpportunityLocationId", "UUID"});
+            this.columnNames.add(new String[]{"PublicContactDetailsId", "UUID"});
+            this.columnNames.add(new String[]{"Discriminator", "String"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"CustomOrgName", "String"});
         }
 
         return this.columnNames;

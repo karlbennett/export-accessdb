@@ -13,7 +13,7 @@ public class TbluAgeRange implements CSVable {
 
     public static final int COLUMN_NUM = 4;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -76,13 +76,13 @@ public class TbluAgeRange implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("AgeRange");
-            columnNames.add("Active");
-            columnNames.add("Order");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"AgeRange, String"});
+            columnNames.add(new String[]{"Active, Boolean"});
+            columnNames.add(new String[]{"Order, Long"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

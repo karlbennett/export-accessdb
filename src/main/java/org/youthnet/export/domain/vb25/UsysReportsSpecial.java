@@ -13,7 +13,7 @@ public class UsysReportsSpecial implements CSVable {
 
     public static final int COLUMN_NUM = 8;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -100,17 +100,17 @@ public class UsysReportsSpecial implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Report");
-            columnNames.add("Type");
-            columnNames.add("SQL");
-            columnNames.add("EntSQL");
-            columnNames.add("ActSQL");
-            columnNames.add("SubSQL");
-            columnNames.add("SubEntSQL");
-            columnNames.add("SubActSQL");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Report, String"});
+            columnNames.add(new String[]{"Type, Short"});
+            columnNames.add(new String[]{"SQL, String"});
+            columnNames.add(new String[]{"EntSQL, String"});
+            columnNames.add(new String[]{"ActSQL, String"});
+            columnNames.add(new String[]{"SubSQL, String"});
+            columnNames.add(new String[]{"SubEntSQL, String"});
+            columnNames.add(new String[]{"SubActSQL, String"});
         }
 
         return columnNames;

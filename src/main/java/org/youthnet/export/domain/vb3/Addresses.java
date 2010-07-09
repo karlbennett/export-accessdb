@@ -16,7 +16,7 @@ public class Addresses implements CSVable, ContainsVb2id {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 16;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String address3;
@@ -296,25 +296,25 @@ public class Addresses implements CSVable, ContainsVb2id {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Address3");
-            this.columnNames.add("Directions");
-            this.columnNames.add("PostCode");
-            this.columnNames.add("Town");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("CountryId");
-            this.columnNames.add("CountyId");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("Address1");
-            this.columnNames.add("Address2");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"Address3", "String"});
+            this.columnNames.add(new String[]{"Directions", "String"});
+            this.columnNames.add(new String[]{"PostCode", "String"});
+            this.columnNames.add(new String[]{"Town", "String"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
+            this.columnNames.add(new String[]{"CountryId", "UUID"});
+            this.columnNames.add(new String[]{"CountyId", "UUID"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"Address1", "String"});
+            this.columnNames.add(new String[]{"Address2", "String"});
         }
 
         return this.columnNames;

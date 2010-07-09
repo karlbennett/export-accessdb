@@ -13,7 +13,7 @@ public class UsysPreviousMenu implements CSVable {
 
     public static final int COLUMN_NUM = 4;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -76,13 +76,13 @@ public class UsysPreviousMenu implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("ID");
-            columnNames.add("User");
-            columnNames.add("Name");
-            columnNames.add("Type");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"ID, Long"});
+            columnNames.add(new String[]{"User, String"});
+            columnNames.add(new String[]{"Name, String"});
+            columnNames.add(new String[]{"Type, Short"});
         }
 
         return columnNames;

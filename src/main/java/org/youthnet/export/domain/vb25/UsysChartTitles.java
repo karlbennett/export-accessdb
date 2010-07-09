@@ -13,7 +13,7 @@ public class UsysChartTitles implements CSVable {
 
     public static final int COLUMN_NUM = 6;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -88,15 +88,15 @@ public class UsysChartTitles implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Chart");
-            columnNames.add("User");
-            columnNames.add("Top");
-            columnNames.add("Left");
-            columnNames.add("Right");
-            columnNames.add("Bottom");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Chart, String"});
+            columnNames.add(new String[]{"User, String"});
+            columnNames.add(new String[]{"Top, String"});
+            columnNames.add(new String[]{"Left, String"});
+            columnNames.add(new String[]{"Right, String"});
+            columnNames.add(new String[]{"Bottom, String"});
         }
 
         return columnNames;

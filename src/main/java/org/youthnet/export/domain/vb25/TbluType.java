@@ -13,7 +13,7 @@ public class TbluType implements CSVable {
 
     public static final int COLUMN_NUM = 2;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -64,11 +64,11 @@ public class TbluType implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Type");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Type, String"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

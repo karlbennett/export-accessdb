@@ -16,7 +16,7 @@ public class UsysRegistration implements CSVable {
 
     public static final int COLUMN_NUM = 14;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -151,23 +151,23 @@ public class UsysRegistration implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("ShortName");
-            columnNames.add("Address1");
-            columnNames.add("Address2");
-            columnNames.add("Town");
-            columnNames.add("County");
-            columnNames.add("Postcode");
-            columnNames.add("Tel1");
-            columnNames.add("Fax");
-            columnNames.add("Email");
-            columnNames.add("WWW");
-            columnNames.add("DefaultOrg");
-            columnNames.add("DateFirstEntered");
-            columnNames.add("DateLastUpdated");
-            columnNames.add("LastUpdatedBy");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"ShortName, String"});
+            columnNames.add(new String[]{"Address1, String"});
+            columnNames.add(new String[]{"Address2, String"});
+            columnNames.add(new String[]{"Town, String"});
+            columnNames.add(new String[]{"County, String"});
+            columnNames.add(new String[]{"Postcode, String"});
+            columnNames.add(new String[]{"Tel1, String"});
+            columnNames.add(new String[]{"Fax, String"});
+            columnNames.add(new String[]{"Email, String"});
+            columnNames.add(new String[]{"WWW, String"});
+            columnNames.add(new String[]{"DefaultOrg, Boolean"});
+            columnNames.add(new String[]{"DateFirstEntered, Timestamp"});
+            columnNames.add(new String[]{"DateLastUpdated, Timestamp"});
+            columnNames.add(new String[]{"LastUpdatedBy, String"});
         }
 
         return columnNames;

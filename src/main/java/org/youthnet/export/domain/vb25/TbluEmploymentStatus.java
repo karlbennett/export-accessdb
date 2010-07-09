@@ -13,7 +13,7 @@ public class TbluEmploymentStatus implements CSVable {
 
     public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -70,12 +70,12 @@ public class TbluEmploymentStatus implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("EmploymentStatus");
-            columnNames.add("Active");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"EmploymentStatus, String"});
+            columnNames.add(new String[]{"Active, Boolean"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

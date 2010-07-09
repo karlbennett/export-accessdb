@@ -14,7 +14,7 @@ public class OrganisaitonQualityStdsAccr implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 2;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private UUID ownerid;
@@ -99,11 +99,11 @@ public class OrganisaitonQualityStdsAccr implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("OwnerId");
-            this.columnNames.add("PolicyId");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"OwnerId", "UUID"});
+            this.columnNames.add(new String[]{"PolicyId", "UUID"});
         }
 
         return this.columnNames;

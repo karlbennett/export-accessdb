@@ -16,7 +16,7 @@ public class TblMailings implements CSVable {
 
     public static final int COLUMN_NUM = 10;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -127,19 +127,19 @@ public class TblMailings implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Mailing");
-            columnNames.add("No");
-            columnNames.add("Description");
-            columnNames.add("Fields");
-            columnNames.add("Icon");
-            columnNames.add("Email");
-            columnNames.add("Owner");
-            columnNames.add("DateFirstEntered");
-            columnNames.add("DateLastUpdated");
-            columnNames.add("LastUpdatedBy");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Mailing, String"});
+            columnNames.add(new String[]{"No, Short"});
+            columnNames.add(new String[]{"Description, String"});
+            columnNames.add(new String[]{"Fields, String"});
+            columnNames.add(new String[]{"Icon, Short"});
+            columnNames.add(new String[]{"Email, Boolean"});
+            columnNames.add(new String[]{"Owner, String"});
+            columnNames.add(new String[]{"DateFirstEntered, Timestamp"});
+            columnNames.add(new String[]{"DateLastUpdated, Timestamp"});
+            columnNames.add(new String[]{"LastUpdatedBy, String"});
         }
 
         return columnNames;

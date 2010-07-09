@@ -14,7 +14,7 @@ public class OrganisationTaggedData implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 2;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private UUID organisationid;
@@ -99,11 +99,11 @@ public class OrganisationTaggedData implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("OrganisationId");
-            this.columnNames.add("LookupId");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"OrganisationId", "UUID"});
+            this.columnNames.add(new String[]{"LookupId", "UUID"});
         }
 
         return this.columnNames;

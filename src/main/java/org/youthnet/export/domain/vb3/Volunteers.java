@@ -16,7 +16,7 @@ public class Volunteers implements CSVable, ContainsVb2id {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 36;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private Timestamp dateofbirth;
@@ -652,45 +652,45 @@ public class Volunteers implements CSVable, ContainsVb2id {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("DateOfBirth");
-            this.columnNames.add("DisabilityDetails");
-            this.columnNames.add("EveCommitment");
-            this.columnNames.add("PreferredName");
-            this.columnNames.add("FirstName");
-            this.columnNames.add("QualificationsAndExperience");
-            this.columnNames.add("HowHeardDetails");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("IsActive");
-            this.columnNames.add("HowHeardId");
-            this.columnNames.add("AgeRangeId");
-            this.columnNames.add("LastName");
-            this.columnNames.add("NationalityId");
-            this.columnNames.add("AvailabilityStatusId");
-            this.columnNames.add("OtherMotivations");
-            this.columnNames.add("PlacementStatusId");
-            this.columnNames.add("DisabilityStatusId");
-            this.columnNames.add("OwnId");
-            this.columnNames.add("ReligionId");
-            this.columnNames.add("DrivingLicenceId");
-            this.columnNames.add("PmCommitment");
-            this.columnNames.add("SexualOrientationId");
-            this.columnNames.add("EmploymentStatusId");
-            this.columnNames.add("TitleId");
-            this.columnNames.add("EthnicityId");
-            this.columnNames.add("TransportId");
-            this.columnNames.add("GenderId");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("AgreesToBeContacted");
-            this.columnNames.add("AmCommitment");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"DateOfBirth", "Timestamp"});
+            this.columnNames.add(new String[]{"DisabilityDetails", "String"});
+            this.columnNames.add(new String[]{"EveCommitment", "Long"});
+            this.columnNames.add(new String[]{"PreferredName", "String"});
+            this.columnNames.add(new String[]{"FirstName", "String"});
+            this.columnNames.add(new String[]{"QualificationsAndExperience", "String"});
+            this.columnNames.add(new String[]{"HowHeardDetails", "String"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
+            this.columnNames.add(new String[]{"IsActive", "Boolean"});
+            this.columnNames.add(new String[]{"HowHeardId", "UUID"});
+            this.columnNames.add(new String[]{"AgeRangeId", "UUID"});
+            this.columnNames.add(new String[]{"LastName", "String"});
+            this.columnNames.add(new String[]{"NationalityId", "UUID"});
+            this.columnNames.add(new String[]{"AvailabilityStatusId", "UUID"});
+            this.columnNames.add(new String[]{"OtherMotivations", "String"});
+            this.columnNames.add(new String[]{"PlacementStatusId", "UUID"});
+            this.columnNames.add(new String[]{"DisabilityStatusId", "UUID"});
+            this.columnNames.add(new String[]{"OwnId", "String"});
+            this.columnNames.add(new String[]{"ReligionId", "UUID"});
+            this.columnNames.add(new String[]{"DrivingLicenceId", "UUID"});
+            this.columnNames.add(new String[]{"PmCommitment", "Long"});
+            this.columnNames.add(new String[]{"SexualOrientationId", "UUID"});
+            this.columnNames.add(new String[]{"EmploymentStatusId", "UUID"});
+            this.columnNames.add(new String[]{"TitleId", "UUID"});
+            this.columnNames.add(new String[]{"EthnicityId", "UUID"});
+            this.columnNames.add(new String[]{"TransportId", "UUID"});
+            this.columnNames.add(new String[]{"GenderId", "UUID"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"AgreesToBeContacted", "Boolean"});
+            this.columnNames.add(new String[]{"AmCommitment", "Long"});
         }
 
         return this.columnNames;

@@ -16,7 +16,7 @@ public class UsysQBFOppSpecificDates implements CSVable {
 
     public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -85,12 +85,12 @@ public class UsysQBFOppSpecificDates implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("User");
-            columnNames.add("SpecificStartDate");
-            columnNames.add("SpecificEndDate");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"User, String"});
+            columnNames.add(new String[]{"SpecificStartDate, Timestamp"});
+            columnNames.add(new String[]{"SpecificEndDate, Timestamp"});
         }
 
         return columnNames;

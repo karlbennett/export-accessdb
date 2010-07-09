@@ -16,7 +16,7 @@ public class TblVol implements CSVable, ContainsVid {
 
     public static final int COLUMN_NUM = 36;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -289,45 +289,45 @@ public class TblVol implements CSVable, ContainsVid {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("VID");
-            columnNames.add("FirstName");
-            columnNames.add("LastName");
-            columnNames.add("Title");
-            columnNames.add("Salutation");
-            columnNames.add("Address1");
-            columnNames.add("Address2");
-            columnNames.add("Town");
-            columnNames.add("County");
-            columnNames.add("Postcode");
-            columnNames.add("TelDay");
-            columnNames.add("TelEvening");
-            columnNames.add("Fax");
-            columnNames.add("Email");
-            columnNames.add("GeographicalArea");
-            columnNames.add("HowHeard");
-            columnNames.add("PreviousWork");
-            columnNames.add("Status");
-            columnNames.add("DOB");
-            columnNames.add("Gender");
-            columnNames.add("AgeRange");
-            columnNames.add("EmploymentStatus");
-            columnNames.add("Ethnicity");
-            columnNames.add("Religion");
-            columnNames.add("Nationality");
-            columnNames.add("DisabilityStatus");
-            columnNames.add("Driving");
-            columnNames.add("TypeOfDrivingLicence");
-            columnNames.add("DateFirstEntered");
-            columnNames.add("DateLastUpdated");
-            columnNames.add("LastUpdatedBy");
-            columnNames.add("TelFaxSearch");
-            columnNames.add("Mobile");
-            columnNames.add("Contactable");
-            columnNames.add("WebID");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"VID, Long"});
+            columnNames.add(new String[]{"FirstName, String"});
+            columnNames.add(new String[]{"LastName, String"});
+            columnNames.add(new String[]{"Title, String"});
+            columnNames.add(new String[]{"Salutation, String"});
+            columnNames.add(new String[]{"Address1, String"});
+            columnNames.add(new String[]{"Address2, String"});
+            columnNames.add(new String[]{"Town, String"});
+            columnNames.add(new String[]{"County, String"});
+            columnNames.add(new String[]{"Postcode, String"});
+            columnNames.add(new String[]{"TelDay, String"});
+            columnNames.add(new String[]{"TelEvening, String"});
+            columnNames.add(new String[]{"Fax, String"});
+            columnNames.add(new String[]{"Email, String"});
+            columnNames.add(new String[]{"GeographicalArea, String"});
+            columnNames.add(new String[]{"HowHeard, String"});
+            columnNames.add(new String[]{"PreviousWork, String"});
+            columnNames.add(new String[]{"Status, String"});
+            columnNames.add(new String[]{"DOB, Timestamp"});
+            columnNames.add(new String[]{"Gender, String"});
+            columnNames.add(new String[]{"AgeRange, String"});
+            columnNames.add(new String[]{"EmploymentStatus, String"});
+            columnNames.add(new String[]{"Ethnicity, String"});
+            columnNames.add(new String[]{"Religion, String"});
+            columnNames.add(new String[]{"Nationality, String"});
+            columnNames.add(new String[]{"DisabilityStatus, String"});
+            columnNames.add(new String[]{"Driving, String"});
+            columnNames.add(new String[]{"TypeOfDrivingLicence, String"});
+            columnNames.add(new String[]{"DateFirstEntered, Timestamp"});
+            columnNames.add(new String[]{"DateLastUpdated, Timestamp"});
+            columnNames.add(new String[]{"LastUpdatedBy, String"});
+            columnNames.add(new String[]{"TelFaxSearch, String"});
+            columnNames.add(new String[]{"Mobile, String"});
+            columnNames.add(new String[]{"Contactable, Boolean"});
+            columnNames.add(new String[]{"WebID, String"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

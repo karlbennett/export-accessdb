@@ -13,7 +13,7 @@ public class UsysLogo implements CSVable {
 
     public static final int COLUMN_NUM = 1;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -58,10 +58,10 @@ public class UsysLogo implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Logo");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Logo, String"});
         }
 
         return columnNames;

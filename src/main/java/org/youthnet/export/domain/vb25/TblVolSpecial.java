@@ -13,7 +13,7 @@ public class TblVolSpecial implements CSVable, ContainsVid {
 
     public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -70,12 +70,12 @@ public class TblVolSpecial implements CSVable, ContainsVid {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("SID");
-            columnNames.add("VID");
-            columnNames.add("Special");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"SID, Long"});
+            columnNames.add(new String[]{"VID, Long"});
+            columnNames.add(new String[]{"Special, String"});
         }
 
         return columnNames;

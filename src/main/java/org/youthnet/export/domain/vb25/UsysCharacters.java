@@ -13,7 +13,7 @@ public class UsysCharacters implements CSVable {
 
     public static final int COLUMN_NUM = 2;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -64,11 +64,11 @@ public class UsysCharacters implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Character");
-            columnNames.add("Explanation");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Character, String"});
+            columnNames.add(new String[]{"Explanation, String"});
         }
 
         return columnNames;

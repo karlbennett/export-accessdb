@@ -16,7 +16,7 @@ public class Opportunities implements CSVable, ContainsVb2id {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 35;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String benefits;
@@ -532,44 +532,44 @@ public class Opportunities implements CSVable, ContainsVb2id {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Benefits");
-            this.columnNames.add("CommitmentAm");
-            this.columnNames.add("CommitmentEve");
-            this.columnNames.add("IsVirtualRemote");
-            this.columnNames.add("CommitmentPm");
-            this.columnNames.add("LocationsPubliclyViewable");
-            this.columnNames.add("Description");
-            this.columnNames.add("MonetaryValuePerHour");
-            this.columnNames.add("IsActive");
-            this.columnNames.add("UseSharedIntConDets");
-            this.columnNames.add("OwnId");
-            this.columnNames.add("IsDateSpecific");
-            this.columnNames.add("UseSharedPublicContactDetails");
-            this.columnNames.add("PublishToDoIt");
-            this.columnNames.add("IsOneOff");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("Requirements");
-            this.columnNames.add("IsResidential");
-            this.columnNames.add("OrganisationId");
-            this.columnNames.add("ShortDescription");
-            this.columnNames.add("IsSharedInternalContactPublic");
-            this.columnNames.add("SharedInternalContactDetailsId");
-            this.columnNames.add("SpecificEndDate");
-            this.columnNames.add("SharedPublicContactDetailsId");
-            this.columnNames.add("SpecificStartDate");
-            this.columnNames.add("Title");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("AdvertisingEndDate");
-            this.columnNames.add("AdvertisingStartDate");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"Benefits", "String"});
+            this.columnNames.add(new String[]{"CommitmentAm", "Long"});
+            this.columnNames.add(new String[]{"CommitmentEve", "Long"});
+            this.columnNames.add(new String[]{"IsVirtualRemote", "Boolean"});
+            this.columnNames.add(new String[]{"CommitmentPm", "Long"});
+            this.columnNames.add(new String[]{"LocationsPubliclyViewable", "Boolean"});
+            this.columnNames.add(new String[]{"Description", "String"});
+            this.columnNames.add(new String[]{"MonetaryValuePerHour", "Float"});
+            this.columnNames.add(new String[]{"IsActive", "Boolean"});
+            this.columnNames.add(new String[]{"UseSharedIntConDets", "Boolean"});
+            this.columnNames.add(new String[]{"OwnId", "String"});
+            this.columnNames.add(new String[]{"IsDateSpecific", "Boolean"});
+            this.columnNames.add(new String[]{"UseSharedPublicContactDetails", "Boolean"});
+            this.columnNames.add(new String[]{"PublishToDoIt", "Boolean"});
+            this.columnNames.add(new String[]{"IsOneOff", "Boolean"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
+            this.columnNames.add(new String[]{"Requirements", "String"});
+            this.columnNames.add(new String[]{"IsResidential", "Boolean"});
+            this.columnNames.add(new String[]{"OrganisationId", "UUID"});
+            this.columnNames.add(new String[]{"ShortDescription", "String"});
+            this.columnNames.add(new String[]{"IsSharedInternalContactPublic", "Boolean"});
+            this.columnNames.add(new String[]{"SharedInternalContactDetailsId", "UUID"});
+            this.columnNames.add(new String[]{"SpecificEndDate", "Timestamp"});
+            this.columnNames.add(new String[]{"SharedPublicContactDetailsId", "UUID"});
+            this.columnNames.add(new String[]{"SpecificStartDate", "Timestamp"});
+            this.columnNames.add(new String[]{"Title", "String"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"AdvertisingEndDate", "Timestamp"});
+            this.columnNames.add(new String[]{"AdvertisingStartDate", "Timestamp"});
         }
 
         return this.columnNames;

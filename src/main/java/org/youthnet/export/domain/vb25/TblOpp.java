@@ -17,7 +17,7 @@ public class TblOpp implements CSVable, ContainsOid, ContainsOrgid {
 
     public static final int COLUMN_NUM = 35;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -307,44 +307,44 @@ public class TblOpp implements CSVable, ContainsOid, ContainsOrgid {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("OID");
-            columnNames.add("OrgID");
-            columnNames.add("OppEnteredID");
-            columnNames.add("Title");
-            columnNames.add("Contact");
-            columnNames.add("Address1");
-            columnNames.add("Address2");
-            columnNames.add("Town");
-            columnNames.add("County");
-            columnNames.add("Postcode");
-            columnNames.add("Tel1");
-            columnNames.add("Fax");
-            columnNames.add("Email");
-            columnNames.add("GeographicalArea");
-            columnNames.add("MonetaryValue");
-            columnNames.add("Active");
-            columnNames.add("IncludeOnWeb");
-            columnNames.add("OneOff");
-            columnNames.add("IncludeVBAddress");
-            columnNames.add("OppStartDate");
-            columnNames.add("OppEndDate");
-            columnNames.add("Description");
-            columnNames.add("SkillsQualifications");
-            columnNames.add("Directions");
-            columnNames.add("DateFirstEntered");
-            columnNames.add("DateLastUpdated");
-            columnNames.add("LastUpdatedBy");
-            columnNames.add("UseOrgContact");
-            columnNames.add("TelFaxSearch");
-            columnNames.add("VirtualVol");
-            columnNames.add("Residential");
-            columnNames.add("SpecificStartDate");
-            columnNames.add("SpecificEndDate");
-            columnNames.add("ShortDescription");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"OID, Long"});
+            columnNames.add(new String[]{"OrgID, Long"});
+            columnNames.add(new String[]{"OppEnteredID, String"});
+            columnNames.add(new String[]{"Title, String"});
+            columnNames.add(new String[]{"Contact, String"});
+            columnNames.add(new String[]{"Address1, String"});
+            columnNames.add(new String[]{"Address2, String"});
+            columnNames.add(new String[]{"Town, String"});
+            columnNames.add(new String[]{"County, String"});
+            columnNames.add(new String[]{"Postcode, String"});
+            columnNames.add(new String[]{"Tel1, String"});
+            columnNames.add(new String[]{"Fax, String"});
+            columnNames.add(new String[]{"Email, String"});
+            columnNames.add(new String[]{"GeographicalArea, String"});
+            columnNames.add(new String[]{"MonetaryValue, BigDecimal"});
+            columnNames.add(new String[]{"Active, Boolean"});
+            columnNames.add(new String[]{"IncludeOnWeb, Boolean"});
+            columnNames.add(new String[]{"OneOff, Boolean"});
+            columnNames.add(new String[]{"IncludeVBAddress, Boolean"});
+            columnNames.add(new String[]{"OppStartDate, Timestamp"});
+            columnNames.add(new String[]{"OppEndDate, Timestamp"});
+            columnNames.add(new String[]{"Description, String"});
+            columnNames.add(new String[]{"SkillsQualifications, String"});
+            columnNames.add(new String[]{"Directions, String"});
+            columnNames.add(new String[]{"DateFirstEntered, Timestamp"});
+            columnNames.add(new String[]{"DateLastUpdated, Timestamp"});
+            columnNames.add(new String[]{"LastUpdatedBy, String"});
+            columnNames.add(new String[]{"UseOrgContact, Boolean"});
+            columnNames.add(new String[]{"TelFaxSearch, String"});
+            columnNames.add(new String[]{"VirtualVol, Boolean"});
+            columnNames.add(new String[]{"Residential, Boolean"});
+            columnNames.add(new String[]{"SpecificStartDate, Timestamp"});
+            columnNames.add(new String[]{"SpecificEndDate, Timestamp"});
+            columnNames.add(new String[]{"ShortDescription, String"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

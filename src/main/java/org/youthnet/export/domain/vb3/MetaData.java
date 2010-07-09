@@ -16,7 +16,7 @@ public class MetaData implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 11;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private byte[] serializedobject;
@@ -230,20 +230,20 @@ public class MetaData implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("SerializedObject");
-            this.columnNames.add("Type");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("Digest");
-            this.columnNames.add("DtoId");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"SerializedObject", "byte[]"});
+            this.columnNames.add(new String[]{"Type", "String"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"Digest", "byte[]"});
+            this.columnNames.add(new String[]{"DtoId", "UUID"});
         }
 
         return this.columnNames;

@@ -16,7 +16,7 @@ public class Organisations implements CSVable, ContainsVb2id {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 18;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private Boolean isactive;
@@ -307,27 +307,27 @@ public class Organisations implements CSVable, ContainsVb2id {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("IsActive");
-            this.columnNames.add("IsVuo");
-            this.columnNames.add("MissionStatement");
-            this.columnNames.add("Name");
-            this.columnNames.add("OpeningHours");
-            this.columnNames.add("OwnId");
-            this.columnNames.add("RegisteredCharityNumber");
-            this.columnNames.add("Vbase2Id");
-            this.columnNames.add("HowHeardId");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("Description");
-            this.columnNames.add("HowHeardDetails");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"IsActive", "Boolean"});
+            this.columnNames.add(new String[]{"IsVuo", "Boolean"});
+            this.columnNames.add(new String[]{"MissionStatement", "String"});
+            this.columnNames.add(new String[]{"Name", "String"});
+            this.columnNames.add(new String[]{"OpeningHours", "String"});
+            this.columnNames.add(new String[]{"OwnId", "String"});
+            this.columnNames.add(new String[]{"RegisteredCharityNumber", "String"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
+            this.columnNames.add(new String[]{"HowHeardId", "UUID"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"Description", "String"});
+            this.columnNames.add(new String[]{"HowHeardDetails", "String"});
         }
 
         return this.columnNames;

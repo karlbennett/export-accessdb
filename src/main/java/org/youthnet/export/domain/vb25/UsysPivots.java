@@ -13,7 +13,7 @@ public class UsysPivots implements CSVable {
 
     public static final int COLUMN_NUM = 9;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -106,18 +106,18 @@ public class UsysPivots implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("ID");
-            columnNames.add("Pivot");
-            columnNames.add("Row");
-            columnNames.add("Column");
-            columnNames.add("Data");
-            columnNames.add("SQL");
-            columnNames.add("Select");
-            columnNames.add("EntSQL");
-            columnNames.add("ActSQL");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"ID, Long"});
+            columnNames.add(new String[]{"Pivot, String"});
+            columnNames.add(new String[]{"Row, String"});
+            columnNames.add(new String[]{"Column, String"});
+            columnNames.add(new String[]{"Data, String"});
+            columnNames.add(new String[]{"SQL, String"});
+            columnNames.add(new String[]{"Select, String"});
+            columnNames.add(new String[]{"EntSQL, String"});
+            columnNames.add(new String[]{"ActSQL, String"});
         }
 
         return columnNames;

@@ -13,7 +13,7 @@ public class UsysReports implements CSVable {
 
     public static final int COLUMN_NUM = 15;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -142,24 +142,24 @@ public class UsysReports implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Report");
-            columnNames.add("Order");
-            columnNames.add("SQL");
-            columnNames.add("Orientation");
-            columnNames.add("BottomMargin");
-            columnNames.add("ActiveReport");
-            columnNames.add("Select");
-            columnNames.add("EntSQL");
-            columnNames.add("ActSQL");
-            columnNames.add("SubReport");
-            columnNames.add("SubSelect");
-            columnNames.add("SubSQL");
-            columnNames.add("SubEntSQL");
-            columnNames.add("SubActSQL");
-            columnNames.add("UseSpecial");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Report, String"});
+            columnNames.add(new String[]{"Order, Short"});
+            columnNames.add(new String[]{"SQL, String"});
+            columnNames.add(new String[]{"Orientation, Short"});
+            columnNames.add(new String[]{"BottomMargin, Short"});
+            columnNames.add(new String[]{"ActiveReport, String"});
+            columnNames.add(new String[]{"Select, String"});
+            columnNames.add(new String[]{"EntSQL, String"});
+            columnNames.add(new String[]{"ActSQL, String"});
+            columnNames.add(new String[]{"SubReport, Boolean"});
+            columnNames.add(new String[]{"SubSelect, String"});
+            columnNames.add(new String[]{"SubSQL, String"});
+            columnNames.add(new String[]{"SubEntSQL, String"});
+            columnNames.add(new String[]{"SubActSQL, String"});
+            columnNames.add(new String[]{"UseSpecial, Boolean"});
         }
 
         return columnNames;

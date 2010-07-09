@@ -13,7 +13,7 @@ public class UsysUserLicence implements CSVable {
 
     public static final int COLUMN_NUM = 1;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -58,10 +58,10 @@ public class UsysUserLicence implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Licence");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Licence, Short"});
         }
 
         return columnNames;

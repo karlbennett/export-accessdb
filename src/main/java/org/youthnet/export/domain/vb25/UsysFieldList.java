@@ -13,7 +13,7 @@ public class UsysFieldList implements CSVable {
 
     public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -70,12 +70,12 @@ public class UsysFieldList implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Field");
-            columnNames.add("Area");
-            columnNames.add("Order");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Field, String"});
+            columnNames.add(new String[]{"Area, String"});
+            columnNames.add(new String[]{"Order, Short"});
         }
 
         return columnNames;

@@ -16,7 +16,7 @@ public class VBase3Preference implements CSVable {
     private char delimiter = '|';
     private char enclosure = '¬';
     private Integer columnNum = 19;
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
     private StringBuffer recordStringBuffer = new StringBuffer();
 
     private String copyright;
@@ -340,28 +340,28 @@ public class VBase3Preference implements CSVable {
         return this.columnNum;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            this.columnNames = new ArrayList<String>();
-            this.columnNames.add("Copyright");
-            this.columnNames.add("DataSchemaVersion");
-            this.columnNames.add("DefaultCountryId");
-            this.columnNames.add("DefaultCountyId");
-            this.columnNames.add("LanguageId");
-            this.columnNames.add("UseDefaultCountry");
-            this.columnNames.add("UseDefaultCounty");
-            this.columnNames.add("UsingAudioNotification");
-            this.columnNames.add("UsingLogNotification");
-            this.columnNames.add("UsingVisualNotification");
-            this.columnNames.add("Id");
-            this.columnNames.add("Created");
-            this.columnNames.add("CreatedBy");
-            this.columnNames.add("Deleted");
-            this.columnNames.add("Modified");
-            this.columnNames.add("ModifiedBy");
-            this.columnNames.add("Version");
-            this.columnNames.add("ApplicationName");
-            this.columnNames.add("ColourTheme");
+            this.columnNames = new ArrayList<String[]>();
+            this.columnNames.add(new String[]{"Copyright", "String"});
+            this.columnNames.add(new String[]{"DataSchemaVersion", "Long"});
+            this.columnNames.add(new String[]{"DefaultCountryId", "UUID"});
+            this.columnNames.add(new String[]{"DefaultCountyId", "UUID"});
+            this.columnNames.add(new String[]{"LanguageId", "UUID"});
+            this.columnNames.add(new String[]{"UseDefaultCountry", "Boolean"});
+            this.columnNames.add(new String[]{"UseDefaultCounty", "Boolean"});
+            this.columnNames.add(new String[]{"UsingAudioNotification", "Boolean"});
+            this.columnNames.add(new String[]{"UsingLogNotification", "Boolean"});
+            this.columnNames.add(new String[]{"UsingVisualNotification", "Boolean"});
+            this.columnNames.add(new String[]{"Id", "UUID"});
+            this.columnNames.add(new String[]{"Created", "Timestamp"});
+            this.columnNames.add(new String[]{"CreatedBy", "UUID"});
+            this.columnNames.add(new String[]{"Deleted", "Boolean"});
+            this.columnNames.add(new String[]{"Modified", "Timestamp"});
+            this.columnNames.add(new String[]{"ModifiedBy", "UUID"});
+            this.columnNames.add(new String[]{"Version", "Long"});
+            this.columnNames.add(new String[]{"ApplicationName", "String"});
+            this.columnNames.add(new String[]{"ColourTheme", "Long"});
         }
 
         return this.columnNames;

@@ -13,7 +13,7 @@ public class UsysReminder implements CSVable {
 
     public static final int COLUMN_NUM = 7;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -94,16 +94,16 @@ public class UsysReminder implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Reminder");
-            columnNames.add("Period");
-            columnNames.add("No");
-            columnNames.add("Order");
-            columnNames.add("PromptForTime");
-            columnNames.add("AlarmTime");
-            columnNames.add("Active");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Reminder, String"});
+            columnNames.add(new String[]{"Period, String"});
+            columnNames.add(new String[]{"No, Short"});
+            columnNames.add(new String[]{"Order, Short"});
+            columnNames.add(new String[]{"PromptForTime, Boolean"});
+            columnNames.add(new String[]{"AlarmTime, String"});
+            columnNames.add(new String[]{"Active, Boolean"});
         }
 
         return columnNames;

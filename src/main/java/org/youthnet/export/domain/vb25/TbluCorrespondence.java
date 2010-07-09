@@ -13,7 +13,7 @@ public class TbluCorrespondence implements CSVable {
 
     public static final int COLUMN_NUM = 5;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -82,14 +82,14 @@ public class TbluCorrespondence implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("Correspondence");
-            columnNames.add("Active");
-            columnNames.add("FollowupLetter");
-            columnNames.add("TemplatePath");
-            columnNames.add("DemoData");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"Correspondence, String"});
+            columnNames.add(new String[]{"Active, Boolean"});
+            columnNames.add(new String[]{"FollowupLetter, Boolean"});
+            columnNames.add(new String[]{"TemplatePath, String"});
+            columnNames.add(new String[]{"DemoData, Boolean"});
         }
 
         return columnNames;

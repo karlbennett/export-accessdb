@@ -16,7 +16,7 @@ public class UsysCompact implements CSVable {
 
     public static final int COLUMN_NUM = 1;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -67,10 +67,10 @@ public class UsysCompact implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("LastDate");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"LastDate, Timestamp"});
         }
 
         return columnNames;

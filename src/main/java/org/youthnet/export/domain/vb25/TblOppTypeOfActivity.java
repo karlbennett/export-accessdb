@@ -13,7 +13,7 @@ public class TblOppTypeOfActivity implements CSVable, ContainsOid {
 
     public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -70,12 +70,12 @@ public class TblOppTypeOfActivity implements CSVable, ContainsOid {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("ActID");
-            columnNames.add("OID");
-            columnNames.add("TypeOfActivity");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"ActID, Long"});
+            columnNames.add(new String[]{"OID, Long"});
+            columnNames.add(new String[]{"TypeOfActivity, String"});
         }
 
         return columnNames;

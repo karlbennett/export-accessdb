@@ -16,7 +16,7 @@ public class UsysBackup implements CSVable {
 
     public static final int COLUMN_NUM = 3;
 
-    private List<String> columnNames = null;
+    private List<String[]> columnNames = null;
 
     private StringBuffer record = new StringBuffer();
 
@@ -79,12 +79,12 @@ public class UsysBackup implements CSVable {
         return COLUMN_NUM;
     }
 
-    public List<String> getColumnNames() {
+    public List<String[]> getColumnNames() {
         if (this.columnNames == null) {
-            columnNames = new ArrayList<String>();
-            columnNames.add("LastDate");
-            columnNames.add("FileName");
-            columnNames.add("IncludeDate");
+            columnNames = new ArrayList<String[]>();
+            columnNames.add(new String[]{"LastDate, Timestamp"});
+            columnNames.add(new String[]{"FileName, String"});
+            columnNames.add(new String[]{"IncludeDate, Boolean"});
         }
 
         return columnNames;
