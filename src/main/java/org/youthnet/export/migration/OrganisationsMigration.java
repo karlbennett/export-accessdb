@@ -18,6 +18,12 @@ import java.util.UUID;
  */
 public class OrganisationsMigration implements Migratable {
 
+    private Map<String, Map<String, Lookups>> lookupsMap;
+
+    public OrganisationsMigration(Map<String, Map<String, Lookups>> lookupsMap) {
+        this.lookupsMap = lookupsMap;   
+    }
+
     @Override
     public void migrate(String csvDir, String outputDir) {
         CSVFileReader csvFileReader = null;
@@ -32,15 +38,12 @@ public class OrganisationsMigration implements Migratable {
         try {
             csvFileReader = new CSVFileReader(new FileReader(csvDir + "tblOrg.csv"));
             organisationsWriter = new BufferedWriter(new FileWriter(outputDir + "Organisations.csv"));
-            organisationAddressWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationAddress.csv"));
-            organisationContactWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationContact.csv"));
+            organisationAddressWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationAddresses.csv"));
+            organisationContactWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationContacts.csv"));
 
             // Append to existing records created by VolunteersMigration.
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv", true));
             contactsWriter = new BufferedWriter(new FileWriter(outputDir + "Contacts.csv"));
-
-            Map<String, Map<String, Lookups>> lookupsMap =
-                    CSVUtil.createDiscriminatorValueMap(outputDir + "Lookups.csv", Lookups.class); 
 
             TblOrg tblOrg = null;
             Organisations organisations = null;

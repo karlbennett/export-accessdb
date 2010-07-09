@@ -1,6 +1,8 @@
 package org.youthnet.export.migration;
 
 import org.junit.Test;
+import org.youthnet.export.domain.vb3.Lookups;
+import org.youthnet.export.util.CSVUtil;
 
 import java.io.File;
 
@@ -16,7 +18,8 @@ public class OrganisationsMigrationTest {
     public void testMigrate() throws Exception {
         File outputDir = new File("test");
         if (!outputDir.isDirectory()) outputDir.mkdir();
-        organisationsMigration = new OrganisationsMigration();
+        organisationsMigration = new OrganisationsMigration(
+                CSVUtil.createDiscriminatorValueMap("test/Lookups.csv", Lookups.class));
         organisationsMigration.migrate("src/test/resources/", "test/");
     }
 }

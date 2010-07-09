@@ -4,7 +4,9 @@ import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.Table;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.youthnet.export.domain.vb3.Lookups;
 import org.youthnet.export.migration.*;
+import org.youthnet.export.util.CSVUtil;
 import org.youthnet.export.util.JavaCodeUtil;
 import org.youthnet.export.util.SQLCodeUtil;
 
@@ -129,24 +131,28 @@ public class Smasher {
                 migratable = new LookupsMigration();
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
+                Map<String, Map<String, Lookups>> lookupsMap =
+                        CSVUtil.createDiscriminatorValueMap(OUTPUT_DIR + "/" + MIGRATED_DIR +
+                                "/Lookups.csv", Lookups.class);
+
                 System.out.println("Migrating volunteers.");
-                migratable = new VolunteersMigration();
+                migratable = new VolunteersMigration(lookupsMap);
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
                 System.out.println("Migrating organisation.");
-                migratable = new OrganisationsMigration();
+                migratable = new OrganisationsMigration(lookupsMap);
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
                 System.out.println("Migrating organisation.");
-                migratable = new OrganisationVuoMigration();
+                migratable = new OrganisationVuoMigration(lookupsMap);
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
                 System.out.println("Migrating opportunities.");
-                migratable = new OpportunitiesMigration();
+                migratable = new OpportunitiesMigration(lookupsMap);
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
                 System.out.println("Migrating activity logs.");
-                migratable = new ActivityLogsMigration();
+                migratable = new ActivityLogsMigration(lookupsMap);
                 migratable.migrate(OUTPUT_DIR + "/" + CSV_DIR + "/", OUTPUT_DIR + "/" + MIGRATED_DIR + "/");
 
             } catch (IOException e) {

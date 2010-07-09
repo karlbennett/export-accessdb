@@ -18,6 +18,12 @@ import java.util.UUID;
  */
 public class ActivityLogsMigration implements Migratable {
 
+    private Map<String, Map<String, Lookups>> lookupsMap;
+
+    public ActivityLogsMigration(Map<String, Map<String, Lookups>> lookupsMap) {
+        this.lookupsMap = lookupsMap;
+    }
+
     @Override
     public void migrate(String csvDir, String outputDir) {
         CSVFileReader csvFileReader = null;

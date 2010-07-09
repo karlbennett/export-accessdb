@@ -32,6 +32,12 @@ public class VolunteersMigration implements Migratable {
         WEEK_MAP = Collections.unmodifiableMap(weekMap);
     }
 
+    private Map<String, Map<String, Lookups>> lookupsMap;
+
+    public VolunteersMigration(Map<String, Map<String, Lookups>> lookupsMap) {
+        this.lookupsMap = lookupsMap;
+    }
+
     @Override
     public void migrate(String csvDir, String outputDir) {
         CSVFileReader csvFileReader = null;

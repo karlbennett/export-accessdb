@@ -21,6 +21,12 @@ import java.util.UUID;
  */
 public class OrganisationVuoMigration implements Migratable {
 
+    private Map<String, Map<String, Lookups>> lookupsMap;
+
+    public OrganisationVuoMigration(Map<String, Map<String, Lookups>> lookupsMap) {
+        this.lookupsMap = lookupsMap;
+    }
+
     @Override
     public void migrate(String csvDir, String outputDir) {
         CSVFileReader csvFileReader = null;
@@ -35,7 +41,7 @@ public class OrganisationVuoMigration implements Migratable {
             // Append to existing records created by OrganisationsMigration.
             organisationsWriter = new BufferedWriter(new FileWriter(outputDir + "Organisations.csv", true));
             // Append to existing records created by OrganisationsMigration.
-            organisationAddressWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationAddress.csv", true));
+            organisationAddressWriter = new BufferedWriter(new FileWriter(outputDir + "OrganisationAddresses.csv", true));
 
             // Append to existing records created by OrganisationsMigration, VolunteersMigration.
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv", true));
