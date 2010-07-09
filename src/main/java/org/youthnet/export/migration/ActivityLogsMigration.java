@@ -68,7 +68,10 @@ public class ActivityLogsMigration implements Migratable {
 
                 activityLogs.setId(UUID.randomUUID());
                 activityLogs.setVbase2Id(tblActivityLog.getLid());
-                activityLogs.setActivityTypeId(null); // TODO: Set the activity log activity type lookup
+                activityLogs.setActivityTypeId(lookupsMap.get("activitytype") != null &&
+                            lookupsMap.get("activitytype").get(tblActivityLog.getActivity().toLowerCase()) != null ?
+                            lookupsMap.get("activitytype").get(tblActivityLog.getActivity().toLowerCase()).getId() :
+                                null);
                 activityLogs.setStartDate(tblActivityLog.getStarttime());
                 activityLogs.setEndDate(tblActivityLog.getEndtime());
                 activityLogs.setIsAllDayEvent(tblActivityLog.getAlldayevent());
