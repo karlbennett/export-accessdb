@@ -580,8 +580,8 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.benefits == null ? "" :
-                this.benefits.length() < 250 ? this.benefits.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.benefits.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.benefits.length() < 240 ? this.benefits.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.benefits.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -612,8 +612,8 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.description == null ? "" :
-                this.description.length() < 250 ? this.description.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.description.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.description.length() < 240 ? this.description.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.description.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -634,8 +634,8 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.ownid == null ? "" :
-                this.ownid.length() < 250 ? this.ownid.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.ownid.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.ownid.length() < 240 ? this.ownid.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.ownid.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -666,8 +666,8 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.requirements == null ? "" :
-                this.requirements.length() < 250 ? this.requirements.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.requirements.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.requirements.length() < 240 ? this.requirements.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.requirements.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -683,8 +683,8 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.shortdescription == null ? "" :
-                this.shortdescription.length() < 250 ? this.shortdescription.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.shortdescription.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.shortdescription.length() < 240 ? this.shortdescription.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.shortdescription.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -715,8 +715,8 @@ public class Opportunities implements CSVable, ContainsVb2id {
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.title == null ? "" :
-                this.title.length() < 250 ? this.title.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.title.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.title.length() < 240 ? this.title.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.title.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

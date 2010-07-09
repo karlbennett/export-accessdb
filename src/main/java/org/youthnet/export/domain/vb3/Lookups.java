@@ -325,7 +325,7 @@ public class Lookups implements CSVable, ContainsVb2id, ContainsDiscriminator, C
             this.columnNames.add(new String[]{"LanguageId", "UUID"});
             this.columnNames.add(new String[]{"OwnerId", "UUID"});
             this.columnNames.add(new String[]{"SortOrder", "Long"});
-            this.columnNames.add(new String[]{"VBase2Id", "Long"});
+            this.columnNames.add(new String[]{"Vbase2Id", "Long"});
             this.columnNames.add(new String[]{"Value", "String"});
             this.columnNames.add(new String[]{"AppliesToOpportunities", "Boolean"});
             this.columnNames.add(new String[]{"AppliesToOrganisations", "Boolean"});
@@ -374,8 +374,8 @@ public class Lookups implements CSVable, ContainsVb2id, ContainsDiscriminator, C
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.value == null ? "" :
-                this.value.length() < 250 ? this.value.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.value.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.value.length() < 240 ? this.value.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.value.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -396,8 +396,8 @@ public class Lookups implements CSVable, ContainsVb2id, ContainsDiscriminator, C
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.discriminator == null ? "" :
-                this.discriminator.length() < 250 ? this.discriminator.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.discriminator.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.discriminator.length() < 240 ? this.discriminator.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.discriminator.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

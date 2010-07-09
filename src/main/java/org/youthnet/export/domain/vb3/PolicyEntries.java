@@ -292,8 +292,8 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.discriminator == null ? "" :
-                this.discriminator.length() < 250 ? this.discriminator.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.discriminator.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.discriminator.length() < 240 ? this.discriminator.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.discriminator.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -334,8 +334,8 @@ public class PolicyEntries implements CSVable, ContainsVb2id, ContainsDiscrimina
 
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.comments == null ? "" :
-                this.comments.length() < 250 ? this.comments.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
-                        this.comments.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+                this.comments.length() < 240 ? this.comments.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.comments.substring(0, 240).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

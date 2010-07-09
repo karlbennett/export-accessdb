@@ -34,7 +34,7 @@ END {
     print "";
     print "";
     print "load data" > tableName ".ctl";
-    print " infile \"migrated/" tableName ".csv\" \"str '|\\n'\"" >> tableName ".ctl";
+    print " infile \"" tableName ".csv\" \"str '|\\n'\"" >> tableName ".ctl";
     print " into table " tableName >> tableName ".ctl";
     print " fields terminated by '|' optionally enclosed by '¬' TRAILING NULLCOLS\n (" >> tableName ".ctl";
     printf "  " columns[0, 0] " " columns[0, 1] >> tableName ".ctl";

@@ -212,8 +212,8 @@ for (i = 0; i < methoddNum; i++) {
         print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " != null && this." tolower(methods[i, 0]) " ? 1 : 0);" >> tableName ".java";
     } else if (methods[i, 1] == "String") {
         print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" :" >> tableName ".java";
-        print "\t\t\tthis." tolower(methods[i, 0]) ".length() < 250 ? this." tolower(methods[i, 0]) ".replace(String.valueOf(this.delimiter), \"[[DELM]]\").replace(String.valueOf(this.enclosure), \"[[ENCL]]\") :" >> tableName ".java";
-        print "\t\t\tthis." tolower(methods[i, 0]) ".substring(0, 250).replace(String.valueOf(this.delimiter), \"[[DELM]]\").replace(String.valueOf(this.enclosure), \"[[ENCL]]\"));" >> tableName ".java";
+        print "\t\t\tthis." tolower(methods[i, 0]) ".length() < 240 ? this." tolower(methods[i, 0]) ".replace(String.valueOf(this.delimiter), \"[[DELM]]\").replace(String.valueOf(this.enclosure), \"[[ENCL]]\") :" >> tableName ".java";
+        print "\t\t\tthis." tolower(methods[i, 0]) ".substring(0, 240).replace(String.valueOf(this.delimiter), \"[[DELM]]\").replace(String.valueOf(this.enclosure), \"[[ENCL]]\"));" >> tableName ".java";
     } else print "\t\trecordStringBuffer.append(this." tolower(methods[i, 0]) " == null ? \"\" : this." tolower(methods[i, 0]) ");" >> tableName ".java";
     print "\t\trecordStringBuffer.append(this.enclosure);" >> tableName ".java";
     print "\t\trecordStringBuffer.append(this.delimiter);" >> tableName ".java";
