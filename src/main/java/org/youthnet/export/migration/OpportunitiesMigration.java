@@ -180,21 +180,26 @@ public class OpportunitiesMigration implements Migratable {
                     address.setAddress2(tblOpp.getAddress2());
                     address.setAddress3(null);
                     address.setTown(tblOpp.getTown());
-                    address.setCountryId(null);
-                    address.setCountyId(null);
+                    address.setCountryId(lookupsMap.get("country") != null &&
+                            lookupsMap.get("country").get("uk") != null ?
+                            lookupsMap.get("country").get("uk").getId() : null);
+                    address.setCountyId(lookupsMap.get("county") != null &&
+                            lookupsMap.get("county").get(tblOpp.getCounty().toLowerCase()) != null ?
+                            lookupsMap.get("county").get(tblOpp.getCounty().toLowerCase()).getId() : null);
                     address.setPostCode(tblOpp.getPostcode());
 
                     locations.setId(UUID.randomUUID());
                     locations.setAddressId(address.getId());
                     locations.setOpportunityLocationId(opportunities.getId());
                     locations.setDisplayString(opportunities.getOwnId());
-                    locations.setUseCustomAddress(true); // TODO: Set the opportunity addresses country lookup
-                    locations.setIsActive(true); // TODO: Set the opportunity addresses county lookup
+                    locations.setUseCustomAddress(true);
+                    locations.setIsActive(true);
                     locations.setDiscriminator("PostCodeLocationAddress");
                     locations.setLocationType("POSTCODE");
 
                     contact.setId(UUID.randomUUID());
-                    contact.setTitleId(null);  // TODO: Set the opportunity title lookup
+                    contact.setTitleId(lookupsMap.get("title") != null &&
+                        lookupsMap.get("title").get("-") != null ? lookupsMap.get("title").get("-").getId() : null);
 
                     if (tblOpp.getContact() != null && !tblOpp.getContact().equals("")) {
                         String[] contactArray = tblOpp.getContact().split(" ");
@@ -253,8 +258,14 @@ public class OpportunitiesMigration implements Migratable {
 
                         policyEntry.setId(UUID.randomUUID());
                         policyEntry.setDiscriminator("A");
-                        policyEntry.setPolicyId(null); // TODO: Set the opportunity policy  lookup
-                        policyEntry.setPolicyStatusId(null); // TODO: Set the opportunity policy  status lookup
+                        policyEntry.setPolicyId(lookupsMap.get("arrangement") != null &&
+                            lookupsMap.get("arrangement").get(arrangement.getOpparrangements().toLowerCase()) != null ?
+                            lookupsMap.get("arrangement").get(arrangement.getOpparrangements().toLowerCase()).getId() :
+                                null);
+                        policyEntry.setPolicyStatusId(lookupsMap.get("arrangementstatus") != null &&
+                            lookupsMap.get("arrangementstatus").get(arrangement.getDetails().toLowerCase()) != null ?
+                            lookupsMap.get("arrangementstatus").get(arrangement.getDetails().toLowerCase()).getId() :
+                                lookupsMap.get("arrangementstatus").get("-").getId());
                         policyEntry.setComments(arrangement.getDetails());
 
                         opportunityArrPolicyEntry.setOpportunityId(opportunities.getId());
@@ -272,7 +283,10 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppSpecial special : tblOppSpecials.get(opportunities.getVbase2Id())) {
                         opportunityTag = new OpportunityTags();
                         opportunityTag.setOpportunityId(opportunities.getId());
-                        opportunityTag.setLookupId(null); // TODO: Set the opportunity lag lookup
+                        opportunityTag.setLookupId(lookupsMap.get("taggeddata") != null &&
+                            lookupsMap.get("taggeddata").get(special.getSpecial().toLowerCase()) != null ?
+                            lookupsMap.get("taggeddata").get(special.getSpecial().toLowerCase()).getId() :
+                                null);
 
                         opportunityTags.add(opportunityTag);
                     }
@@ -285,7 +299,10 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppTypeOfActivity activity : tblOppTypeOfActivities.get(opportunities.getVbase2Id())) {
                         opportunityTypesOfActivity = new OpportunityTypesOfActivity();
                         opportunityTypesOfActivity.setOpportunityId(opportunities.getId());
-                        opportunityTypesOfActivity.setLookupId(null); // TODO: Set the opportunity type of activity lookup
+                        opportunityTypesOfActivity.setLookupId(lookupsMap.get("typeofactivity") != null &&
+                            lookupsMap.get("typeofactivity").get(activity.getTypeofactivity().toLowerCase()) != null ?
+                            lookupsMap.get("typeofactivity").get(activity.getTypeofactivity().toLowerCase()).getId() :
+                                null);
 
                         opportunityTypesOfActivities.add(opportunityTypesOfActivity);
                     }
@@ -298,7 +315,10 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppAreasOfInterest interest : tblOppAreasOfInterests.get(opportunities.getVbase2Id())) {
                         opportunityCausesInterest = new OpportunityCausesInterests();
                         opportunityCausesInterest.setOpportunityId(opportunities.getId());
-                        opportunityCausesInterest.setLookupId(null); // TODO: Set the opportunity cause of interest lookup
+                        opportunityCausesInterest.setLookupId(lookupsMap.get("causeinterest") != null &&
+                            lookupsMap.get("causeinterest").get(interest.getAreasofinterest().toLowerCase()) != null ?
+                            lookupsMap.get("causeinterest").get(interest.getAreasofinterest().toLowerCase()).getId() :
+                                null);
 
                         opportunityCausesInterests.add(opportunityCausesInterest);
                     }
@@ -311,7 +331,10 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppRecruitmentMethod method : tblOppRecruitmentMethods.get(opportunities.getVbase2Id())) {
                         opportunitySelectionMethod = new OpportunitySelectionMethods();
                         opportunitySelectionMethod.setOpportunityId(opportunities.getId());
-                        opportunitySelectionMethod.setLookupId(null); // TODO: Set the opportunity selection method lookup
+                        opportunitySelectionMethod.setLookupId(lookupsMap.get("selectionmethod") != null &&
+                            lookupsMap.get("selectionmethod").get(method.getRecruitmentmethod().toLowerCase()) != null ?
+                            lookupsMap.get("selectionmethod").get(method.getRecruitmentmethod().toLowerCase()).getId() :
+                                null);
 
                         opportunitySelectionMethods.add(opportunitySelectionMethod);
                     }
