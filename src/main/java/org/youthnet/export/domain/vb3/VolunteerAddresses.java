@@ -159,7 +159,9 @@ public class VolunteerAddresses implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.name == null ? "" : this.name.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.name == null ? "" :
+                this.name.length() < 250 ? this.name.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.name.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

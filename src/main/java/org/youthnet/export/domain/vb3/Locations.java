@@ -463,7 +463,9 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.displaystring == null ? "" : this.displaystring.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.displaystring == null ? "" :
+                this.displaystring.length() < 250 ? this.displaystring.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.displaystring.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -473,7 +475,9 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.locationtype == null ? "" : this.locationtype.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.locationtype == null ? "" :
+                this.locationtype.length() < 250 ? this.locationtype.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.locationtype.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -483,7 +487,9 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.publiccontactdetailssource == null ? "" : this.publiccontactdetailssource.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.publiccontactdetailssource == null ? "" :
+                this.publiccontactdetailssource.length() < 250 ? this.publiccontactdetailssource.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.publiccontactdetailssource.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -533,7 +539,9 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.discriminator == null ? "" : this.discriminator.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.discriminator == null ? "" :
+                this.discriminator.length() < 250 ? this.discriminator.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.discriminator.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -573,7 +581,9 @@ public class Locations implements CSVable, ContainsDiscriminator {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.customorgname == null ? "" : this.customorgname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.customorgname == null ? "" :
+                this.customorgname.length() < 250 ? this.customorgname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.customorgname.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

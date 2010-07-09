@@ -230,7 +230,9 @@ public class LookupTypes implements CSVable, ContainsValue {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.value == null ? "" : this.value.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.value == null ? "" :
+                this.value.length() < 250 ? this.value.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.value.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

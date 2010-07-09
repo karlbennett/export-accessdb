@@ -409,12 +409,16 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.fax == null ? "" : this.fax.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.fax == null ? "" :
+                this.fax.length() < 250 ? this.fax.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.fax.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.firstname == null ? "" : this.firstname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.firstname == null ? "" :
+                this.firstname.length() < 250 ? this.firstname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.firstname.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -429,7 +433,9 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.jobtitle == null ? "" : this.jobtitle.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.jobtitle == null ? "" :
+                this.jobtitle.length() < 250 ? this.jobtitle.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.jobtitle.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -439,7 +445,9 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.mobile == null ? "" : this.mobile.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.mobile == null ? "" :
+                this.mobile.length() < 250 ? this.mobile.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.mobile.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -449,7 +457,9 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.notes == null ? "" : this.notes.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.notes == null ? "" :
+                this.notes.length() < 250 ? this.notes.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.notes.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -459,7 +469,9 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.preferredname == null ? "" : this.preferredname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.preferredname == null ? "" :
+                this.preferredname.length() < 250 ? this.preferredname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.preferredname.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -469,12 +481,16 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.surname == null ? "" : this.surname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.surname == null ? "" :
+                this.surname.length() < 250 ? this.surname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.surname.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.tel == null ? "" : this.tel.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.tel == null ? "" :
+                this.tel.length() < 250 ? this.tel.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.tel.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -519,12 +535,16 @@ public class Contacts implements CSVable, ContainsVb2id {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.department == null ? "" : this.department.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.department == null ? "" :
+                this.department.length() < 250 ? this.department.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.department.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.email == null ? "" : this.email.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.email == null ? "" :
+                this.email.length() < 250 ? this.email.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.email.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

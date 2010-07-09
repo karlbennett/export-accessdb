@@ -258,7 +258,9 @@ public class MetaData implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.type == null ? "" : this.type.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.type == null ? "" :
+                this.type.length() < 250 ? this.type.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.type.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

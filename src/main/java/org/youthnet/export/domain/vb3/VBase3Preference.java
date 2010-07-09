@@ -371,7 +371,9 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.copyright == null ? "" : this.copyright.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.copyright == null ? "" :
+                this.copyright.length() < 250 ? this.copyright.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.copyright.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
@@ -456,7 +458,9 @@ public class VBase3Preference implements CSVable {
         recordStringBuffer.append(this.delimiter);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.applicationname == null ? "" : this.applicationname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.applicationname == null ? "" :
+                this.applicationname.length() < 250 ? this.applicationname.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.applicationname.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 

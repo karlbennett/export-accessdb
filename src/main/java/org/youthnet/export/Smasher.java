@@ -291,6 +291,47 @@ public class Smasher {
         return columnStringBuffer.toString();
     }
 
+    private static String generateVB3CTLString(String tableName, List<String[]> columns) {
+        StringBuffer columnStringBuffer = new StringBuffer();
+
+        columnStringBuffer.append("load data\n");
+        columnStringBuffer.append(" infile \"");
+        columnStringBuffer.append(CSV_DIR);
+        columnStringBuffer.append("/");
+        columnStringBuffer.append(tableName);
+        columnStringBuffer.append(".csv\" \"str '|\\n'\"\n");
+        columnStringBuffer.append(" into table ");
+        columnStringBuffer.append(tableName);
+        columnStringBuffer.append("\n fields terminated by '\\|' optionally enclosed by '¬' TRAILING NULLCOLS\n (\n");
+
+        for (String[] column : columns) {
+
+            if (column[1].equals("String")) {
+                columnStringBuffer.append(column[0].toLowerCase());
+                columnStringBuffer.append("_");
+                columnStringBuffer.append(" CHAR");
+            } else if (column[1].equals("Timestamp")) {
+                columnStringBuffer.append(column[0].toLowerCase());
+                columnStringBuffer.append("_");
+                columnStringBuffer.append(" TIMESTAMP 'yyyy-mm-dd HH24:MI:SS.FF1'");
+            } else if (column[1].equals("UUID")) {
+                columnStringBuffer.append(column[0].toLowerCase());
+                columnStringBuffer.append("_");
+                columnStringBuffer.append(" RAW(16)");
+            } else {
+                columnStringBuffer.append(column[0].toLowerCase());
+                columnStringBuffer.append("_");
+            }
+
+            columnStringBuffer.append(",\n");
+        }
+
+        columnStringBuffer.replace(columnStringBuffer.length() - 2, columnStringBuffer.length(), "");
+        columnStringBuffer.append(")");
+
+        return columnStringBuffer.toString();
+    }
+
     private static String generateSQLCreateString(Table table) {
         StringBuffer columnStringBuffer = new StringBuffer();
         String tableName = table.getName();

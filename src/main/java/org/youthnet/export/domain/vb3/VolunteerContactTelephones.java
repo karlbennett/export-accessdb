@@ -148,7 +148,9 @@ public class VolunteerContactTelephones implements CSVable {
         recordStringBuffer.setLength(0);
 
         recordStringBuffer.append(this.enclosure);
-        recordStringBuffer.append(this.tel_number == null ? "" : this.tel_number.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
+        recordStringBuffer.append(this.tel_number == null ? "" :
+                this.tel_number.length() < 250 ? this.tel_number.replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]") :
+                        this.tel_number.substring(0, 250).replace(String.valueOf(this.delimiter), "[[DELM]]").replace(String.valueOf(this.enclosure), "[[ENCL]]"));
         recordStringBuffer.append(this.enclosure);
         recordStringBuffer.append(this.delimiter);
 
