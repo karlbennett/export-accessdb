@@ -4,6 +4,7 @@ import org.youthnet.export.domain.vb25.*;
 import org.youthnet.export.domain.vb3.*;
 import org.youthnet.export.io.CSVFileReader;
 import org.youthnet.export.util.CSVUtil;
+import org.youthnet.export.util.MigrationUtil;
 
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -139,10 +140,8 @@ public class VolunteersMigration implements Migratable {
                 volunteers.setId(UUID.randomUUID());
                 volunteers.setVbase2Id(tblVol.getVid());
                 volunteers.setIsActive(true);
-                volunteers.setTitleId(lookupsMap.get("title") != null &&
-                        lookupsMap.get("title").get(tblVol.getTitle().toLowerCase()) != null ?
-                        lookupsMap.get("title").get(tblVol.getTitle().toLowerCase()).getId() :
-                        null); // TODO put back to lookupsMap.get("title").get("-").getId()
+                volunteers.setTitleId(MigrationUtil.getLookupId(lookupsMap, "title", tblVol.getTitle().toLowerCase(),
+                        "-"));
                 volunteers.setFirstName(tblVol.getFirstname());
                 volunteers.setLastName(tblVol.getLastname());
                 volunteers.setPreferredName(tblVol.getSalutation() != null &&
@@ -150,55 +149,32 @@ public class VolunteersMigration implements Migratable {
                 volunteers.setAgreesToBeContacted(tblVol.getContactable());
                 volunteers.setDisabilityDetails(tblVol.getDisabilitystatus());
                 volunteers.setDateOfBirth(tblVol.getDob());
-                volunteers.setGenderId(lookupsMap.get("gender") != null &&
-                        lookupsMap.get("gender").get(tblVol.getGender().toLowerCase()) != null ?
-                        lookupsMap.get("gender").get(tblVol.getGender().toLowerCase()).getId() :
-                        null);
-                volunteers.setAgeRangeId(lookupsMap.get("agerange") != null &&
-                        lookupsMap.get("agerange").get(tblVol.getAgerange().toLowerCase()) != null ?
-                        lookupsMap.get("agerange").get(tblVol.getAgerange().toLowerCase()).getId() :
-                        null);
-                volunteers.setEmploymentStatusId(lookupsMap.get("employmentstatus") != null &&
-                        lookupsMap.get("employmentstatus").get(tblVol.getEmploymentstatus().toLowerCase()) != null ?
-                        lookupsMap.get("employmentstatus").get(tblVol.getEmploymentstatus().toLowerCase()).getId() :
-                        null);
-                volunteers.setEthnicityId(lookupsMap.get("ethnicity") != null &&
-                        lookupsMap.get("ethnicity").get(tblVol.getEthnicity().toLowerCase()) != null ?
-                        lookupsMap.get("ethnicity").get(tblVol.getEthnicity().toLowerCase()).getId() :
-                        null);
-                volunteers.setDrivingLicenceId(lookupsMap.get("drivinglicence") != null &&
-                        lookupsMap.get("drivinglicence").get(tblVol.getTypeofdrivinglicence().toLowerCase()) != null ?
-                        lookupsMap.get("drivinglicence").get(tblVol.getTypeofdrivinglicence().toLowerCase()).getId() :
-                        null);
-                volunteers.setNationalityId(lookupsMap.get("nationality") != null &&
-                        lookupsMap.get("nationality").get(tblVol.getNationality().toLowerCase()) != null ?
-                        lookupsMap.get("nationality").get(tblVol.getNationality().toLowerCase()).getId() :
-                        null);
-                volunteers.setReligionId(lookupsMap.get("religion") != null &&
-                        lookupsMap.get("religion").get(tblVol.getReligion().toLowerCase()) != null ?
-                        lookupsMap.get("religion").get(tblVol.getReligion().toLowerCase()).getId() :
-                        null);
-                volunteers.setDisabilityStatusId(lookupsMap.get("disabilityStatus") != null &&
-                        lookupsMap.get("disabilityStatus").get(tblVol.getDisabilitystatus().toLowerCase()) != null ?
-                        lookupsMap.get("disabilityStatus").get(tblVol.getDisabilitystatus().toLowerCase()).getId() :
-                        null);
-                volunteers.setTransportId(lookupsMap.get("transport") != null &&
-                        lookupsMap.get("transport").get(tblVol.getDriving().toLowerCase()) != null ?
-                        lookupsMap.get("transport").get(tblVol.getDriving().toLowerCase()).getId() :
-                        null);
+                volunteers.setGenderId(MigrationUtil.getLookupId(lookupsMap, "gender", tblVol.getGender().toLowerCase()));
+                volunteers.setAgeRangeId(MigrationUtil.getLookupId(lookupsMap, "agerange",
+                        tblVol.getAgerange().toLowerCase()));
+                volunteers.setEmploymentStatusId(MigrationUtil.getLookupId(lookupsMap, "employmentstatus",
+                        tblVol.getEmploymentstatus().toLowerCase()));
+                volunteers.setEthnicityId(MigrationUtil.getLookupId(lookupsMap, "ethnicity",
+                        tblVol.getEthnicity().toLowerCase()));
+                volunteers.setDrivingLicenceId(MigrationUtil.getLookupId(lookupsMap, "drivinglicence",
+                        tblVol.getTypeofdrivinglicence().toLowerCase()));
+                volunteers.setNationalityId(MigrationUtil.getLookupId(lookupsMap, "nationality",
+                        tblVol.getNationality().toLowerCase()));
+                volunteers.setReligionId(MigrationUtil.getLookupId(lookupsMap, "religion",
+                        tblVol.getReligion().toLowerCase()));
+                volunteers.setDisabilityStatusId(MigrationUtil.getLookupId(lookupsMap, "disabilityStatus",
+                        tblVol.getDisabilitystatus().toLowerCase()));
+                volunteers.setTransportId(MigrationUtil.getLookupId(lookupsMap, "transport",
+                        tblVol.getDriving().toLowerCase()));
                 volunteers.setQualificationsAndExperience(tblVol.getPreviouswork());
                 volunteers.setAmCommitment(createCommitment(tblVolTimes.get(volunteers.getVbase2Id()), "AM"));
                 volunteers.setPmCommitment(createCommitment(tblVolTimes.get(volunteers.getVbase2Id()), "PM"));
                 volunteers.setEveCommitment(createCommitment(tblVolTimes.get(volunteers.getVbase2Id()), "EVE"));
                 volunteers.setAvailabilityStatusId(availabilityStatusMap.get(tblVol.getStatus().toLowerCase()));
-                volunteers.setPlacementStatusId(lookupsMap.get("placementstatus") != null &&
-                        lookupsMap.get("placementstatus").get(tblVol.getStatus().toLowerCase()) != null ?
-                        lookupsMap.get("placementstatus").get(tblVol.getStatus().toLowerCase()).getId() :
-                        lookupsMap.get("placementstatus").get("unknown").getId());
-                volunteers.setHowHeardId(lookupsMap.get("howheard") != null &&
-                        lookupsMap.get("howheard").get(tblVol.getHowheard().toLowerCase()) != null ?
-                        lookupsMap.get("howheard").get(tblVol.getHowheard().toLowerCase()).getId() :
-                        null);
+                volunteers.setPlacementStatusId(MigrationUtil.getLookupId(lookupsMap, "placementstatus",
+                        tblVol.getStatus().toLowerCase(), "unknown"));
+                volunteers.setHowHeardId(MigrationUtil.getLookupId(lookupsMap, "howheard",
+                        tblVol.getHowheard().toLowerCase()));
 
                 // -- Migrate the volunteer generic address data --
                 // If the volunteer has an address, migrate it.
@@ -211,12 +187,9 @@ public class VolunteersMigration implements Migratable {
                     addresses.setAddress1(tblVol.getAddress1());
                     addresses.setAddress2(tblVol.getAddress2());
                     addresses.setTown(tblVol.getTown());
-                    addresses.setCountryId(lookupsMap.get("country") != null &&
-                            lookupsMap.get("country").get("uk") != null ?
-                            lookupsMap.get("country").get("uk").getId() : null);
-                    addresses.setCountyId(lookupsMap.get("county") != null &&
-                            lookupsMap.get("county").get(tblVol.getCounty().toLowerCase()) != null ?
-                            lookupsMap.get("county").get(tblVol.getCounty().toLowerCase()).getId() : null);
+                    addresses.setCountryId(MigrationUtil.getLookupId(lookupsMap, "country", "uk"));
+                    addresses.setCountyId(MigrationUtil.getLookupId(lookupsMap, "county",
+                            tblVol.getCounty().toLowerCase()));
                     addresses.setPostCode(tblVol.getPostcode());
 
                     volunteerAddresses.setVolunteerId(volunteers.getId());
@@ -238,9 +211,8 @@ public class VolunteersMigration implements Migratable {
                     dayTimeContactInfo.setNotes("Daytime");
                     dayTimeTelephone.setVolunteerId(volunteers.getId());
                     dayTimeTelephone.setVolunteerContactInfoId(dayTimeContactInfo.getId());
-                    dayTimeTelephone.setTelephoneTypeId(lookupsMap.get("telephonetype") != null &&
-                            lookupsMap.get("telephonetype").get("unspecified") != null ?
-                            lookupsMap.get("telephonetype").get("unspecified").getId() : null);
+                    dayTimeTelephone.setTelephoneTypeId(MigrationUtil.getLookupId(lookupsMap, "telephonetype",
+                            "unspecified"));
                     dayTimeTelephone.setTel_number(tblVol.getTelday());
                 }
 
@@ -256,9 +228,8 @@ public class VolunteersMigration implements Migratable {
                     eveningContactInfo.setNotes("Evening");
                     eveningTelephone.setVolunteerId(volunteers.getId());
                     eveningTelephone.setVolunteerContactInfoId(eveningContactInfo.getId());
-                    eveningTelephone.setTelephoneTypeId(lookupsMap.get("telephonetype") != null &&
-                            lookupsMap.get("telephonetype").get("unspecified") != null ?
-                            lookupsMap.get("telephonetype").get("unspecified").getId() : null);
+                    eveningTelephone.setTelephoneTypeId(MigrationUtil.getLookupId(lookupsMap, "telephonetype",
+                            "unspecified"));
                     eveningTelephone.setTel_number(tblVol.getTelevening());
                 }
 
@@ -274,9 +245,7 @@ public class VolunteersMigration implements Migratable {
                     faxContactInfo.setNotes("");
                     faxTelephone.setVolunteerId(volunteers.getId());
                     faxTelephone.setVolunteerContactInfoId(faxContactInfo.getId());
-                    faxTelephone.setTelephoneTypeId(lookupsMap.get("telephonetype") != null &&
-                            lookupsMap.get("telephonetype").get("fax") != null ?
-                            lookupsMap.get("telephonetype").get("fax").getId() : null);
+                    faxTelephone.setTelephoneTypeId(MigrationUtil.getLookupId(lookupsMap, "telephonetype", "fax"));
                     faxTelephone.setTel_number(tblVol.getFax());
                 }
 
@@ -292,9 +261,7 @@ public class VolunteersMigration implements Migratable {
                     mobileContactInfo.setNotes("");
                     mobileTelephone.setVolunteerId(volunteers.getId());
                     mobileTelephone.setVolunteerContactInfoId(mobileContactInfo.getId());
-                    mobileTelephone.setTelephoneTypeId(lookupsMap.get("telephonetype") != null &&
-                            lookupsMap.get("telephonetype").get("mobile") != null ?
-                            lookupsMap.get("telephonetype").get("mobile").getId() : null);
+                    mobileTelephone.setTelephoneTypeId(MigrationUtil.getLookupId(lookupsMap, "telephonetype", "mobile"));
                     mobileTelephone.setTel_number(tblVol.getMobile());
                 }
 
@@ -310,9 +277,7 @@ public class VolunteersMigration implements Migratable {
                     emailContactInfo.setNotes("");
                     email.setVolunteerId(volunteers.getId());
                     email.setVolunteerContactInfoId(emailContactInfo.getId());
-                    email.setTelephoneTypeId(lookupsMap.get("emailtype") != null &&
-                            lookupsMap.get("emailtype").get("unspecified") != null ?
-                            lookupsMap.get("emailtype").get("unspecified").getId() : null);
+                    email.setTelephoneTypeId(MigrationUtil.getLookupId(lookupsMap, "emailtype", "unspecified"));
                     email.setEmail(tblVol.getEmail());
                 }
 
@@ -322,10 +287,8 @@ public class VolunteersMigration implements Migratable {
                     volunteerGeoAreas = new VolunteerGeoAreaLookups();
 
                     volunteerGeoAreas.setVolunteerId(volunteers.getId());
-                    volunteerGeoAreas.setLookupId(lookupsMap.get("geographicalarea") != null &&
-                        lookupsMap.get("geographicalarea").get(tblVol.getGeographicalarea().toLowerCase()) != null ?
-                        lookupsMap.get("geographicalarea").get(tblVol.getGeographicalarea().toLowerCase()).getId() :
-                        null);
+                    volunteerGeoAreas.setLookupId(MigrationUtil.getLookupId(lookupsMap, "geographicalarea",
+                            tblVol.getGeographicalarea().toLowerCase()));
                 }
 
                 // -- Migrate the volunteer type of activities --
@@ -336,12 +299,15 @@ public class VolunteersMigration implements Migratable {
                     for (TblVolTypeOfActivity activity : tblVolTypeOfActivities.get(tblVol.getVid())) {
                         volunteerTypeOfActivity = new VolunteerTypeOfActivityLookups();
                         volunteerTypeOfActivity.setVolunteerId(volunteers.getId());
-                        volunteerTypeOfActivity.setLookupId(lookupsMap.get("typeofactivity") != null &&
-                        lookupsMap.get("typeofactivity").get(activity.getTypeofactivity().toLowerCase()) != null ?
-                        lookupsMap.get("typeofactivity").get(activity.getTypeofactivity().toLowerCase()).getId() :
-                        null);
+                        volunteerTypeOfActivity.setLookupId(MigrationUtil.getLookupId(lookupsMap, "typeofactivity",
+                                activity.getTypeofactivity().toLowerCase()));
 
-                        volunteerTypeOfActivities.add(volunteerTypeOfActivity);
+                        if(volunteerTypeOfActivity.getLookupId() != null) {
+                            volunteerTypeOfActivities.add(volunteerTypeOfActivity);
+                        } else {
+                            System.out.println("Opportunity type of activity " + activity.getTypeofactivity()
+                                    + " has no matching type of activity lookup.");
+                        }
                     }
                 }
 
@@ -353,12 +319,15 @@ public class VolunteersMigration implements Migratable {
                     for (TblVolAreasOfInterest areasOfInterest : tblVolAreasOfInterests.get(tblVol.getVid())) {
                         volunteerCausesInt = new VolunteerCausesIntsLookups();
                         volunteerCausesInt.setVolunteerId(volunteers.getId());
-                        volunteerCausesInt.setLookupId(lookupsMap.get("causeinterest") != null &&
-                        lookupsMap.get("causeinterest").get(areasOfInterest.getAreasofinterest().toLowerCase()) != null ?
-                        lookupsMap.get("causeinterest").get(areasOfInterest.getAreasofinterest().toLowerCase()).getId() :
-                        null);
+                        volunteerCausesInt.setLookupId(MigrationUtil.getLookupId(lookupsMap, "causeinterest",
+                                areasOfInterest.getAreasofinterest().toLowerCase()));
 
-                        volunteerCausesInts.add(volunteerCausesInt);
+                        if(volunteerCausesInt.getLookupId() != null) {
+                            volunteerCausesInts.add(volunteerCausesInt);
+                        } else {
+                            System.out.println("Opportunity area of interest " + areasOfInterest.getAreasofinterest()
+                                    + " has no matching cause of interest lookup.");
+                        }
                     }
                 }
 
@@ -370,12 +339,15 @@ public class VolunteersMigration implements Migratable {
                     for (TblVolSpecial special : tblVolSpecials.get(tblVol.getVid())) {
                         volunteerTag = new VolunteerTagsLookups();
                         volunteerTag.setVolunteerId(volunteers.getId());
-                        volunteerTag.setLookupId(lookupsMap.get("taggeddata") != null &&
-                        lookupsMap.get("taggeddata").get(special.getSpecial().toLowerCase()) != null ?
-                        lookupsMap.get("taggeddata").get(special.getSpecial().toLowerCase()).getId() :
-                        null);
+                        volunteerTag.setLookupId(MigrationUtil.getLookupId(lookupsMap, "taggeddata",
+                                special.getSpecial().toLowerCase()));
 
-                        volunteerTags.add(volunteerTag);
+                        if(volunteerTag.getLookupId() != null) {
+                            volunteerTags.add(volunteerTag);
+                        } else {
+                            System.out.println("Opportunity special " + special.getSpecial()
+                                    + " has no matching target lookup.");
+                        }
                     }
                 }
 
