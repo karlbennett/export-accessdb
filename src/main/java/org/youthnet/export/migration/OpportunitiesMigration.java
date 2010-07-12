@@ -258,10 +258,8 @@ public class OpportunitiesMigration implements Migratable {
                         policyEntry.setDiscriminator("A");
                         policyEntry.setPolicyId(MigrationUtil.getLookupId(
                                 lookupsMap, "arrangement", arrangement.getOpparrangements().toLowerCase()));
-                        policyEntry.setPolicyStatusId(MigrationUtil.getLookupId(
-                                lookupsMap, "arrangementstatus", arrangement.getDetails().toLowerCase()) != null ?
-                                MigrationUtil.getLookupId(lookupsMap, "arrangementstatus", arrangement.getDetails().toLowerCase()) :
-                                MigrationUtil.getLookupId(lookupsMap, "arrangementstatus", "-"));
+                        policyEntry.setPolicyStatusId(MigrationUtil.getLookupId(lookupsMap, "arrangementstatus",
+                                arrangement.getDetails().toLowerCase(), "-"));
                         policyEntry.setComments(arrangement.getDetails());
 
                         opportunityArrPolicyEntry.setOpportunityId(opportunities.getId());
