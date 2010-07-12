@@ -283,8 +283,8 @@ public class OpportunitiesMigration implements Migratable {
                         if(opportunityTag.getLookupId() != null) {
                             opportunityTags.add(opportunityTag);
                         } else {
-                            System.out.println("Opportunity special " + special.getSpecial()
-                                    + " has no matching target lookup.");
+                            System.out.println("Opportunity special (" + special.getSpecial()
+                                    + ") has no matching target lookup.");
                         }
                     }
                 }
@@ -302,8 +302,8 @@ public class OpportunitiesMigration implements Migratable {
                         if(opportunityTypesOfActivity.getLookupId() != null) {
                             opportunityTypesOfActivities.add(opportunityTypesOfActivity);
                         } else {
-                            System.out.println("Opportunity type of activity " + activity.getTypeofactivity()
-                                    + " has no matching type of activity lookup.");
+                            System.out.println("Opportunity type of activity (" + activity.getTypeofactivity()
+                                    + ") has no matching type of activity lookup.");
                         }
                     }
                 }
@@ -321,8 +321,8 @@ public class OpportunitiesMigration implements Migratable {
                         if(opportunityCausesInterest.getLookupId() != null) {
                             opportunityCausesInterests.add(opportunityCausesInterest);
                         } else {
-                            System.out.println("Opportunity area of interest " + interest.getAreasofinterest() 
-                                    + " has no matching cause of interest lookup.");
+                            System.out.println("Opportunity area of interest (" + interest.getAreasofinterest()
+                                    + ") has no matching cause of interest lookup.");
                         }
                     }
                 }
@@ -340,8 +340,8 @@ public class OpportunitiesMigration implements Migratable {
                         if(opportunitySelectionMethod.getLookupId() != null) {
                             opportunitySelectionMethods.add(opportunitySelectionMethod);
                         } else {
-                            System.out.println("Opportunity recruitment method " + method.getRecruitmentmethod() 
-                                    + " has no matching selection method lookup.");
+                            System.out.println("Opportunity recruitment method (" + method.getRecruitmentmethod()
+                                    + ") has no matching selection method lookup.");
                         }
                     }
                 }

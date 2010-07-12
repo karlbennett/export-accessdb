@@ -305,8 +305,8 @@ public class VolunteersMigration implements Migratable {
                         if(volunteerTypeOfActivity.getLookupId() != null) {
                             volunteerTypeOfActivities.add(volunteerTypeOfActivity);
                         } else {
-                            System.out.println("Volunteer type of activity " + activity.getTypeofactivity()
-                                    + " has no matching type of activity lookup.");
+                            System.out.println("Volunteer type of activity (" + activity.getTypeofactivity()
+                                    + ") has no matching type of activity lookup.");
                         }
                     }
                 }
@@ -325,8 +325,8 @@ public class VolunteersMigration implements Migratable {
                         if(volunteerCausesInt.getLookupId() != null) {
                             volunteerCausesInts.add(volunteerCausesInt);
                         } else {
-                            System.out.println("Volunteer area of interest " + areasOfInterest.getAreasofinterest()
-                                    + " has no matching cause of interest lookup.");
+                            System.out.println("Volunteer area of interest (" + areasOfInterest.getAreasofinterest()
+                                    + ") has no matching cause of interest lookup.");
                         }
                     }
                 }
@@ -345,8 +345,8 @@ public class VolunteersMigration implements Migratable {
                         if(volunteerTag.getLookupId() != null) {
                             volunteerTags.add(volunteerTag);
                         } else {
-                            System.out.println("Volunteer special " + special.getSpecial()
-                                    + " has no matching target lookup.");
+                            System.out.println("Volunteer special (" + special.getSpecial()
+                                    + ") has no matching target lookup.");
                         }
                     }
                 }
