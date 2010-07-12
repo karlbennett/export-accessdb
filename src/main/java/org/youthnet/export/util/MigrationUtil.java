@@ -2,8 +2,6 @@ package org.youthnet.export.util;
 
 import org.youthnet.export.domain.vb3.Lookups;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,7 +17,7 @@ public class MigrationUtil {
         return lookupsMap.get(discriminator) != null ? lookupsMap.get(discriminator).get(value) : null;
     }
 
-    public static Lookups getLookupWithDefault(Map<String, Map<String, Lookups>> lookupsMap,
+    public static Lookups getLookup(Map<String, Map<String, Lookups>> lookupsMap,
                                                String discriminator,
                                                String value,
                                                String _default) {
@@ -37,7 +35,7 @@ public class MigrationUtil {
                                    String discriminator,
                                    String value,
                                    String _default) {
-        Lookups lookup = getLookupWithDefault(lookupsMap, discriminator, value, _default);
+        Lookups lookup = getLookup(lookupsMap, discriminator, value, _default);
         return lookup != null ? lookup.getId() : null;
     }
 }
