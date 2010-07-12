@@ -50,7 +50,6 @@ public class OrganisationsMigration implements Migratable {
             OrganisationAddresses organisationAddresses = null;
             OrganisationAddresses contactOrganisationAddresses = null;
             OrganisationContacts organisationContacts = null;
-            OrganisationContacts contactOrganisationContacts = null;
             Addresses addresses = null;
             Addresses contactAddresses = null;
             Contacts contacts = null;
@@ -66,7 +65,6 @@ public class OrganisationsMigration implements Migratable {
 
                 contactAddresses = null;
                 contactOrganisationAddresses = null;
-                contactOrganisationContacts = null;
 
                 // -- Migrate the organisations root  data --
                 organisations.setId(UUID.randomUUID()); // Create an ID for the new organisation.
@@ -164,20 +162,12 @@ public class OrganisationsMigration implements Migratable {
                 // If the contact fax is empty use the one from the related address.
                 contacts.setUsingAddressFax(tblOrg.getContactfax() == null || tblOrg.getContactfax().equals(""));
 
-                // -- Relate the organisation, contact, and address ---
-                organisationContacts.setContactId(contacts.getId()); // Wrap the contact with an organisation relation.
-                organisationContacts.setOrganisationId(organisations.getId()); // Relate the organisation to the contact.
-                // If the address exists relate it to the contact.
-                if (addresses != null) organisationContacts.setOrganisationAddressId(addresses.getId());
-
-
                 // -- Migrate the organisation contacts address --
                 // If the organisation has a contact address that is different from the organisation address migrate it.
                 if (tblOrg.getContactaddress1() != null && !tblOrg.getContactaddress1().equals("") &&
                         tblOrg.getContactaddress1().toLowerCase().equals(tblOrg.getAddress1().toLowerCase())) {
                     contactAddresses = new Addresses();
                     contactOrganisationAddresses = new OrganisationAddresses();
-                    contactOrganisationContacts = new OrganisationContacts();
 
                     contactAddresses.setId(UUID.randomUUID());
                     contactAddresses.setVbase2Id(organisations.getVbase2Id());
@@ -212,15 +202,14 @@ public class OrganisationsMigration implements Migratable {
                     organisationAddresses.setFriendlyName("Contact Address 1"); // Set this to be a contact address.
                     // If an organisation address does not already exist set this to be the default address.
                     organisationAddresses.setIsDefaultAddress(addresses == null);
-
-                    // -- Relate the organisation, contact, and address ---
-                    // Wrap the previous contact with another organisation relation.
-                    contactOrganisationContacts.setContactId(contacts.getId());
-                    // Relate the organisation to the contact.
-                    contactOrganisationContacts.setOrganisationId(organisations.getId());
-                    // Relate the contact address to the contact.
-                    contactOrganisationContacts.setOrganisationAddressId(addresses.getId());
                 }
+
+                // -- Relate the organisation, contact, and address ---
+                organisationContacts.setContactId(contacts.getId()); // Wrap the contact with an organisation relation.
+                organisationContacts.setOrganisationId(organisations.getId()); // Relate the organisation to the contact.
+                // If the contact address exists relate it to the contact or if the organisation address exist relate that to the contact.
+                if (contactAddresses != null) organisationContacts.setOrganisationAddressId(contactAddresses.getId());
+                else if (addresses != null) organisationContacts.setOrganisationAddressId(addresses.getId());
 
 
                 // -- Write the new records to their files --
@@ -235,7 +224,6 @@ public class OrganisationsMigration implements Migratable {
                 contactsWriter.write(contacts.getRecord() + "\n");
 
                 organisationContactWriter.write(organisationContacts.getRecord() + "\n");
-                if(contactOrganisationContacts != null) organisationContactWriter.write(contactOrganisationContacts.getRecord() + "\n");
             }
         } catch (IOException e) {
             System.out.println("Error while migrating organisations. Error:" + e.getMessage());
