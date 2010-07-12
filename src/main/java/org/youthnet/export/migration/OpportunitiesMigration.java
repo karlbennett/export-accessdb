@@ -4,6 +4,7 @@ import org.youthnet.export.domain.vb25.*;
 import org.youthnet.export.domain.vb3.*;
 import org.youthnet.export.io.CSVFileReader;
 import org.youthnet.export.util.CSVUtil;
+import org.youthnet.export.util.MigrationUtil;
 
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -129,6 +130,7 @@ public class OpportunitiesMigration implements Migratable {
                 vuoContactDetails = null;
                 policyEntryies = null;
                 opportunityArrPolicyEntries = null;
+                opportunityTags = null;
                 opportunityTypesOfActivities = null;
                 opportunityCausesInterests = null;
                 opportunitySelectionMethods = null;
@@ -180,12 +182,9 @@ public class OpportunitiesMigration implements Migratable {
                     address.setAddress2(tblOpp.getAddress2());
                     address.setAddress3(null);
                     address.setTown(tblOpp.getTown());
-                    address.setCountryId(lookupsMap.get("country") != null &&
-                            lookupsMap.get("country").get("uk") != null ?
-                            lookupsMap.get("country").get("uk").getId() : null);
-                    address.setCountyId(lookupsMap.get("county") != null &&
-                            lookupsMap.get("county").get(tblOpp.getCounty().toLowerCase()) != null ?
-                            lookupsMap.get("county").get(tblOpp.getCounty().toLowerCase()).getId() : null);
+                    address.setCountryId(MigrationUtil.getLookupId(lookupsMap, "country", "uk"));
+                    address.setCountyId(
+                            MigrationUtil.getLookupId(lookupsMap, "country", tblOpp.getCounty().toLowerCase()));
                     address.setPostCode(tblOpp.getPostcode());
 
                     locations.setId(UUID.randomUUID());
@@ -198,8 +197,7 @@ public class OpportunitiesMigration implements Migratable {
                     locations.setLocationType("POSTCODE");
 
                     contact.setId(UUID.randomUUID());
-                    contact.setTitleId(lookupsMap.get("title") != null &&
-                        lookupsMap.get("title").get("-") != null ? lookupsMap.get("title").get("-").getId() : null);
+                    contact.setTitleId(MigrationUtil.getLookupId(lookupsMap, "title", "-"));
 
                     if (tblOpp.getContact() != null && !tblOpp.getContact().equals("")) {
                         String[] contactArray = tblOpp.getContact().split(" ");
@@ -258,14 +256,12 @@ public class OpportunitiesMigration implements Migratable {
 
                         policyEntry.setId(UUID.randomUUID());
                         policyEntry.setDiscriminator("A");
-                        policyEntry.setPolicyId(lookupsMap.get("arrangement") != null &&
-                            lookupsMap.get("arrangement").get(arrangement.getOpparrangements().toLowerCase()) != null ?
-                            lookupsMap.get("arrangement").get(arrangement.getOpparrangements().toLowerCase()).getId() :
-                                null);
-                        policyEntry.setPolicyStatusId(lookupsMap.get("arrangementstatus") != null &&
-                            lookupsMap.get("arrangementstatus").get(arrangement.getDetails().toLowerCase()) != null ?
-                            lookupsMap.get("arrangementstatus").get(arrangement.getDetails().toLowerCase()).getId() :
-                                null); // TODO put back to lookupsMap.get("arrangementstatus").get("-").getId() 
+                        policyEntry.setPolicyId(MigrationUtil.getLookupId(
+                                lookupsMap, "arrangement", arrangement.getOpparrangements().toLowerCase()));
+                        policyEntry.setPolicyStatusId(MigrationUtil.getLookupId(
+                                lookupsMap, "arrangementstatus", arrangement.getDetails().toLowerCase()) != null ?
+                                MigrationUtil.getLookupId(lookupsMap, "arrangementstatus", arrangement.getDetails().toLowerCase()) :
+                                MigrationUtil.getLookupId(lookupsMap, "arrangementstatus", "-"));
                         policyEntry.setComments(arrangement.getDetails());
 
                         opportunityArrPolicyEntry.setOpportunityId(opportunities.getId());
@@ -283,12 +279,15 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppSpecial special : tblOppSpecials.get(opportunities.getVbase2Id())) {
                         opportunityTag = new OpportunityTags();
                         opportunityTag.setOpportunityId(opportunities.getId());
-                        opportunityTag.setLookupId(lookupsMap.get("taggeddata") != null &&
-                            lookupsMap.get("taggeddata").get(special.getSpecial().toLowerCase()) != null ?
-                            lookupsMap.get("taggeddata").get(special.getSpecial().toLowerCase()).getId() :
-                                null);
+                        opportunityTag.setLookupId(
+                                MigrationUtil.getLookupId(lookupsMap, "taggeddata", special.getSpecial().toLowerCase()));
 
-                        opportunityTags.add(opportunityTag);
+                        if(opportunityTag.getLookupId() != null) {
+                            opportunityTags.add(opportunityTag);
+                        } else {
+                            System.out.println("Opportunity special " + special.getSpecial()
+                                    + " has no matching target lookup.");
+                        }
                     }
                 }
 
@@ -299,12 +298,15 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppTypeOfActivity activity : tblOppTypeOfActivities.get(opportunities.getVbase2Id())) {
                         opportunityTypesOfActivity = new OpportunityTypesOfActivity();
                         opportunityTypesOfActivity.setOpportunityId(opportunities.getId());
-                        opportunityTypesOfActivity.setLookupId(lookupsMap.get("typeofactivity") != null &&
-                            lookupsMap.get("typeofactivity").get(activity.getTypeofactivity().toLowerCase()) != null ?
-                            lookupsMap.get("typeofactivity").get(activity.getTypeofactivity().toLowerCase()).getId() :
-                                null);
+                        opportunityTypesOfActivity.setLookupId(MigrationUtil.getLookupId(
+                                lookupsMap,"typeofactivity", activity.getTypeofactivity().toLowerCase()));
 
-                        opportunityTypesOfActivities.add(opportunityTypesOfActivity);
+                        if(opportunityTypesOfActivity.getLookupId() != null) {
+                            opportunityTypesOfActivities.add(opportunityTypesOfActivity);
+                        } else {
+                            System.out.println("Opportunity type of activity " + activity.getTypeofactivity()
+                                    + " has no matching type of activity lookup.");
+                        }
                     }
                 }
 
@@ -315,12 +317,15 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppAreasOfInterest interest : tblOppAreasOfInterests.get(opportunities.getVbase2Id())) {
                         opportunityCausesInterest = new OpportunityCausesInterests();
                         opportunityCausesInterest.setOpportunityId(opportunities.getId());
-                        opportunityCausesInterest.setLookupId(lookupsMap.get("causeinterest") != null &&
-                            lookupsMap.get("causeinterest").get(interest.getAreasofinterest().toLowerCase()) != null ?
-                            lookupsMap.get("causeinterest").get(interest.getAreasofinterest().toLowerCase()).getId() :
-                                null);
+                        opportunityCausesInterest.setLookupId(MigrationUtil.getLookupId(
+                                lookupsMap, "causeinterest", interest.getAreasofinterest().toLowerCase()));
 
-                        opportunityCausesInterests.add(opportunityCausesInterest);
+                        if(opportunityCausesInterest.getLookupId() != null) {
+                            opportunityCausesInterests.add(opportunityCausesInterest);
+                        } else {
+                            System.out.println("Opportunity area of interest " + interest.getAreasofinterest() 
+                                    + " has no matching cause of interest lookup.");
+                        }
                     }
                 }
 
@@ -331,12 +336,15 @@ public class OpportunitiesMigration implements Migratable {
                     for (TblOppRecruitmentMethod method : tblOppRecruitmentMethods.get(opportunities.getVbase2Id())) {
                         opportunitySelectionMethod = new OpportunitySelectionMethods();
                         opportunitySelectionMethod.setOpportunityId(opportunities.getId());
-                        opportunitySelectionMethod.setLookupId(lookupsMap.get("selectionmethod") != null &&
-                            lookupsMap.get("selectionmethod").get(method.getRecruitmentmethod().toLowerCase()) != null ?
-                            lookupsMap.get("selectionmethod").get(method.getRecruitmentmethod().toLowerCase()).getId() :
-                                null);
+                        opportunitySelectionMethod.setLookupId(MigrationUtil.getLookupId(
+                                lookupsMap, "selectionmethod", method.getRecruitmentmethod().toLowerCase()));
 
-                        opportunitySelectionMethods.add(opportunitySelectionMethod);
+                        if(opportunitySelectionMethod.getLookupId() != null) {
+                            opportunitySelectionMethods.add(opportunitySelectionMethod);
+                        } else {
+                            System.out.println("Opportunity recruitment method " + method.getRecruitmentmethod() 
+                                    + " has no matching selection method lookup.");
+                        }
                     }
                 }
 
