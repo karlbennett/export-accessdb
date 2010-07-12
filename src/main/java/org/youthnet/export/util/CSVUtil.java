@@ -281,7 +281,7 @@ public class CSVUtil {
                 try {
                     domainObject = type.newInstance();
                     domainObject.init(record);
-                    if (discValMap.get(domainObject.getDiscriminator()) == null)
+                    if (discValMap.get(domainObject.getDiscriminator().toLowerCase()) == null)
                         discValMap.put(domainObject.getDiscriminator().toLowerCase(), new HashMap<String, T>());
                     discValMap.get(domainObject.getDiscriminator().toLowerCase()).put(
                             domainObject.getValue().toLowerCase(), domainObject);
