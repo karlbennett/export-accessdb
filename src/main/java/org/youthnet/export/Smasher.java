@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.youthnet.export.domain.vb3.Lookups;
 import org.youthnet.export.migration.*;
 import org.youthnet.export.util.CSVUtil;
+import org.youthnet.export.util.ExportUtil;
 import org.youthnet.export.util.JavaCodeUtil;
 import org.youthnet.export.util.SQLCodeUtil;
 
@@ -735,7 +736,7 @@ public class Smasher {
 
         Object id = null; // Variable to hold the id of the row that is being processed.
 
-        Map<String, Object> row = null; // Map to hold the data of the row that has been exctracted from the access table.
+        Map<String, Object> row = null; // Map to hold the data of the row that has been extracted from the access table.
         Column column = null; // Variable to hold the data for the column that is being processed.
         for (int i = 0; i < table.getRowCount(); i++) { // Iterate through the rows.
             try {
@@ -756,40 +757,8 @@ public class Smasher {
 
                         rowStringBuffer.append(CSV_ENCLOSURE); // Add an enclosing character to the start of the value.
 
-                        if (value != null) { // If the value is null then don't bother trying to process it.
-                            if (value instanceof String) { // The value is a string...
-                                String valueString = (String) value; // Cast the value to a string so it's easier to work with.
+                        rowStringBuffer.append(ExportUtil.getValueString(value, CSV_DELIMITER, CSV_ENCLOSURE));
 
-                                // Check to see if it is an Activity log notes string...
-                                if (table.getName().equals("tblActivityLog") && column.getName().equals("Notes")) {
-                                    value = extractTextFromRTFNotes(value); // ...if it is extract the plain text from it.
-                                    // If the text has successfully been extracted place it into the valueString.
-                                    if (value != null) valueString = (String) value;
-                                }
-
-                                valueString = valueString.trim(); // Trim the string to remove any surrounding spaces.
-
-                                valueString = StringEscapeUtils.escapeSql(valueString); // Sanitize the string.
-
-                                // Make sure that neither the enclosing or delimiting characters are in the string.
-                                valueString = valueString.replaceAll(String.valueOf(CSV_ENCLOSURE), "[[ENCL]]");
-                                valueString = valueString.replaceAll("\\" + CSV_DELIMITER, "[[DELM]]");
-                                valueString = valueString.replaceAll("\\\\'", "\\\\\\\\'"); // Then escape any single quotes.
-
-                                rowStringBuffer.append(valueString); // Add the final string to the row string buffer.
-                            } else if (value instanceof java.util.Date) { // If the value is a date...
-                                // ...convert it to a timestamp string.
-                                rowStringBuffer.append((new Timestamp(((Date) value).getTime())));
-                            } else if (value instanceof Boolean) { // If the value is a boolean...
-                                if (((Boolean) value)) {
-                                    rowStringBuffer.append(1); // ...convert it to 1 for true...
-                                } else {
-                                    rowStringBuffer.append(0); // ...or 0 for false.
-                                }
-                            } else {
-                                rowStringBuffer.append(value);
-                            }
-                        }
                         rowStringBuffer.append(CSV_ENCLOSURE); // Add another enclosing character to the end of the value.
                         rowStringBuffer.append(CSV_DELIMITER); // Add the delimiter to separate the different values.
 
@@ -809,7 +778,8 @@ public class Smasher {
                 }
             } catch (IOException e) {
                 // If there was a issue with the row log it.
-                System.out.println("        -- Problem reading column number " + id + " from " + table.getName() + " table. Error: " + e.getMessage() + "\n");
+                System.out.println("        -- Problem reading row number " + id + " from " + table.getName()
+                        + " table. Error: " + e.getMessage() + "\n");
             }
 
         }
