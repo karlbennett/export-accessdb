@@ -98,8 +98,8 @@ public class ActivityLogsMigration implements Migratable {
                 if (tblActivityLog.getOrgid() != null) {
                     organisationActivityLog = new OrganisationActivityLogs();
                     organisationActivityLog.setId(UUID.randomUUID());
-                    organisationActivityLog.setOrganisationId(opportunitiesVb2idMap.get(tblActivityLog.getOrgid()) == null ?
-                            null : opportunitiesVb2idMap.get(tblActivityLog.getOrgid()).getId());
+                    organisationActivityLog.setOrganisationId(organisationsVb2idMap.get(tblActivityLog.getOrgid()) == null ?
+                            null : organisationsVb2idMap.get(tblActivityLog.getOrgid()).getId());
 
                     activityLogs.setPersonHereId(contactsVb2idMap.get(tblActivityLog.getOrgid()) == null ?
                             null : contactsVb2idMap.get(tblActivityLog.getOrgid()).getId());
