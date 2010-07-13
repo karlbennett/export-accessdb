@@ -1,8 +1,13 @@
 package org.youthnet.export.util;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.net.URL;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: karl
@@ -154,6 +159,76 @@ public class JavaCodeUtil {
 
     public static String toUpperFirst(String str) {
         return str.replaceFirst("^" + str.substring(0, 1), str.substring(0, 1).toUpperCase());
+    }
+
+    public static Class[] getClasses(String pckgname)
+            throws ClassNotFoundException {
+        ArrayList<Class> classes = new ArrayList<Class>();
+        // Get a File object for the package
+        File directory = null;
+        try {
+            ClassLoader cld = Thread.currentThread().getContextClassLoader();
+            if (cld == null) {
+                throw new ClassNotFoundException("Can't get class loader.");
+            }
+            String path = pckgname.replace('.', '/');
+            URL resource = cld.getResource(path);
+            if (resource == null) {
+                throw new ClassNotFoundException("No resource for " + path);
+            }
+            directory = new File(resource.getFile());
+        } catch (NullPointerException x) {
+            throw new ClassNotFoundException(pckgname + " (" + directory
+                    + ") does not appear to be a valid package");
+        }
+        if (directory.exists()) {
+            // Get the list of the files contained in the package
+            String[] files = directory.list();
+            for (int i = 0; i < files.length; i++) {
+                // we are only interested in .class files
+                if (files[i].endsWith(".class")) {
+                    // removes the .class extension
+                    classes.add(Class.forName(pckgname + '.'
+                            + files[i].substring(0, files[i].length() - 6)));
+                }
+            }
+        } else {
+            throw new ClassNotFoundException(pckgname
+                    + " does not appear to be a valid package");
+        }
+        Class[] classesA = new Class[classes.size()];
+        classes.toArray(classesA);
+        return classesA;
+    }
+
+    public static Map<String, Integer> getColumnMap(Class clazz) {
+        Map<String, Integer> columnMap = new HashMap<String, Integer>();
+
+        String columnName = "";
+        int n = 0;
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            columnName = field.getName().toLowerCase();
+            if (!columnName.equals("delimiter") && !columnName.equals("enclosure") &&
+                    !columnName.equals("column_num") && !columnName.equals("columnnames") &&
+                    !columnName.equals("record")) {
+                columnMap.put(columnName, n);
+                n++;
+            }
+        }
+
+        return columnMap;
+    }
+
+    public static Map<String, Integer> getColumnMap(String className) {
+
+        try {
+            return getColumnMap(Class.forName(className));
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error could not find class " + className + ".");
+        }
+
+        return null;
     }
 }
 
