@@ -46,9 +46,6 @@ public class OrganisationVuoMigration implements Migratable {
             // Append to existing records created by OrganisationsMigration, VolunteersMigration.
             addressesWriter = new BufferedWriter(new FileWriter(outputDir + "Addresses.csv", true));
 
-            Map<String, Map<String, Lookups>> lookupsMap =
-                    CSVUtil.createDiscriminatorValueMap(outputDir + "Lookups.csv", Lookups.class);
-
             UsysRegistration usysRegistration = null;
             Organisations organisations = null;
             OrganisationAddresses organisationAddresses = null;
@@ -88,7 +85,7 @@ public class OrganisationVuoMigration implements Migratable {
                             lookupsMap.get("country").get("uk").getId() : null);
                     addresses.setCountyId(lookupsMap.get("county") != null &&
                             lookupsMap.get("county").get(usysRegistration.getCounty().toLowerCase()) != null ?
-                            lookupsMap.get("country").get(usysRegistration.getCounty().toLowerCase()).getId() : null);
+                            lookupsMap.get("county").get(usysRegistration.getCounty().toLowerCase()).getId() : null);
                     addresses.setPostCode(usysRegistration.getPostcode()); // Migrate field.
                     addresses.setTown(usysRegistration.getTown()); // Migrate field.
 
