@@ -140,8 +140,8 @@ public class OpportunitiesMigration implements Migratable {
                 opportunities.setTitle(tblOpp.getTitle());
                 opportunities.setOwnId(tblOpp.getOppenteredid());
                 opportunities.setOrganisationId(
-                        organisationVb2idMap.get(opportunities.getVbase2Id()) == null ?
-                                null : organisationVb2idMap.get(opportunities.getVbase2Id()).getId());
+                        organisationVb2idMap.get(tblOpp.getOrgid()) == null ?
+                                null : organisationVb2idMap.get(tblOpp.getOrgid()).getId());
                 opportunities.setUseSharedIntConDets(true);
                 opportunities.setIsSharedInternalContactPublic(!tblOpp.getIncludevbaddress());
                 opportunities.setUseSharedPublicContactDetails(true);
