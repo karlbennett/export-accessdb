@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.*;
 
 /**
  * User: karl
@@ -17,10 +17,6 @@ import java.util.Date;
 public class ExportUtil {
 
     private ExportUtil() {
-    }
-
-    public static CharSequence createDelimitedRecord() {
-        return null;
     }
 
     public static String getValueString(Object value, char delimiter, char enclosure) {
@@ -79,13 +75,52 @@ public class ExportUtil {
             // Request the plain text from the document and place it into the string that will be returned.
             extractedText = rtfDocument.getText(0, rtfDocument.getLength());
         } catch (BadLocationException e) {
-            System.out.println("        -- Error converting ritch text: "
+            System.out.println("\t\t-- Error converting ritch text: "
                     + e.getMessage() + "\n");
         } catch (IOException e) {
-            System.out.println("        -- Error converting ritch text: "
+            System.out.println("\t\t-- Error converting ritch text: "
                     + e.getMessage() + "\n");
         }
 
         return extractedText; // Return the extracted text.
+    }
+
+    public static StringBuffer createDelimitedRecord(Map<String, Object> row, int[] indexes, char delimiter,
+                                                     char enclosure) {
+
+        if (row != null) { // If the row is null don't bother doing anything and move to the next one.
+
+            StringBuffer rowStringBuffer = null;
+            Iterator<String> rowIterator = row.keySet().iterator();
+            String[] values = new String[row.size()];
+
+            for (int j = 0; j < row.size(); j++) { // Iterate through the columns in this row.
+                // Create a new string buffer for each value so that it's memory footprint is as small as possible to begin with.
+                // Also hopefully the previous string buffer will be garbage collected...
+                rowStringBuffer = new StringBuffer();
+
+                Object value = row.get(rowIterator.next()); // Get the value that is related to that column.
+
+                rowStringBuffer.append(enclosure); // Add an enclosing character to the start of the value.
+
+                rowStringBuffer.append(ExportUtil.getValueString(value, delimiter, enclosure));
+
+                rowStringBuffer.append(enclosure); // Add another enclosing character to the end of the value.
+                rowStringBuffer.append(delimiter); // Add the delimiter to separate the different values.
+
+                // Add the value to the right position in the row. If we come across a column we don't now about ignore it.
+                if (indexes[j] > -1) values[indexes[j]] = rowStringBuffer.toString();
+            }
+
+            rowStringBuffer = new StringBuffer();
+            for (String value : values) {
+                if (value != null) rowStringBuffer.append(value);
+            }
+            rowStringBuffer.append("\n"); // Add a new line to indicate the end of this record.
+
+            return rowStringBuffer;
+        }
+
+        return null;
     }
 }

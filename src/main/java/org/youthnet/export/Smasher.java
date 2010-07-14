@@ -710,75 +710,44 @@ public class Smasher {
         Map<String, Integer> columnMap = JavaCodeUtil.getColumnMap("org.youthnet.export.domain.vb25."
                 + JavaCodeUtil.toUpperFirst(tableName)); // Create a map that provides the correct order for the fields in the output file.
         String[] values = new String[table.getColumnCount()]; // An array used to hold the values of each row in the correct order.
-        int[] indexs = new int[table.getColumnCount()]; // An array to hold the correct index for each column in the table.
+        int[] indexes = new int[table.getColumnCount()]; // An array to hold the correct index for each column in the table.
 
         int n = 0;
         for (Column column : columns) { // Iterate through the columns in this table.
             try { // Out put the name of the column and it's type.
-                System.out.println("        -- Column name: " + column.getName().toLowerCase()
+                System.out.println("\t\t-- Column name: " + column.getName().toLowerCase()
                         + " length: " + column.getLength() + " type: " + SQLCodeUtil.getSQLTypeName(column.getSQLType()));
             } catch (SQLException e) {
-                System.out.println("        -- Error could not get type for (" + column.getName().toLowerCase()
+                System.out.println("\t\t-- Error could not get type for (" + column.getName().toLowerCase()
                         + ") name. Error: " + e.getMessage());
             }
 
             // Build the column index array for this table. If we ever come across a column we do not recognise set the index to -1 to indicate
             // that it should not be used.
             if (columnMap.get(column.getName().toLowerCase()) != null) {
-                indexs[n] = columnMap.get(column.getName().toLowerCase());
+                indexes[n] = columnMap.get(column.getName().toLowerCase());
             } else {
-                indexs[n] = -1;
-                System.out.println("        -- Error an unrecognised column " + column.getName().toLowerCase()
+                indexes[n] = -1;
+                System.out.println("\t\t-- Error an unrecognised column " + column.getName().toLowerCase()
                         + " was found in the " + table.getName() + " table.");
             }
             n++;
         }
 
-        Object id = null; // Variable to hold the id of the row that is being processed.
-
         Map<String, Object> row = null; // Map to hold the data of the row that has been extracted from the access table.
-        Column column = null; // Variable to hold the data for the column that is being processed.
         for (int i = 0; i < table.getRowCount(); i++) { // Iterate through the rows.
             try {
                 row = table.getNextRow(); // Get the next row.
 
                 if (row != null) { // If the row is null don't bother doing anything and move to the next one.
-
-                    for (int j = 0; j < columns.size(); j++) { // Iterate through the columns in this row.
-                        // Create a new string buffer for each value so that it's memory footprint is as small as possible to begin with.
-                        // Also hopefully the previous string buffer will be garbage collected...
-                        rowStringBuffer = new StringBuffer();
-
-                        column = columns.get(j); // Get the next column.
-                        Object value = row.get(column.getName()); // Get the value that is related to that column.
-
-                        // If this is the first column assume it is the id and record it for logging.
-                        if (j == 0) id = value;
-
-                        rowStringBuffer.append(CSV_ENCLOSURE); // Add an enclosing character to the start of the value.
-
-                        rowStringBuffer.append(ExportUtil.getValueString(value, CSV_DELIMITER, CSV_ENCLOSURE));
-
-                        rowStringBuffer.append(CSV_ENCLOSURE); // Add another enclosing character to the end of the value.
-                        rowStringBuffer.append(CSV_DELIMITER); // Add the delimiter to separate the different values.
-
-                        // Add the value to the right position in the row. If we come accross a column we don't now about ignore it.
-                        if (indexs[j] > -1) values[indexs[j]] = rowStringBuffer.toString();
-                    }
-
-                    rowStringBuffer = new StringBuffer();
-                    for (String value : values) {
-                        if (value != null) rowStringBuffer.append(value);
-                    }
-                    rowStringBuffer.append("\n"); // Add a new line to indicate the end of this record.
-
-                    bufferedWriter.write(rowStringBuffer.toString()); // Write the record out to the file.
+                    bufferedWriter.write( // Write the record out to the file.
+                            ExportUtil.createDelimitedRecord(row, indexes, CSV_DELIMITER, CSV_ENCLOSURE).toString());
                 } else {
-                    System.out.println("        -- Row " + i + " is null.\n"); // If the row is null log it.
+                    System.out.println("\t\t-- Row " + i + " is null.\n"); // If the row is null log it.
                 }
             } catch (IOException e) {
                 // If there was a issue with the row log it.
-                System.out.println("        -- Problem reading row number " + id + " from " + table.getName()
+                System.out.println("\t\t-- Problem reading row number " + i + " from " + table.getName()
                         + " table. Error: " + e.getMessage() + "\n");
             }
 
@@ -806,10 +775,10 @@ public class Smasher {
             // Request the plain text from the document and place it into the string that will be returned.
             extractedText = rtfDocument.getText(0, rtfDocument.getLength());
         } catch (BadLocationException e) {
-            System.out.println("        -- Error converting ritch text: "
+            System.out.println("\t\t-- Error converting ritch text: "
                     + e.getMessage() + "\n");
         } catch (IOException e) {
-            System.out.println("        -- Error converting ritch text: "
+            System.out.println("\t\t-- Error converting ritch text: "
                     + e.getMessage() + "\n");
         }
 
